@@ -1,0 +1,147 @@
+#Q.What is Docker? Why we need docker?
+A. Docker is a containerization platform that allows developers to package, ship, and run applications in
+containers. Containers are lightweight and portable, making it easier to develop, test, and deploy applications.
+
+#Q.What are containers?
+A. Containers are a type of virtualization that allows multiple applications to run on a single host operating
+system, each with its own isolated environment. Containers share the host operating system, but each container
+has its own file system, network stack, and process space.
+
+#Q.Difference between container and image?
+A.          Image                                container
+ 1. A static, executable package             1. A running instance of an image.
+    containing everything needed
+    to run software.
+ 2. Immutable (does not change               2. Mutable (can be modified).
+    once created).
+ 3. Serves as a blueprint or                 3. Provides an isolated environment for running applications.
+    template for creating containers.
+ 4. No isolation; just a file system         4. Isolated from other containers and the host system.
+    snapshot.
+ 5. Built using a Dockerfile with a          5. Created from an image using the docker run command.gi
+    set of instructions.
+
+#install docker in linux.
+
+enable & start docker
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo ststemctl status docker
+sudo docker run -d -p instance-port:container port container name or container ID (-d for detached -p for port forwarding -P for random port forwording)
+sudo docker images
+sudo docker ps -a --> to see all stopped containers
+sudo docker ps
+sudo docker run -itd amazonlinux bash
+sudo docker exec -it <container_id> /bin/bash --> to go inside the docker shell
+cd usr/share/nginx.html/
+rm index.html
+echo "hello world" > index.html
+sudo docker inspect <container_id> --> to inspect docker container 
+sudo docker logs <container_id> --> to get logs of the container
+sudo docker stop <container_id> --> to stop the container
+sudo docker start <container_id> --> to start the container
+sudo docker rm <container_id> --> to remove the container
+sudo docker rmi <image_id> --> to remove the image
+sudo docker rmi -f <image_id> --> to remove the image forcefully
+sudo docker commit <container_id> 
+sudo docker image --> to see all images for docker
+sudo docker tag <image_id> <new_image_name> --> to tag the image
+
+#login into the docker account in linux
+
+sudo docker login --> to login into the docker
+sudo docker push <docker provided name> -->
+sudo docker run --name <> -d -P <name of repo>
+sudo docker tag demo (username)/(reponame)
+sudo docker push (username)/(reponame):latest
+
+#if I want to create my private image you can use ECR
+
+you have to create a ec2 role for ecr <ec2containerregistryfullaccess>
+copy login command
+aws ecr get-login-password --region <region> --profile <profile> | docker login --username AWS 
+sudo docker tag <image_id> <account_id>.dkr.ecr.<region>.amazonaws
+sudo docker push <account_id>.dkr.ecr.<region>.amazonaws/<image_name>
+sudo docker pull <account_id>.dkr.ecr.<region>.amazonaws/<image_name>
+
+etc/docker
+docker volumes:-
+
+docker create volume --> to create docker volume (universal docker storage)
+docker volume ls --> to list volumes
+cd var/lib/docker --> root directory of docker
+/var/run/docker.sock --> docker socket file
+
+# Q.what is socket file?
+# A.socket file is a file that allows two processes to communicate with each other.
+
+sudo docker run -d -v dev:usr/share/nginx/html -P nginx --> to add volume to the container
+sudo -v for volume dev for volume name :path to mount volume --name --> for adding name to container
+
+## DOCKERFILE:-
+
+# dockerfile is a text file that contains instructions for building a docker image.
+# docker file is a step by step instruction to our docker image.
+
+# dockerfile commands:-
+
+1. FROM:- it is used to specify the base image for our image.
+2. RUN:- it is used to run a command in the container.
+3. COPY:- it is used to copy a file from the local machine to the container.
+4. ADD:- it is used to copy a file from the local machine to the container.
+5. WORKDIR:- it is used to set the working directory in the container.
+6. EXPOSE:- it is used to specify the port that the container will listen on.
+7. ENV:- it is used to set an environment variable in the container.
+8. VOLUME:- it is used to specify a directory in the container that will be persisted ev
+9. CMD:- it is used to specify the default command to run when the container is started.
+10. ENTRYPOINT:- it is used to specify the default command to run when the container is started
+11. USER:- it is used to specify the user that the container will run as.
+12. ONBUILD:- it is used to specify a command that will be run when the image is
+13. ARG:- it is used to specify a variable that can be passed to the dockerfile.
+14. LABEL:- it is used to specify a label that can be used to identify the image.
+
+>>> demofile: (to create a dockerfile that runs free css template in nginx but the mentioned css template should be where the docker file is present)
+FROM nginx
+COPY mediplus-lite /usr/share/nginx/html/
+
+vim dockerfile --> paste above to dockerfile
+dockerfile command --> "docker build -t dockerfile ."
+
+
+## MultiStage docker file
+
+multi-stage docker file is a feature of docker that allows you to build a docker image in multiple stages.
+Each stage is a separate docker image, and you can use the output of one stage as the input for the next.
+
+##task1 using multistage dockerfile
+ tomcat alpine --> lightest tomcat image
+
+ Here we donot need to EXPOSE as tomcat we are using tomcat directly.
+
+ FROM 3.9.9-amazoncorretto-8-debian-bookworm AS mvnbuilder # we gave the maven repo mvnbuilder name using AS
+ COPY student-ui /. # copied the studnet-ui from local to maven container
+ RUN mvn clean package # run the maven command to build the student-ui
+
+ FROM tomcat:jre8-alpine
+ COPY --from=mvnbuilder /target/*.war webapps/student.war # copied the war file from maven container to tomcat container using "from=(container_name)"
+
+ #Q. Why docker use 172.16.0.0/16 ip range?
+ A. Docker uses 172.16.0.0/16 ip range because it is a private ip range that is not routable on the internet.
+ It is used to prevent conflicts with the host machine's ip address and to provide a unique ip address for each container.
+
+## Docker Network
+ (By default we use bridge network)
+ Bridge network:- it is the default network in docker. It is used to connect containers to the host machine.
+ Host network:- it is used to connect a container to the host machine's network.
+ None network:- it is used to isolate a container from the host machine's network.
+ macvlan network:- it is used to assign a mac address to a container.
+ overlay network:- it is used to connect multiple docker hosts together.
+
+## Docker Compose
+ Docker compose is a tool for defining and running multi-container docker applications. It allows you to define the services, networks, and volumes for your application in a single file called docker-compose.yml.
+ sudo docker file name --> docker-compose.yml
+ sudo docker-compose up --> to start the containers
+ sudo docker-compose up -d --> to start the containers in detached mode i.e. in background
+ sudo docker-compose down --> to stop the containers
+
+## Kubernetes Architecture
