@@ -1,0 +1,60 @@
+task:-
+task1) DONE inside container(with dockerfile remaining)
+# get the docker image of amazon linux
+# add tomcat package
+# add student ui
+# then commit the image -->container se image banana
+# store on ecr as well as docker hub
+
+## Dockerfile for task1
+FROM amazonlinux
+RUN yum update && yum install java-17 -y
+COPY tomcat /tomcat/. #coping tomcat that is in the same directory as dockerfile.
+RUN chmod 777 tomcat/bin/catalina.sh
+EXPOSE 8080
+COPY student-ui /student-ui/. #coping student-ui that is in the same directory as dockerfile.
+WORKDIR /student-ui/
+RUN mvn clean package
+RUN mv target/*.war /tomcat/webapps/studentapp.war
+CMD ["/tomcat/bin/catalina.sh", "run"]
+
+##Multistage dockerfile for task1
+FROM maven:3.9.9-amazoncorretto-8-debian-bookworm AS mvnbuilder
+#above we took maven image and used 'AS' to give a simple name to it so that we can use that name in next stage
+COPY student-ui /.
+RUN mvn clean package #used mvn to make target folder
+
+FROM tomcat:jre8-alpine
+COPY --from=mvnbuilder /target/*.war webapps/student.war
+#above we took the war file present in target folder from the previous stage using '--from=' 
+
+
+task2) DONE both within container and in dockerfile
+# get the docker image of amazon linux
+# install nginx
+# add free css
+
+## Dockerfile for task2
+FROM amazonlinux
+RUN yum update && yum install nginx -y
+EXPOSE 80
+CMD ["usr/sbin/nginx", "-g" , "daemon off;"]
+
+vim dockerfile --> paste above to dockerfile
+run the command --> "sudo docker build -t dockerfile ."
+command to run image --> "sudo docker run -it -d -p 80:80 dockerfile"
+
+
+task3)
+# host mysql container
+# -e (enviornment variables)
+# use msql to make user/mysql password
+
+
+task4)
+#make a deamon service of tomcat.
+
+#docker container storage
+#persistane
+
+# docker config files

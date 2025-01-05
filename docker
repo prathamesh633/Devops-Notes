@@ -139,9 +139,24 @@ Each stage is a separate docker image, and you can use the output of one stage a
 
 ## Docker Compose
  Docker compose is a tool for defining and running multi-container docker applications. It allows you to define the services, networks, and volumes for your application in a single file called docker-compose.yml.
+
+ # steps to install docker compose
+ sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+ sudo chmod +x /usr/local/bin/docker-compose
+
  sudo docker file name --> docker-compose.yml
  sudo docker-compose up --> to start the containers
  sudo docker-compose up -d --> to start the containers in detached mode i.e. in background
  sudo docker-compose down --> to stop the containers
+ 
+ # demo docker compose file
+ docker compose filename --> docker-compose.yaml
+ version: '3'
+ services:
+  tomcat:
+    image: prathameshbhujade/tomcat_student-ui
+    ports:
+      - "8080:8080"
 
+      
 ## Kubernetes Architecture
