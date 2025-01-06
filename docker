@@ -80,32 +80,32 @@ sudo -v for volume dev for volume name :path to mount volume --name --> for addi
 
 ## DOCKERFILE:-
 
-# dockerfile is a text file that contains instructions for building a docker image.
-# docker file is a step by step instruction to our docker image.
+ # dockerfile is a text file that contains instructions for building a docker image.
+ # docker file is a step by step instruction to our docker image.
 
-# dockerfile commands:-
+ # dockerfile commands:-
 
-1. FROM:- it is used to specify the base image for our image.
-2. RUN:- it is used to run a command in the container.
-3. COPY:- it is used to copy a file from the local machine to the container.
-4. ADD:- it is used to copy a file from the local machine to the container.
-5. WORKDIR:- it is used to set the working directory in the container.
-6. EXPOSE:- it is used to specify the port that the container will listen on.
-7. ENV:- it is used to set an environment variable in the container.
-8. VOLUME:- it is used to specify a directory in the container that will be persisted ev
-9. CMD:- it is used to specify the default command to run when the container is started.
-10. ENTRYPOINT:- it is used to specify the default command to run when the container is started
-11. USER:- it is used to specify the user that the container will run as.
-12. ONBUILD:- it is used to specify a command that will be run when the image is
-13. ARG:- it is used to specify a variable that can be passed to the dockerfile.
-14. LABEL:- it is used to specify a label that can be used to identify the image.
+   1. FROM:- it is used to specify the base image for our image.
+   2. RUN:- it is used to run a command in the container.
+   3. COPY:- it is used to copy a file from the local machine to the container.
+   4. ADD:- it is used to copy a file from the local machine to the container.
+   5. WORKDIR:- it is used to set the working directory in the container.
+   6. EXPOSE:- it is used to specify the port that the container will listen on.
+   7. ENV:- it is used to set an environment variable in the container.
+   8. VOLUME:- it is used to specify a directory in the container that will be persisted ev
+   9. CMD:- it is used to specify the default command to run when the container is started.
+   10. ENTRYPOINT:- it is used to specify the default command to run when the container is started
+   11. USER:- it is used to specify the user that the container will run as.
+   12. ONBUILD:- it is used to specify a command that will be run when the image is
+   13. ARG:- it is used to specify a variable that can be passed to the dockerfile.
+   14. LABEL:- it is used to specify a label that can be used to identify the image.
 
->>> demofile: (to create a dockerfile that runs free css template in nginx but the mentioned css template should be where the docker file is present)
-FROM nginx
-COPY mediplus-lite /usr/share/nginx/html/
+   >>> demofile: (to create a dockerfile that runs free css template in nginx but the mentioned css template should be where the docker file is present)
+   FROM nginx
+   COPY mediplus-lite /usr/share/nginx/html/
 
-vim dockerfile --> paste above to dockerfile
-dockerfile command --> "docker build -t dockerfile ."
+   vim dockerfile --> paste above to dockerfile
+   dockerfile command --> "docker build -t dockerfile ."
 
 
 ## MultiStage docker file
@@ -157,6 +157,3 @@ Each stage is a separate docker image, and you can use the output of one stage a
     image: prathameshbhujade/tomcat_student-ui
     ports:
       - "8080:8080"
-
-      
-## Kubernetes Architecture

@@ -1,0 +1,4 @@
+## KUBERNETES ARCHITECTURE
+
+host / node / VM / EC2 instance all are called as 'Node' in kubernetes.
+in AWS kubernetes service is called EKS(Elastic Kubernetes Service).
