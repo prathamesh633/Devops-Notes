@@ -1,1 +1,18 @@
 #Q. what is tenancy in AWS?
+A. In AWS, tenancy refers to the arrangement and isolation of resources, particularly virtual machines
+ (EC2 instances), within the AWS infrastructure. It determines whether the infrastructure hosting your 
+ instances is shared with other AWS customers or dedicated exclusively to your use. This impacts factors
+ like performance isolation, compliance, and cost.
+ Types:-
+ 1. Shared Tenancy
+  - This is the default and most cost-effective option.
+  - Instances are hosted on physical servers that may also be shared with other AWS customers.
+ 2. Dedicated Tenancy
+  -  Instances run on hardware dedicated to a single AWS customer.
+ 3. Host Tenancy
+  - A subset of dedicated tenancy where the customer explicitly controls the allocation of instances to specific Dedicated Hosts.
+  - 
+ 4. Spot and Reserved Instances
+  - These are not tenancy types but are related to instance allocation and pricing models.
+  - Spot and reserved instances can be launched with default or dedicated tenancy, depending on your needs.
+  - Ideal for workloads that are flexible and can handle interruptions.

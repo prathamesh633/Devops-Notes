@@ -55,3 +55,8 @@ entrypoint is used to specify the default command to run when the container is s
 #Q.What is MultiStage dockerfile?
 A. multi-stage docker file is a feature of docker that allows you to build a docker image in multiple stages.
 Each stage is a separate docker image, and you can use the output of one stage as the input for the next.
+
+#Q. how are docker container scheduled?
+A. Docker containers are scheduled onto nodes (hosts) by orchestrators. Docker itself does not provide advanced 
+scheduling capabilities; instead, orchestration tools like Kubernetes, Docker Swarm, or Amazon ECS handle 
+container scheduling. These tools manage the lifecycle of containers, including creation, scaling, and termination.
