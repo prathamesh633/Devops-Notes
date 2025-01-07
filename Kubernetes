@@ -99,9 +99,24 @@ what is the storage limit of etcd in kubernetes?
   # To run a 'cluster' from CLI
    Give a IAM role of admin to the ec2 instance to create a cluster from CLI.
    eksctl create cluster --name <our_name> --node-type <node/instance_type> --nodes <no._of_nodes> --region=<region>
+   eg. eksctl create cluster --name irondome -node-type t2.medium --nodes 2 --region=us-east-1
 
   kubectl get pods -A --> to see all pods 
+  kubectl get nodes --> to get nodes
   vim pod.yaml --> pod manifest file
   kubectl apply -f pod.yaml --> to apply manifest
   kubectl get pod/po --> small commands to see pods
-  kubectl describe pod/po nginx --> to describe pods nginx
+  kubectl describe pod/po <pod_name> --> to describe pods nginx
+
+# Pod demo Manifest File: 
+pod manifest file name --> pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
