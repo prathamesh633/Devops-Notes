@@ -4,3 +4,104 @@ host / node / VM / EC2 instance all are called as 'Node' in kubernetes.
 in AWS kubernetes service is called EKS(Elastic Kubernetes Service).
 
 #Q. how are docker container scheduled?
+
+what is the storage limit of etcd in kubernetes?
+
+
+#Q. what is Kuberentes?
+
+- an open-source container orchestration system for automating the deployment, scaling, and management of container
+- it was originally designed by google, and is now maintained by the cloud native computing foundation
+- it allows for the deployment of applications and services in a scalable and highly available manner
+- it provides a lot of features such as self-healing, load balancing, and resource management
+- it is a hybrid cloud platform that can run on-premises and in the cloud
+
+## Kubernetes Architrcture
+ # components:-
+  Control Plane/Master Node
+   Kube API server
+   Etcd
+   Scheduler
+   Controller Manager
+  Worker Node
+   Kubelet
+   Kube Proxy
+   Container runtime
+   Pods
+
+ # Master Node (Control Plane)
+ The brain of Kubernetes, managing the entire cluster.
+ Key Components:-
+  1. API Server
+     - Acts as the front door for the cluster.
+     - Processes commands from users (kubectl) or other tools.
+     - Communicates with all other components.
+     - Ensures security and authentication.
+    
+  2. Scheduler
+     - Decides which worker node will run a new pod.
+     - Matches resources (CPU, memory) with pod requirements.
+     - Ensures workload is evenly distributed.
+    
+  3. Controller Manager
+     - Monitors the cluster to ensure the desired state is met.
+     - Restarts pods if they crash.
+     - Handles tasks like scaling and maintaining services.
+    
+  4. etcd
+     - A key-value store that holds all cluster data.
+     - Keeps track of the cluster’s state and configuration.
+     - Highly available and distributed.
+  
+ # Worker Node
+ Where your application runs.
+ Key Components:-
+  1. Kubelet
+   - The worker node’s "agent."
+   - Ensures containers are running as per instructions from the master node.
+   - Communicates with the API Server.
+  
+  2. Kube-Proxy
+   - Manages network rules and routes traffic to the right pod.
+   - Ensures pods within the cluster can communicate.
+   - Handles services like load balancing.
+
+  3. Container Runtime
+   - Runs containers on the worker node.
+   - Examples: Docker, containerd, CRI-O.
+   - Executes, stops, and monitors the containers.  
+
+  4. Pod
+   - A pod is the basic building block in Kubernetes.
+   - Pods are temporary by design. Kubernetes can destroy and recreate pods to maintain the desired state or in response to failures.
+   - Containers in the same pod share resources such as networking and storage.
+
+
+## Steps to install kubernetes
+ (reference - https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
+
+ # To install 'kubectl'
+  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/amd64/kubectl
+  chmod +x ./kubectl
+  mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+  echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+
+ # To install 'eksctl'
+  ARCH=amd64
+  PLATFORM=$(uname -s)_$ARCH
+  curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+  curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+  tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+  sudo mv /tmp/eksctl /usr/local/bin
+
+
+## Commands
+  # To run a 'cluster' from CLI
+   Give a IAM role of admin to the ec2 instance to create a cluster from CLI.
+   eksctl create cluster --name <our_name> --node-type <node/instance_type> --nodes <no._of_nodes> --region=<region>
+
+  kubectl get pods -A --> to see all pods 
+  vim pod.yaml --> pod manifest file
+  kubectl apply -f pod.yaml --> to apply manifest
+  kubectl get pod/po --> small commands to see pods
+  kubectl describe pod/po nginx --> to describe pods nginx
