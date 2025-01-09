@@ -100,6 +100,11 @@ sudo mv /tmp/eksctl /usr/local/bin
    ** Give a IAM role of admin to the ec2 instance to create a cluster from CLI.
    eksctl create cluster --name <our_name> --node-type <node/instance_type> --nodes <no._of_nodes> --region=<region>
    eg. eksctl create cluster --name irondome --node-type t2.medium --nodes 2 --region=ap-south-1
+  
+  # To delete a 'cluster' from CLI
+   eksctl delete cluster --name <our_name> --region=<region>
+   eg. eksctl delete cluster --name irondome --region=ap-south-1
+
 
   kubectl get pods -A --> to see all pods 
   kubectl get nodes --> to get nodes
@@ -133,36 +138,32 @@ spec:
  automatically make a new pod. 
  Uses label selectors to identify which pods it manages.
 
- # demo replicaset file:-
- filename --> replicaset.yaml
- apiVersion: apps/v1
- kind: ReplicaSet
- metadata:
-  name: frontend
+# demo replicaset file:-
+filename --> replicaset.yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx
   labels:
-    app: guestbook
-    tier: frontend
- spec:
-  # modify replicas according to the no. of pod we want
-  replicas: 3 
+    app: nginx-rs
+spec:
+  replicas: 3
   selector:
     matchLabels:
-      tier: frontend
-    metadata:
-      labels:
-        tier: frontend
+      app: nginx-rs
   template:
     metadata:
       labels:
-        tier: frontend
-    spec:    
+        app: nginx-rs
+    spec:
       containers:
-       - name: nginx
-         image: nginx:1.14.2
-         ports:
-          - containerPort: 80
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
 
-  ** command to scale replicaset --> kubectl scale --replicas=(no._of_pods) rs/(RS_name) **      
+command to list replicaset --> kubectl get rs
+** command to scale replicaset --> kubectl scale --replicas=(no._of_pods) rs/(RS_name) **     
 
 
 # Deployment
@@ -175,7 +176,7 @@ spec:
  We can make changes to our go back to previous changes in deployment.
  command --> kubectl rollout undo deployment/(deployment_name)
 
- demo deployment file:-
+# demo deployment file:-
  filename --> deployment.yaml
  apiVersion: apps/v1
  kind: Deployment
@@ -199,6 +200,7 @@ spec:
         ports:
         - containerPort: 80
 
+command to list deployments --> kubectl get deploy/deployment/deployments
 
 # Hirerchy--> deployment -> ReplicaSet -> pod (deploy creates replicaset which then creates pods)       
 kubctl api-resources --> to check all the api resources available in the cluster.
