@@ -108,6 +108,12 @@ what is the storage limit of etcd in kubernetes?
   kubectl get pod/po --> small commands to see pods
   kubectl describe pod/po <pod_name> --> to describe pods nginx
 
+
+## Manifest files
+ A manifest file is a generalized name for any kubernetes configuration file that defines the configuration of
+ various K8s components.
+ It can be written in YAML or JSON format.
+
 # Pod demo Manifest File: 
 pod manifest file name --> pod.yaml
 apiVersion: v1
@@ -120,3 +126,61 @@ spec:
     image: nginx:1.14.2
     ports:
     - containerPort: 80
+
+
+## ReplicaSet
+ It maintains a stable set of replicas (pods) running at any given time. Even if delete a pod of the replicaset it will automativlly
+ make a new pod.
+ demo replicaset file:-
+ filename --> replicaset.yaml
+ apiVersion: apps/v1
+ kind: ReplicaSet
+ metadata:
+  name: frontend
+  labels:
+    app: guestbook
+    tier: frontend
+ spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+      - name: php-redis
+        image: us-docker.pkg.dev/google-samples/containers/gke/gb-frontend:v5
+
+
+## Deployment
+ Deployment is a higher-level concept that manages ReplicaSets. It can be used to manage multiple ReplicaSets at the same time.
+ demo deployment file:-
+ filename --> deployment.yaml
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+ spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+deploy -> ReplicaSet -> pod         
+kubctl api-resources --> to check all the api resources available in the cluster.
