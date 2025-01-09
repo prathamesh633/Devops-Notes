@@ -1,12 +1,11 @@
-## KUBERNETES ARCHITECTURE
+ reference 
+ - https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+ - https://eksctl.io/installation/
+ - https://kubernetes.io/docs/reference/kubectl/quick-reference/
 
+## KUBERNETES ARCHITECTURE
 host / node / VM / EC2 instance all are called as 'Node' in kubernetes.
 in AWS kubernetes service is called EKS(Elastic Kubernetes Service).
-
-#Q. how are docker container scheduled?
-
-what is the storage limit of etcd in kubernetes?
-
 
 #Q. what is Kuberentes?
 
@@ -78,28 +77,29 @@ what is the storage limit of etcd in kubernetes?
 
 
 ## Steps to install kubernetes
- (reference - https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
 
- # To install 'kubectl'
-  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/amd64/kubectl
-  chmod +x ./kubectl
-  mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-  echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+# To install 'kubectl'
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
 
- # To install 'eksctl'
-  ARCH=amd64
-  PLATFORM=$(uname -s)_$ARCH
-  curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
-  curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
-  tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
-  sudo mv /tmp/eksctl /usr/local/bin
+# To install 'eksctl'
+# for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
+ARCH=amd64
+PLATFORM=$(uname -s)_$ARCH
+curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+# (Optional) Verify checksum
+curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+sudo mv /tmp/eksctl /usr/local/bin
 
 
 ## Commands
   # To run a 'cluster' from CLI
-   Give a IAM role of admin to the ec2 instance to create a cluster from CLI.
+   ** Give a IAM role of admin to the ec2 instance to create a cluster from CLI.
    eksctl create cluster --name <our_name> --node-type <node/instance_type> --nodes <no._of_nodes> --region=<region>
-   eg. eksctl create cluster --name irondome -node-type t2.medium --nodes 2 --region=us-east-1
+   eg. eksctl create cluster --name irondome --node-type t2.medium --nodes 2 --region=ap-south-1
 
   kubectl get pods -A --> to see all pods 
   kubectl get nodes --> to get nodes
@@ -128,10 +128,12 @@ spec:
     - containerPort: 80
 
 
-## ReplicaSet
- It maintains a stable set of replicas (pods) running at any given time. Even if delete a pod of the replicaset it will automativlly
- make a new pod.
- demo replicaset file:-
+# ReplicaSet (RS)
+ It maintains a stable set of replicas (pods) running at any given time. Even if we delete a pod of the replicaset it will 
+ automatically make a new pod. 
+ Uses label selectors to identify which pods it manages.
+
+ # demo replicaset file:-
  filename --> replicaset.yaml
  apiVersion: apps/v1
  kind: ReplicaSet
@@ -141,23 +143,34 @@ spec:
     app: guestbook
     tier: frontend
  spec:
-  # modify replicas according to your case
-  replicas: 3
+  # modify replicas according to the no. of pod we want
+  replicas: 3 
   selector:
     matchLabels:
       tier: frontend
-  template:
     metadata:
       labels:
         tier: frontend
-    spec:
+    spec:;''
       containers:
-      - name: php-redis
-        image: us-docker.pkg.dev/google-samples/containers/gke/gb-frontend:v5
+       - name: nginx
+         image: nginx:1.14.2
+         ports:
+          - containerPort: 80
+
+  ** command to scale replicaset --> kubectl scale --replicas=(no._of_pods) rs/(RS_name) **      
 
 
-## Deployment
- Deployment is a higher-level concept that manages ReplicaSets. It can be used to manage multiple ReplicaSets at the same time.
+# Deployment
+ Deployment is a higher-level concept that manages ReplicaSets. 
+ As a user we create a deployment set that creates the replicasets and manages it.
+ It can be used to manage multiple ReplicaSets at the same time.
+ If we want to update a the pod we can do that easily without any downtime using deployment. As it will update one pod and direct its
+ traffic to other pods or can create new pod. It will do this for each pod to avoid downtime.
+
+ We can make changes to our go back to previous changes in deployment.
+ command --> kubectl rollout undo deployment/(deployment_name)
+
  demo deployment file:-
  filename --> deployment.yaml
  apiVersion: apps/v1
@@ -182,5 +195,6 @@ spec:
         ports:
         - containerPort: 80
 
-deploy -> ReplicaSet -> pod         
+
+# Hirerchy--> deployment -> ReplicaSet -> pod (deploy creates replicaset which then creates pods)       
 kubctl api-resources --> to check all the api resources available in the cluster.
