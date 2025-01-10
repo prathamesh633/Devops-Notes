@@ -16,3 +16,5 @@ A. In AWS, tenancy refers to the arrangement and isolation of resources, particu
   - These are not tenancy types but are related to instance allocation and pricing models.
   - Spot and reserved instances can be launched with default or dedicated tenancy, depending on your needs.
   - Ideal for workloads that are flexible and can handle interruptions.
+
+#Q. When do we use lamda function and when do we use EC2 instance?
