@@ -204,3 +204,62 @@ command to list deployments --> kubectl get deploy/deployment/deployments
 
 # Hirerchy--> deployment -> ReplicaSet -> pod (deploy creates replicaset which then creates pods)       
 kubctl api-resources --> to check all the api resources available in the cluster.
+
+## SERVICES
+ 
+ LB -> Loadbalancer -> this service is available only on cloud and not on onprem.
+  by default it supports classic loadbalancer. #Q. can we use other type of LB?
+
+ NP -> Network Policy -> this is used to define the service on the port of the node.
+  it works when our node have a public ip to it.
+
+ CIP -> ClusterIP - default cervice of a cluster
+
+# demo service manifest file:-
+filename --> service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app.kubernetes.io/name: MyApp # the selector should match the label in the deployment to attach srvice to it otherwise it will not be attached.
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376  
+
+we can use different manifest in a single yaml file by using --- separator.
+eg:-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app.kubernetes.io/name: proxy
+spec:
+  containers:
+  - name: nginx
+    image: nginx:stable
+    ports:
+      - containerPort: 80
+        name: http-web-svc # 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app.kubernetes.io/name: proxy
+  ports:
+  - name: name-of-service-port
+    protocol: TCP
+    port: 80
+    targetPort: http-web-svc
+
+#commands
+kubectl get service -> to get service
+kubectl get service -A -> to get all services in namespaces
+kubectl get service -o wide -> to get additional information about service
