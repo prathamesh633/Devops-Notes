@@ -2,6 +2,7 @@
  - https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
  - https://eksctl.io/installation/
  - https://kubernetes.io/docs/reference/kubectl/quick-reference/
+ - https://dotnetninja.net/2021/03/running-a-multi-node-kubernetes-cluster-on-windows-with-kind/ (cluster creation using kind)
 
 ## KUBERNETES ARCHITECTURE
 host / node / VM / EC2 instance all are called as 'Node' in kubernetes.
