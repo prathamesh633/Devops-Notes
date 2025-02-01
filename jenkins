@@ -1,0 +1,49 @@
+## Jenkins
+
+CI/CD tool (continuous Integration and Continuous Deployment/delivery)
+continuous integration - code will come from git and then we build it.
+git code -> checkout -> build -> push -> deploy
+
+jenkins requirment:- at least t2.medium
+- It is made from java therefore it requires java to run.
+https://www.jenkins.io/doc/book/installing/linux/#fedora --> aws installation
+- we have 2 types of pipeline - declarative and scripted
+- we use declarative because it is simple.
+- there can be multi stage pipeline.
+- no 2 stage can have same name.
+- jenkins works on master and node/slave/worker
+
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+sudo dnf upgrade
+# Add required dependencies for the jenkins package
+sudo dnf install fontconfig java-17-amazon-corretto -y
+sudo dnf install jenkins -y
+sudo systemctl daemon-reload
+sudo systemctl enable --now jenkins
+
+
+stage('ecr push') {
+            steps {
+                sh '''
+                aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 985539766104.dkr.ecr.ap-south-1.amazonaws.com
+                sudo docker tag student-ui:latest 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
+                sudo docker push 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
+                '''
+            }
+        }
+
+adding parameter string
+adding variables in ecr tag time stamp - plugin name - build timestamp
+
+# Master Slave method
+ make 2 instances 1 master and 2nd slave
+ install jenkins on master and only java-17 on slave as we will require java to run jenkins on slave.
+ in master go in jenkins then go to manage jenkins and go to nodes and click new node and fill info.
+ launch method - launch agent vai ssh
+ host - slave IP
+ verification strategy - non veryfing V. S.
+
+we can also create a slave directly from jenkins using cloud -> EC2 instance plugin.
