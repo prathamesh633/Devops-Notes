@@ -26,14 +26,14 @@ sudo systemctl enable --now jenkins
 
 
 stage('ecr push') {
-            steps {
-                sh '''
-                aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 985539766104.dkr.ecr.ap-south-1.amazonaws.com
-                sudo docker tag student-ui:latest 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
-                sudo docker push 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
-                '''
+    steps {
+    sh '''
+    aws ecr get-login-password --region ap-south-1 | sudo docker login --username AWS --password-stdin 985539766104.dkr.ecr.ap-south-1.amazonaws.com
+    sudo docker tag student-ui:latest 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
+    sudo docker push 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
+    '''
             }
-        }
+}
 
 adding parameter string
 adding variables in ecr tag time stamp - plugin name - build timestamp
