@@ -1,0 +1,688 @@
+ reference 
+ - https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+ - https://eksctl.io/installation/
+ - https://kubernetes.io/docs/reference/kubectl/quick-reference/
+ - https://dotnetninja.net/2021/03/running-a-multi-node-kubernetes-cluster-on-windows-with-kind/ (cluster creation using kind)
+
+## KUBERNETES ARCHITECTURE
+host / node / VM / EC2 instance all are called as 'Node' in kubernetes.
+in AWS kubernetes service is called EKS(Elastic Kubernetes Service).
+
+#Q. what is Kuberentes?
+
+- an open-source container orchestration system for automating the deployment, scaling, and management of container
+- it was originally designed by google, and is now maintained by the cloud native computing foundation
+- it allows for the deployment of applications and services in a scalable and highly available manner
+- it provides a lot of features such as self-healing, load balancing, and resource management
+- it is a hybrid cloud platform that can run on-premises and in the cloud
+
+## Kubernetes Architrcture
+ # components:-
+  Control Plane/Master Node
+   Kube API server
+   Etcd
+   Scheduler
+   Controller Manager
+  Worker Node
+   Kubelet
+   Kube Proxy
+   Container runtime
+   Pods
+
+ # Master Node (Control Plane)
+ The brain of Kubernetes, managing the entire cluster.
+ Key Components:-
+  1. API Server
+     - Acts as the front door for the cluster.
+     - Processes commands from users (kubectl) or other tools.
+     - Communicates with all other components.
+     - Ensures security and authentication.
+    
+  2. Scheduler
+     - Decides which worker node will run a new pod.
+     - Matches resources (CPU, memory) with pod requirements.
+     - Ensures workload is evenly distributed.
+    
+  3. Controller Manager
+     - Monitors the cluster to ensure the desired state is met.
+     - Restarts pods if they crash.
+     - Handles tasks like scaling and maintaining services.
+    
+  4. etcd
+     - A key-value store that holds all cluster data.
+     - Keeps track of the cluster’s state and configuration.
+     - Highly available and distributed.
+  
+ # Worker Node
+ Where your application runs.
+ Key Components:-
+  1. Kubelet
+   - The worker node’s "agent."
+   - Ensures containers are running as per instructions from the master node.
+   - Communicates with the API Server.
+  
+  2. Kube-Proxy
+   - Manages network rules and routes traffic to the right pod.
+   - Ensures pods within the cluster can communicate.
+   - Handles services like load balancing.
+
+  3. Container Runtime
+   - Runs containers on the worker node.
+   - Examples: Docker, containerd, CRI-O.
+   - Executes, stops, and monitors the containers.  
+
+  4. Pod
+   - A pod is the basic building block in Kubernetes.
+   - Pods are temporary by design. Kubernetes can destroy and recreate pods to maintain the desired state or in response to failures.
+   - Containers in the same pod share resources such as networking and storage.
+
+
+## Steps to install kubernetes
+
+# To install 'kubectl'
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.6/2024-11-15/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+
+# To install 'eksctl'
+# for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
+ARCH=amd64
+PLATFORM=$(uname -s)_$ARCH
+curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+# (Optional) Verify checksum
+curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+sudo mv /tmp/eksctl /usr/local/bin
+
+
+## Commands
+  # To run a 'cluster' from CLI
+   ** Give a IAM role of admin to the ec2 instance to create a cluster from CLI.
+   eksctl create cluster --name <our_name> --node-type <node/instance_type> --nodes <no._of_nodes> --region=<region>
+   eg. eksctl create cluster --name irondome --node-type t2.medium --nodes 2 --region=ap-south-1
+  
+  # To delete a 'cluster' from CLI
+   eksctl delete cluster --name <our_name> --region=<region>
+   eg. eksctl delete cluster --name irondome --region=ap-south-1
+
+
+  kubectl get pods -A --> to see all pods 
+  kubectl get nodes --> to get nodes
+  vim pod.yaml --> pod manifest file
+  kubectl apply -f pod.yaml --> to apply manifest
+  kubectl get pod/po --> small commands to see pods
+  kubectl describe pod/po <pod_name> --> to describe pods nginx
+
+
+## Manifest files
+ A manifest file is a generalized name for any kubernetes configuration file that defines the configuration of
+ various K8s components.
+ It can be written in YAML or JSON format.
+
+# Pod demo Manifest File: 
+pod manifest file name --> pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+
+## ReplicaSet
+ 
+ It maintains a stable set of replicas of pods running at any given time. Even if we delete a pod of the replicaset it will 
+ automatically make a new pod. 
+ Uses label selectors to identify which pods it manages.
+
+#demo replicaset file:-
+filename --> replicaset.yaml
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx
+  labels:
+    app: nginx-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-rs
+  template:
+    metadata:
+      labels:
+        app: nginx-rs
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+command to list replicaset --> kubectl get rs
+** command to scale replicaset --> kubectl scale --replicas=(no._of_pods) rs/(RS_name) **
+
+
+# Deployment
+ Deployment is a higher-level concept that manages ReplicaSets. 
+ As a user we create a deployment set that creates the replicasets and manages it.
+ It can be used to manage multiple ReplicaSets at the same time.
+ If we want to update a the pod we can do that easily without any downtime using deployment. As it will update one pod and direct its
+ traffic to other pods or can create new pod. It will do this for each pod to avoid downtime. this increase in pods to update change is
+ called 'ROLLOUT UPDATE'.
+
+ We can make changes to our go back to previous changes in deployment.
+ command --> kubectl rollout undo deployment/(deployment_name)
+ command for ROLLing UPDATE --> kubectl set image deployment/(deployment_name) (container_name)=(image_name)
+  eg:- kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
+
+#demo deployment file:-
+filename --> deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+command to list deployments --> kubectl get deploy/deployment/deployments
+
+# Hirerchy--> deployment -> ReplicaSet -> pod (deploy creates replicaset which then creates pods)       
+kubctl api-resources --> to check all the api resources available in the cluster.
+
+
+#Q. Difference between stateful set and deployment?(interview que)
+
+## Stateful Set
+https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/
+
+- every pod in the stateful set have numbering according to its state to maintain the order of the pods.(eg:- pod0, pod1, pod2..)
+- Every stateful set has a PV(persistant volume) on it.
+- It is especially used for Databases.
+- It is not deleted instantly.
+IMP:
+when we make a mysql stateful set we mention the volume within the stateful yaml
+The service created for the stateful set should be a headless service to be used internally and not execceble from outside the cluster.
+# Demo mysql stateful set yamal file:-                          
+apiVersion: v1                                                   
+kind: StatefulSet                                               
+metadata:    
+ name: mysql-data                                                 
+ labels:                                                      
+  app: mysql                                                      
+spec:
+serviceName: mysql-service                                     
+ replicas: 1                                                       
+ selector:                                                           
+  app: nysql                                                     
+ template:                                                        
+  metadata:                                                         
+   name: mysql-data                                                 
+   labels:
+    app: mysql
+  spec:
+   containers:
+   - name: mysql-data
+     image: mysql:8.0 
+     ports:
+     - port: 3306
+       targetPort: 3306
+     env:
+     - name: MYSQL_ROOT_PASSWORD # sets the root password to "root"
+       value: root
+     - name: MYSQL_DATABASE # creates a database named "devops"
+       value: devops
+     volumeMounts:
+     - name: mysql-data
+       mountPath: /var/lib/mysql
+
+VolumeClaimTemplates:
+- metadata:
+      name: mysql-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+# demo headless service yaml file:-
+kind: Service
+apiVersion: v1
+metadata:
+  name: mysql-service
+  namespace: mysql
+spec:
+  clusterIP: None # clusterIP is not required to make it a headless service
+  selector:
+    app: mysql
+  ports:
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
+
+   
+## Daemon Set
+- It is used for running a pod on every node in the cluster.
+- It is espesialy used for monitoring.
+- it has a higher priority than deployment.
+- eg:- kubelet, 
+# demo daemon yaml file:-
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nginx
+  labels:
+    app: nginx-dms
+spec:
+  selector:
+    matchLabels:
+      app: nginx-dms
+  template:
+    metadata:
+      labels:
+        app: nginx-dms
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+#Q. Difference between Daemon set and Deployment?
+#Q. Difference between Stateful set, Daemon set and Deployment? (min 5 points)
+#Ans 
+ Stateful set: 
+ - Manages stateful applications with stable, unique network identities and persistent storage.( Stateful applications are
+  those that maintain data or state across restarts, meaning the application's data and network identity persist over time.)
+ - Pods have unique, stable identities (e.g., pod-0, pod-1) that persist across rescheduling.
+ - Uses persistent volume claims (PVCs) to provide stable storage linked to pod identity. Every stateful set has a 
+  PV(persistant volume) on it.
+ - Pods are scheduled in a specific order; replicas are not started until previous ones are running. 
+ - Use Cases:- Databases (e.g., MySQL, Cassandra), applications requiring stable identity or storage.
+
+ Daemon set:
+ - A DaemonSet ensures that a single instance of a pod is running on each node in a cluster.This is particularly useful
+  for running pods as system daemons or background processes that need to run on every node in the cluster.
+ - Each pod is tied to a specific node, and no two pods run on the same node.
+ - Storage is node-specific and generally ephemeral(temporary storage that exists only during the lifecycle of a pod).
+ - Ensures a pod is scheduled on every eligible node.
+ - use cases:- Logging agents, monitoring daemons, and node-level services.
+
+ Deployment:
+ - Manages stateless applications with replicas of pod.
+ - All pods are identical and interchangeable.
+ - Can use ephemeral storage and PVCs as per the need.
+ - Pods are scheduled independently and can run simultaneously.
+ - use cases:- Stateless web applications, APIs, and batch processing.
+
+
+## JOB
+- If we want a container to run a task the stop after it is done, we use a job. 
+- Jobs are used to run a task to completion.
+# demo job yaml file:
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  completion: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: busybox:latest # this is a image used to run just commands 
+        command: ["sh",  "-c", "echo Hello World && sleep 10"]
+      restartPolicy: Never
+
+
+## SERVICES
+ 
+ LB -> Loadbalancer -> this service is available only on cloud and not on onprem.
+  by default it supports classic loadbalancer. #Q. can we use other type of LB?
+
+ NP -> Network Port -> this is used to define the service on the port of the node.
+  it works when our node have a public ip to it.
+
+ CIP -> ClusterIP - default service of a cluster. 
+
+# demo service manifest file:-
+filename --> service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app.kubernetes.io/name: MyApp # the selector should match the label in the deployment to attach srvice to it otherwise it will not be attached.
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376  
+
+we can use different manifest in a single yaml file by using --- separator.
+eg:-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app.kubernetes.io/name: proxy
+spec:
+  containers:
+  - name: nginx
+    image: nginx:stable
+    ports:
+      - containerPort: 80
+        name: http-web-svc # 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app.kubernetes.io/name: proxy
+  ports:
+  - name: name-of-service-port
+    protocol: TCP
+    port: 80
+    targetPort: http-web-svc
+
+#commands
+kubectl get service -> to get service
+kubectl get service -A -> to get all services in namespaces
+kubectl get service -o wide -> to get additional information about service
+
+# imperative / declarative --> way of creating service
+# commands  / manifest  
+
+#Q. Difference between Replicaset and Deployment? interview que
+#Q. How can do we upgrade pods in kubernetes if the user is live?
+#Q. Difference between services i.e. LB,NP and CIP
+
+## Config Map
+- non-confidential information are sent and stored by configmap.
+- 
+ # commands
+ This command will create a configmap directly from the data we gave it in the command itself.
+ kubectl create configmap/cm (configmap_name) --from-literal=KEY=VALUE .. 
+ eg:- kubectl create configmap/cm exampleconfigmap --from-literal=1_database_name=data1 --from-literal=2_database_name=data2
+
+ If we have one or more files that contains data and we want to create a configmap from those files,
+ we can do that with the following command.
+ imperative way: kubectl create configmap/cm (configmap_name) --from-file=KEY=VALUE ..
+ eg:- kubectl create configmap/cm exampleconfigmap --from-file=data1.txt --from-file=data2.txt
+
+ If we have a directory that contains the files that contains imp data and we want to make a configmap from those files.
+ kubectl create configmap/cm (configmap_name) --from-file=directory_name/ 
+ eg:- kubectl create configmap/cm exampleconfigmap --from-file=demo_dir/
+
+ To describe the configmap we can use the following command.
+ kubectl describe configmap/cm (configmap_name)
+
+#demo configmap yaml file:-
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: exampleconfigmap
+data:
+ 1_database_name: data1
+ 2_database_name: data2
+we can create a config map from a yaml file like this.
+To use a configmap in a pod, we need to "reference" it in the pod spec.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx:1.14.1
+    envform:
+    - configMapRef:
+     name: exampleconfigmap
+To use a configmap in a pod as a "Volume", we need to provide the path where the pod to be attached and provide the configmap.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx:1.14.1
+    volumeMounts:
+    - name: examplevolumemount
+      mountPath: "/config"
+      readOnly: "true"
+  Volumes:
+   - name: examplevolumemount
+     configMap:
+      name: exampleconfigmap
+
+ declarative way:
+ first create a yaml file by dry running a configmap file
+ kubectl create configmap/cm nginx-cm --from-file=index.html --dry-run=client -o yaml > cm.yaml
+
+ then make changes in the created yaml file.
+ (reffer to sir repo)
+ 
+ ## secret
+- confidential information are sent and stored by secret.
+- it encodes the data in base64.
+- it is used to store sensitive information such as database credentials, api keys, etc.
+ 
+ #commands
+ kubectl secret --help --> to get all the options.
+
+ kubectl create secret generic (secret_name) --from-literal=KEY=VALUE ..
+ eg:- kubectl create secret generic mysecret --from-literal=name=prathamesh
+ This command will create a secret named mysecret with a key named name and value prathamesh and it will encrypt the value in base64.
+ 
+ kubectl get secret --> to get all the secrets.
+ kubectl get secret <secret_name> --> to get a specific secret.
+ kubectl get secret <secret_name> -o yaml--> to get the content of a specific secret. But it will be encrypted in base64.
+ echo <base64 encoded string> | base64 --decode/-d --> to decode the base64 encoded string.
+
+# demo secret yaml file:-
+apiVersion: v1
+kind: Secret
+metadata:
+ name: exampleSecret
+data:
+ 1_password: "hello"
+ 2_password: "world"
+
+To use secret as a volume in pod.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx:1.14.1
+    volumeMounts:
+    - name: secretvolumemount
+      mountPath: "/secret"
+  Volumes:
+   - name: secretvolumemount
+     secret:
+      secretName: exampleSecret
+
+
+## Persistant Volume (PV)
+- When we store data in a pod, it is not persistent. It will be deleted when the pod is restarted or deleted.
+- Persistant volume ensures that the data is stored even after the pod is restarted or deleted.
+- We create to PV to make it available for us to use.
+- PV can not be used directly in pod. We use PVC(persistant volume claim) to use the PV for our pod.
+- The PV should match the PVC(persistant volume claim) in terms of storage size and access mode while writing it in a yaml file.
+
+# demo yaml file of Persistant Volume (PV):-
+apiVersion : v1
+kind: PersistentVolume
+metadata: 
+ name: example-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+
+# demo yaml file of Persistant Volume Claim(PVC):-
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example-pvc
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+ 
+ # demo yaml pod file using pvc as volume:- 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: example-pvc
+  containers:
+    - name: task-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
+
+In above first we create a PV to allocate storage space on the host machine. Then we create a PVC to request storage space from
+the cluster. Then we assigned the PVC as a volume to the pod. The pod can now use the storage space allocated by the PV.
+
+ Types:
+ Host 
+ Addons
+ fsx is for windows
+
+ Volume Add-ons:
+ These are extensions or plugins that enhance how Kubernetes handles storage.
+ Types of Kubernetes Volume Add-ons:-(some of the types)
+  Container Storage Interface (CSI)
+  Persistent Volume Claims (PVC) Enhancers
+ 
+ Container Storage Interface (CSI)
+
+
+## Namespace
+- a logical grouping of resources.
+- Namespace is not specified to a node it is seen across the cluster.
+
+ # command 
+ imperative way: kubectl create namespace/ns (namespace_name)
+
+
+interview topics:
+Architecture
+imp components / basic components
+pod , deploymnet , replicaset , service
+
+
+
+gives pod cpu consumption --> eskctl top pods
+gives nodes cpu consumption --> eksctl top nodes
+to see logs of pod --> kubectl logs pod/pod_name -n kube-system
+to see logs of deployment --> kubectl logs deployment/deplopyment_name -n kube-system
+
+
+imperative commands: https://medium.com/@balajibal/kubectl-imperative-command-examples-c7c4c0e74acd
+
+## HPA (Horizontal Pod Autoscaler)
+https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+
+- A HorizontalPodAutoscaler (HPA for short) automatically updates a workload resource
+ (such as a Deployment or StatefulSet), with the aim of automatically scaling the workload to match demand.
+- Horizontal scaling means that the response to increased load is to deploy more Pods.
+
+command to autoscale: kubectl autoscale deployment (deployment_name) --cpu-percent=() --min=() --max=()
+
+
+
+## Ingress (very imp) 
+- Ingress is an API object that manages external access to your cluster services.It brings traffic to our cluster.
+- Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster.
+- Traffic routing is controlled by rules defined on the Ingress resource.
+# demo ingress yaml file:
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx-example
+  rules:
+  - http:
+      paths:
+      - path: /testpath
+        pathType: Prefix
+        backend:
+          service:
+            name: test
+            port:
+              number: 80
+
+ Types of ingress controller:- 
+ 1) aws alb (aws managed)
+ 2) nginx ingress controller(open source)
+
+
+## node affinity, node antiaffinity, pod affinity , pod antiaffinity, pod selector , taint and tolerance.
+
+
+## Probe
+Probes: https://medium.com/@ravipatel.it/introduction-k8s-probes-liveliness-readiness-startup-probes-with-example-5cb825cdca72
+ Kubernetes probes play an essential role in monitoring the health and readiness of your applications.
+ Probes are diagnostic tools that Kubernetes uses to check the health of running containers. 
+ There are three main types of probes:-
+ 1) Liveness Probes:-
+  Determine if a container is running. If the liveness probe fails, Kubernetes will restart the container.
+ 2) Readiness Probes:-
+  Determine if a container is ready to accept traffic. If the readiness probe fails, Kubernetes will remove
+   the pod from the service endpoints until it passes.
+ 3) Startup Probes:-
+  Used to check whether the application within the container has started. If the startup probe fails, 
+  Kubernetes will kill the container and try to restart it.
+
+
+  https://github.com/LondheShubham153/kubernetes-in-one-shot
