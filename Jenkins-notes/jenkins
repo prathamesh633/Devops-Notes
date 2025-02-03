@@ -42,13 +42,24 @@ we can also create a slave directly from jenkins using cloud -> EC2 instance plu
 Ans. we can use blue-green deploymnet.
 
 # Sonar Qube (not used often)
+command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e SONARQUBE_WEB_JVM_OPTS="-Dsonar.property=value" sonarqube
 - it is a code coverage tool. it is not a test tool.
 - it is used to measure the quality of the code.
 - works on port 9000.
 - basic requirment --> CPU - 2 , memory - 4GB
 - 
+ plugin - 
 
-
-
+# Command to run Jenkins as a docker container
+- install docker and enable it first
+- docker run -d --privileged -P --user root  -v /mnt:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins
+- if we want to run our jenkins file on jenkins container it should have:-
+ 1) their shoud be no sudo in command as the container does not have sudo.
+ 2) awscli should be installed in the container.
+ 3) yum will not work in the container as many docker images have ubuntu as base image so use apt to install.
 
 https://github.com/LondheShubham153/django-notes-app.git
+
+AKIA6K5V7M5MMXVPVKW7
+
+S/dWtwG8Apz2CEN16TQxJFeyx6ilYUXf0YrTkh5d
