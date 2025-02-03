@@ -58,8 +58,12 @@ command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e S
  2) awscli should be installed in the container.
  3) yum will not work in the container as many docker images have ubuntu as base image so use apt to install.
 
+# To integrate sonar and jenkins
+first install aws credentails plugin.
+Then create a user name and give appropriate permissions to it. in our case we gave ECR permissions.
+Then create the security credentials and add the credentials in jenkins.
+Then create a new project in sonar and create it locally and choose maven at the end.
+Create the token and add the received command in the groovy file.(jenkins-2) 
+
+
 https://github.com/LondheShubham153/django-notes-app.git
-
-AKIA6K5V7M5MMXVPVKW7
-
-S/dWtwG8Apz2CEN16TQxJFeyx6ilYUXf0YrTkh5d
