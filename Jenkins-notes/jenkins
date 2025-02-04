@@ -42,7 +42,7 @@ we can also create a slave directly from jenkins using cloud -> EC2 instance plu
 Ans. we can use blue-green deploymnet.
 
 # Sonar Qube (not used often)
-command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e SONARQUBE_WEB_JVM_OPTS="-Dsonar.property=value" sonarqube
+command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e SONARQUBE_WEB_JVM_OPTS="-Dsonar.property=value" sonarqube OR sudo docker run -d -P sonarqube
 - it is a code coverage tool. it is not a test tool.
 - it is used to measure the quality of the code.
 - works on port 9000.
@@ -52,11 +52,15 @@ command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e S
 
 # Command to run Jenkins as a docker container
 - install docker and enable it first
-- docker run -d --privileged -P --user root  -v /mnt:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins
-- if we want to run our jenkins file on jenkins container it should have:-
+- sudo docker run -d --privileged -P --user root  -v /mnt:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins
+- To see the jenkins password go to "sudo docker logs <jenkins_container_id>"
+- If we want to run our jenkins file on jenkins container it should have:-
  1) their shoud be no sudo in command as the container does not have sudo.
  2) awscli should be installed in the container.
  3) yum will not work in the container as many docker images have ubuntu as base image so use apt to install.
+- If we are using MASTER SLAVE and running the pipeline on slave instead of giving IAM user credential 
+  we just have to give appropriate permissions to the slave user to run the pipeline.
+
 
 # To integrate sonar and jenkins
 first install aws credentails plugin.
@@ -65,5 +69,21 @@ Then create the security credentials and add the credentials in jenkins.
 Then create a new project in sonar and create it locally and choose maven at the end.
 Create the token and add the received command in the groovy file.(jenkins-2) 
 
+We cannot add role to a container therefore we have to add credentials to the container.
+For that we can make a IAM user with appropriate permission and add its credential to the container in pilepline
+or jenkins.
+
+#Q. How to pass a variable in a dockerfile
+
+
+Artifactory are places where we store artifact
+Nexus and 
+
+
+
+
+AKIA6K5V7M5MNCXTVOR4
+oUxpi7QenL2C0No0WzjxxM2TEFermZWrEpj958CA
+make a bucket
 
 https://github.com/LondheShubham153/django-notes-app.git

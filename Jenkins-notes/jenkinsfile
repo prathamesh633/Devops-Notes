@@ -1,9 +1,23 @@
+//IF WE WANT TO RUN PIPLINE IN DOCKER AS A CONTAINER AND THE AGENT IS 'SLAVE'
 pipeline {
     agent any
     stages {
         stage('git checkout') {
             steps {
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Pritam-Khergade/student-ui.git']]) 
+            }
+        }
+        stage('sonar-scan') {
+            steps {
+                sh 'sudo yum install maven -y'
+                sh '''
+
+                    mvn clean verify sonar:sonar \
+                    -Dsonar.projectKey=demo \
+                    -Dsonar.projectName='demo' \
+                    -Dsonar.host.url=http://13.127.173.164:32770 \
+                    -Dsonar.token=sqp_59cd2ef3c431d38d74b69634a82d1eb12e67b493
+                '''
             }
         }
         stage('build') {
@@ -24,6 +38,11 @@ pipeline {
                 sudo docker tag student-ui:latest 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
                 sudo docker push 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
                 '''
+            }
+        }
+        stage('docker cleanup') {
+            steps {
+                sh ' sudo docker system prune -a -f'
             }
         }
     }

@@ -1,3 +1,4 @@
+//IF WE WANT TO RUN PIPLINE IN DOCKER AS A CONTAINER AND THE AGENT IS 'MASTER'
 pipeline {
     agent any
 
@@ -19,8 +20,8 @@ pipeline {
                     mvn clean verify sonar:sonar \
                     -Dsonar.projectKey=demo \
                     -Dsonar.projectName='demo' \
-                    -Dsonar.host.url=http://13.232.98.36:9000 \
-                    -Dsonar.token=sqp_c0f91a120632c2f56aebf260dfcaff9e672e1def
+                    -Dsonar.host.url=http://13.127.173.164:32770 \
+                    -Dsonar.token=sqp_59cd2ef3c431d38d74b69634a82d1eb12e67b493
                 '''
             }
         }
@@ -37,6 +38,7 @@ pipeline {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-user', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh ''' 
+                    apt install awscli -y
                     mkdir -p ~/aws
                     touch ~/aws/credentials
 
@@ -56,6 +58,11 @@ pipeline {
                   docker tag student-ui:latest 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
                   docker push 985539766104.dkr.ecr.ap-south-1.amazonaws.com/student-ui:${BRANCH}-${BUILD_TIMESTAMP}
                 '''
+            }
+        }
+        stage('docker cleanup') {
+            steps {
+                sh '  docker system prune -a -f'
             }
         }
     }
