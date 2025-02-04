@@ -82,8 +82,9 @@ Nexus and
 
 
 
-AKIA6K5V7M5MNCXTVOR4
-oUxpi7QenL2C0No0WzjxxM2TEFermZWrEpj958CA
-make a bucket
+# Task
+ while making the pipeline of online bookstore edit its docker file so that it saves the artficat created in mvn clean package
+ in a S3 bucket.
+ --> refer dockerfile
 
 https://github.com/LondheShubham153/django-notes-app.git
