@@ -23,9 +23,3 @@
 
  To delete 
  terraform destroy --> deletes the infrastructure created by terraform.
-
-
-task
-create 3 ec2 instances.
-
-
