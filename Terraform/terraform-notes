@@ -9,15 +9,25 @@
 
  installation - https://developer.hashicorp.com/terraform/install#linux
 
-terraform init --> initialises the terraform process
+
+# Steps to initialize the code of terraform
+ step 1: terraform init 
+  initialises the terraform process
   provider are downloaded and terraform.lock.hcl created
-terraform plan --> will show the plan od infrastructure
 
+ step 2: terraform plan 
+  will show the plan od infrastructure
 
+ step 3: terraform apply
+  will apply our comfiguration file to the cloud provider.
 
-To delete 
-tf destroy --> deletes the infrastructure created by terraform.
+ To delete 
+ terraform destroy --> deletes the infrastructure created by terraform.
 
 
 task
 create 3 ec2 instances.
+
+
+access key -- AKIA6K5V7M5MHXJ6FXX5
+secrete key -- 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
