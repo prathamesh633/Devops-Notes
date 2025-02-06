@@ -13,5 +13,5 @@ provider "aws" {
 
   #AWS Credentials
   access_key =
-  secrete_key = 
+  secret_key = 
 }

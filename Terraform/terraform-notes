@@ -7,8 +7,12 @@
   provider.tf. --> cloud provider configuration file to define aur service provider.
   var.tf or variable.tf --> if our terraform file needs some variables we define them here.
 
- installation - https://developer.hashicorp.com/terraform/install#linux
-
+# Installation 
+site --> https://developer.hashicorp.com/terraform/install#linux
+OR
+sudo yum install -y yum-utils shadow-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo yum -y install terraform
 
 # Steps to initialize the code of terraform
  step 1: terraform init 
