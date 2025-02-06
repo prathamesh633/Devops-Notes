@@ -12,5 +12,6 @@ provider "aws" {
   region = "ap-south-1"
 
   #AWS Credentials
-
+  access_key =
+  secrete_key = 
 }

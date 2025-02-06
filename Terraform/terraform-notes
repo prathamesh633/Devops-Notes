@@ -5,7 +5,7 @@
 - terraform file name --> file_name.tf
   main.tf --> 
   provider.tf. --> cloud provider configuration file to define aur service provider.
-  variable.tf --> if our terraform file needs some variables we define them here.
+  var.tf or variable.tf --> if our terraform file needs some variables we define them here.
 
  installation - https://developer.hashicorp.com/terraform/install#linux
 
@@ -17,9 +17,17 @@
 
  step 2: terraform plan 
   will show the plan od infrastructure
+  always check if the things we mentioned are properly mentioned or not.
 
  step 3: terraform apply
-  will apply our comfiguration file to the cloud provider.
+  will apply our configuration file to the cloud provider.
+  
+  we can apply '--auto-approve' to skip the confirmation prompt.
 
  To delete
  terraform destroy --> deletes the infrastructure created by terraform.
+
+
+
+ task 
+ single resource block me 5 s3 bucket create krrni hay
