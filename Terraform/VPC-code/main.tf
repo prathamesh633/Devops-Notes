@@ -53,3 +53,20 @@ resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.public-subnet.id
   route_table_id = aws_route_table.rt.id
 }
+
+#Elastic IP
+resource "aws_eip" "eip" {
+  vpc = true
+}
+
+# Internet gateway
+resource "aws_nat_gateway" "ig" {
+  allocation_id = aws_eip.eip.id
+  subnet_id     = aws_subnet.public-subnet.id
+
+  tags = {
+    Name = "eg-NAT"
+  }
+
+  depends_on = [aws_internet_gateway.igw]
+}
