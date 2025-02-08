@@ -5,33 +5,36 @@
 - terraform file name --> file_name.tf
   main.tf --> 
   provider.tf. --> cloud provider configuration file to define aur service provider.
-  var.tf or variable.tf --> if our terraform file needs some variables we define them here.
+  var.tf or variable.tf --> if our terraform file needs some variables we define them here. 
 
 # Installation 
-site --> https://developer.hashicorp.com/terraform/install#linux
-OR
+- site --> https://developer.hashicorp.com/terraform/install#linux
+ OR
 sudo yum install -y yum-utils shadow-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
 sudo yum -y install terraform
 
 # Steps to initialize the code of terraform
- step 1: terraform init 
-  initialises the terraform process
-  provider are downloaded and terraform.lock.hcl created
+- step 1: terraform init 
+  initialises the terraform process.
+  provider are downloaded and terraform.lock.hcl created.
 
- step 2: terraform plan 
-  will show the plan od infrastructure
+- step 2: terraform plan 
+  will show the plan od infrastructure.
   always check if the things we mentioned are properly mentioned or not.
 
- step 3: terraform apply
+- step 3: terraform apply
   will apply our configuration file to the cloud provider.
   
   we can apply '--auto-approve' to skip the confirmation prompt.
 
- To delete
+- To delete
  terraform destroy --> deletes the infrastructure created by terraform.
 
+# functions
+ length() 
+ element() 
 
 
  task 
- single resource block me 5 s3 bucket create krrni hay
+ single resource block me 5 s3 bucket create krrni hay  
