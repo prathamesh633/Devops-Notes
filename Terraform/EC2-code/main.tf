@@ -1,29 +1,43 @@
 resource "aws_instance" "a" {
-  ami           = "ami-0c50b6f7dc3701ddd" // ami id's are region specific so choose according to your region
-  instance_type = "t2.micro" 
-  key_name = "demo-key" // key pair name
-
+  ami = var.ami // ami id's are region specific so choose according to your region
+  instance_type =  var.instance_type
+  key_name = var.key_name
+  vpc_security_group_ids = [aws_security_group.allow_tls.id] // all the security group ports will be selected with just adding this
+  subnet_id = var.subnet_id
+  associate_public_ip_address = var.public_ip
   tags = {
-    Name = "HelloWorld_a"
+    Name = var.tags
   }
 }
 
-resource "aws_instance" "b" {
-  ami           = "ami-0c50b6f7dc3701ddd" // ami id's are region specific so choose according to your region
-  instance_type = "t2.micro" 
-  key_name = "demo-key" // key pair name
+resource "aws_security_group" "allow_tls" {
+  name        = "allow_tls"
+  description = "Allow TLS inbound traffic and all outbound traffic"
+  vpc_id      = var.vpc_id
 
   tags = {
-    Name = "HelloWorld_b"
+    Name = "allow_tls"
   }
 }
 
-resource "aws_instance" "c" {
-  ami           = "ami-0c50b6f7dc3701ddd" // ami id's are region specific so choose according to your region
-  instance_type = "t2.micro" 
-  key_name = "demo-key" // key pair name
+resource "aws_vpc_security_group_ingress_rule" "allow_tls22" {
+  security_group_id = aws_security_group.allow_tls.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+}
 
-  tags = {
-    Name = "HelloWorld_c"
-  }
+resource "aws_vpc_security_group_ingress_rule" "allow_tls80" {
+  security_group_id = aws_security_group.allow_tls.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 80
+  ip_protocol       = "tcp"
+  to_port           = 80
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+  security_group_id = aws_security_group.allow_tls.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
 }

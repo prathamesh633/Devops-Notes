@@ -35,6 +35,4 @@ sudo yum -y install terraform
  length() 
  element() 
 
-
- task 
- single resource block me 5 s3 bucket create krrni hay  
+- We donot pass the 
