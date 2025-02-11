@@ -34,5 +34,21 @@ sudo yum -y install terraform
 # functions
  length() 
  element() 
+for_each --> loop
 
-- We donot pass the 
+# Modules
+- We can reuse our code with the help of modules.
+- The reusablity can be with minimum changes.
+- Also we do not pass hard coded values in the EC2, VPC, S3 etc. main.tf file we do that in modules.
+ It helps us to reuse code just by changing values in the modules.
+
+- ingress --> inbound of security group
+- egress --> outbound of security group
+- Dynamic ingress --> we mention the ports in module and then we use for_each loop to create multiple ingress rules.
+ (ingress rules -- inbound security group ports)
+- Data block --> we use data block to get the data from the cloud provider.
+
+
+
+task:
+make the module for --> iam_user, group, policy, role

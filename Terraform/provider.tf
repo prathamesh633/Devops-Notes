@@ -7,7 +7,7 @@ terraform {
   }
 }
 
-provider "aws" {
+provider "aws"{
   profile = "user"
   region = "ap-south-1"
 }
