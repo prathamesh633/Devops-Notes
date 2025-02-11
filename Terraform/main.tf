@@ -17,8 +17,14 @@ module "EC2" {
   vpc_id        = module.VPC.vpc_id              // this is for vpc id as it is not deined till the vpc is created.
 }
 
-module "S3" {
-  source     = "./S3-code"
-  count      = 5
-  bucketname = "prathameshs3buckethh-${count.index + 1}"
+# module "S3" {
+#   source     = "./S3-code"
+#   count      = 5
+#   bucketname = "prathameshs3buckethh-${count.index + 1}"
+# }
+
+module "IAM" {
+  source = "./IAM-code"
+  group_tag = "demo"
+  given_user = ["sushant", "mayur"]
 }

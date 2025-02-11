@@ -12,11 +12,11 @@ provider "aws"{
   region = "ap-south-1"
 }
 
-terraform {
-  backend "s3" {
-    bucket  = "prathameshs3buckethh-1"
-    key     = "terraform/tfstate/terraform.tfstate"
-    region  = "ap-south-1"
-    profile = "user"
-  }
-}
+# terraform {
+#   backend "s3" {
+#     bucket  = "prathameshs3buckethh-1"
+#     key     = "terraform/tfstate/terraform.tfstate"
+#     region  = "ap-south-1"
+#     profile = "user"
+#   }
+# }

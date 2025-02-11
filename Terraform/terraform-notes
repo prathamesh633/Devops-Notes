@@ -51,4 +51,4 @@ for_each --> loop
 
 
 task:
-make the module for --> iam_user, group, policy, role
+make the modules for --> iam_user, group, policy, role
