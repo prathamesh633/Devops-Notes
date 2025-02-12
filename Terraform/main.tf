@@ -11,10 +11,31 @@ module "EC2" {
   ami           = "ami-0c50b6f7dc3701ddd"
   instance_type = "t2.micro"
   key_name      = "demo-key"
-  tags          = "demo-server"
+  tags          = "demo-server" 
   public_ip     = true
   subnet_id     = module.VPC.public_subnet_id[0] // this will choose the first public subnet range defined in the var.rf file.
   vpc_id        = module.VPC.vpc_id              // this is for vpc id as it is not deined till the vpc is created.
+  security_group = [module.EC2.security_group_id] // this is in brackets because the security-group-ids from vpc will be in list.
+  ingress_ports = [
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  ]
 }
 
 module "S3" {
@@ -26,5 +47,6 @@ module "S3" {
 module "IAM" {
   source = "./IAM-code"
   group_tag = "demo"
-  given_user = ["sushant", "mayur"]
+  given_user = ["user1", "user2"]
+  policy_names = ["AmazonEC2FullAccess", "AmazonS3FullAccess"]
 }
