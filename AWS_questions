@@ -20,3 +20,5 @@ A. In AWS, tenancy refers to the arrangement and isolation of resources, particu
 #Q. When do we use lamda function and when do we use EC2 instance?
 
 #Q. How does the loadbalancer check if the service is healthy?
+
+#Q. What is Cloud?
