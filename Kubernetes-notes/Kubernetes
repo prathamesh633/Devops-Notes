@@ -530,6 +530,10 @@ spec:
      secret:
       secretName: exampleSecret
 
+# Steps to install helm
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
 
 ## Persistant Volume (PV)
 - When we store data in a pod, it is not persistent. It will be deleted when the pod is restarted or deleted.
