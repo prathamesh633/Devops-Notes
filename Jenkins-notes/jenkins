@@ -2,6 +2,8 @@
 
 CI/CD tool (continuous Integration and Continuous Deployment/delivery)
 continuous integration - code will come from git and then we build it.
+continuous deployment - the deployment will be done without any manual intervation. completely automated.
+continuous delivery - the deployment will be done with manual intervention. manual approval required.
 git code -> checkout -> build -> push -> deploy
 
 jenkins requirment:- at least t2.medium
@@ -87,4 +89,7 @@ Nexus and
  in a S3 bucket.
  --> refer dockerfile
 
-https://github.com/LondheShubham153/django-notes-app.git
+
+write about
+how to set master slave connection
+how to save the ec2 credentials

@@ -1,0 +1,79 @@
+# Linux
+- It is a open source operating system.
+- It was made by Linus Torwald.
+- 
+Bootloader:
+- It is a process in kernal that loads the operating system into the memory. It is the first program that runs when the computer is turned.
+- eg. GRUB (grand unified bootloader)
+
+states of processes:
+- sleeping, running, killed, zombie, start etc.
+
+Commands:
+- Terminal is the interface between user and os.
+- We run the commands on terminal.
+zcat --> used to see contents of a zip file.
+tail -f file_name --> used to see if any new lines are added to the bottom of file in real time. can be used to see logs.
+less --> used to see the content of a file in small page by page formate.
+more --> used to see the content of a file in big page by page formate.
+wc --> gives the count of words of a file. eg: wc file.txt , output --> 1 4 16 (1 line, 4 words , 16 bytes(no. of letters))
+df --> gives the disk free space. can use 'df -h' to see the free space in human readable format.
+du --> gives the disk usage of a particular directory. eg: du . (it will give the disk usage of the current directory)
+fuser --> 
+nohup --> used to store the output of a command in a file. eg: nohup df -h (will store the disk info in a nohup.out file)
+ if we run the command again to save the output of a different command it will keep the previous info as it is and add the new info below it.
+
+- System level commands
+ who --> tells about all the users and when they logged in.
+ whoami --> tells about current user. 
+ shutdown --> stops the ec2-instance. (sudo shutdown)
+
+- Package manager commands 
+ apt (advanced package tool) --> used to install and remove packages. Itwill search the mentioned package in our system.
+ apt-get --> works as same as apt but if the mentioned package is not found in our system it will download it from the internet.
+ dnf (dandified YUM) --> used to install package. it was introduced as a replacement to 'yum'.
+ yum (yellodog updater, modified) --> used to install package.
+
+- File system commands
+ su (switch user) --> to switch between users.
+ sudo gpasswd -a username groupname --> to add a user to a group.
+ sudo gpasswd -M user1,user2,user3 groupname --> to add multiple users to a group.
+compression commands
+ zip --> used to compress a file & folders. eg: zip -r file.zip folder_name / zip file.zip file_name
+ unzip --> used to decompress a file. eg: unzip file.zip
+
+ scp (secure copy) --> used to copy files from one server to another.
+  syntax: from local to server --> scp -i "key_path" file_name username@ip_address:path_of_where _to_copy
+  eg: scp -i "Downloads/demo-key.pem" file.txt ec2-user@ec2-13-233-123-123.compute-1.amazonaws:/home/ec2-user/
+
+ rsync --> It is used to sync the changes between the directories that we copied using 'scp'.
+ syntax: rsync -avz -e ssh source destination
+
+- Networking Commands
+ 1) ping --> used to check if the server is up or not.It sends a packet to the server and waits for the response. eg. ping prathameshdevops.tech
+ 2) ifconfig --> Shows all the network interfaces of the server.
+ 3) traceroute --> used to see the path of the packet from source to destination.
+ If we want to know how may places our ip hopped from the start to the destination to get data we use teaceroute.
+ 4) mtr (my trace route)--> give the ip and also the path of the server we ping.
+ 5) nslookup --> used to find if the mentioned domain is active or not.
+
+ 6) telnet --> used to check the connection of our domain with the mentioned port. eg. telnet prathameshdevops.tech 80
+ 7) ip addr show --> shows all the ip address that are present in the server.
+ 8) iwconfig --> shows all the wireless network interfaces of the server. 
+ 9) ss --> works similar to netstat.
+ 10) dig (Domain Information Groper) -->  It retrieves information about DNS name servers. Network administrators use it to verify and troubleshoot DNS problems and perform DNS lookups.
+ 11) whois -->The data received by Whois consists of the name and contact information of the domain or IP address owner, the registration and expiration date, the domain registrar, and the server information. 
+ 12) arp (address resolution protocol) --> used to see the mac address of the server.
+ 13) ifplugstatus --> used to check the status of the network interface. It tells us if they are working or not.
+ 14) curl and wget --> used to download the files from browser using links.
+ 15) watch --> used to watch the output of any command in real time. eg: watch mtr prathameshdevops.tech - will watch routes of the domain every 2sec.
+ 16) nmap --> used to scan the newtwork of the mentioned server or domain. eg: nmap -v prathameshdevops.tech
+
+
+
+
+imp point
+difference between windows and linux
+difference between linux and unix
+what is hard link and soft link
+types of file in linux
