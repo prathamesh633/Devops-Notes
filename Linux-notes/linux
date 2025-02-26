@@ -69,6 +69,18 @@ compression commands
  15) watch --> used to watch the output of any command in real time. eg: watch mtr prathameshdevops.tech - will watch routes of the domain every 2sec.
  16) nmap --> used to scan the newtwork of the mentioned server or domain. eg: nmap -v prathameshdevops.tech
 
+awk and sed --> These commands are used to get the desired data from a large pool of data.
+ we can get desired columns, lines and words from the data using these commands.
+ 'awk' commands works mainly on getting the desired data from the file.
+ 'sed' command can also be used to change the words in the entire data file.
+
+- Linux Volume commands
+ 1) lsblk (list block) --> used to list all the connected volumes to the server.
+ 2) commands to make divisions in the attached volumes --> fdisk /dev/block_name OR lvm (logical volume manager) 
+ 3) mkfs --> used to format the newly created volume i.e. we can attach the newly created divisions to the folders we want in the server.
+ 4) mount --> used to make the attached volumes usable for the instance. To unmount the volume we use 'umount' command.
+ to permanently mount the volume we make a entry of the volume in '/etc/fstab' file as "UUID=uuid_of_volume /path_of_volume ext4 0 0 defaults".
+ 5) fdisk --> used to create new partitions in the volume.
 
 
 
