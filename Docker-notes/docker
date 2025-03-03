@@ -21,6 +21,39 @@ A.          Image                                container
  5. Built using a Dockerfile with a          5. Created from an image using the docker run command.gi
     set of instructions.
 
+#Q. What are the different types of docker containers?
+A. 1. Stateless Containers
+ Stateless containers are containers that do not store any data or state. They are typically used for web 
+ servers, load balancers, and other applications that do not require persistent data.
+ eg:- docker run -d -p 80:80 nginx
+
+ 2. Stateful Containers
+ Stateful containers are containers that store data or state. They are typically used for databases, 
+ file servers, and other applications that require persistent data. 
+ eg:- docker run -d -p 5432:5432 -v /var/lib/postgresql/data:/var/lib/postgresql/data postgres
+
+ 3. Init Containers
+ Init containers are containers that run before the main container and perform initialization tasks.
+ They are typically used for setting up the environment, creating directories, and other initialization tasks.
+ eg:- docker run -d --name my-init --init my-init-image
+      docker run -d --name my-app --depends-on my-init my-app-image
+
+ 4. Ephemeral Containers
+ Ephemeral containers are containers that are created and deleted on the fly. They are typically used for 
+ testing, debugging, and other short-lived tasks.
+
+ 5. Daemon Containers
+ Daemon containers are containers that run in the background and perform tasks without user interaction. 
+ They are typically used for system services, such as logging, monitoring, and backup.
+
+ 6. Sidecar Containers
+ Sidecar containers are containers that run alongside other containers and provide additional functionality.
+ They are typically used for logging, monitoring, and other tasks.
+ eg:- docker run -d --name my-app -p 80:80 my-app-image
+      docker run -d --name my-sidecar --link my-app my-sidecar-image
+
+
+
 #install docker in linux.
 
 enable & start docker
@@ -43,7 +76,7 @@ sudo docker start <container_id> --> to start the container
 sudo docker rm <container_id> --> to remove the container
 sudo docker rmi <image_id> --> to remove the image
 sudo docker rmi -f <image_id> --> to remove the image forcefully
-sudo docker commit <container_id> 
+sudo docker commit <container_id> --> to create a image after making changes in the container
 sudo docker image --> to see all images for docker
 sudo docker tag <image_id> <new_image_name> --> to tag the image
 
@@ -65,12 +98,13 @@ sudo docker push <account_id>.dkr.ecr.<region>.amazonaws/<image_name>
 sudo docker pull <account_id>.dkr.ecr.<region>.amazonaws/<image_name>
 
 etc/docker
-docker volumes:-
-
-docker create volume --> to create docker volume (universal docker storage)
-docker volume ls --> to list volumes
-cd var/lib/docker --> root directory of docker
-/var/run/docker.sock --> docker socket file
+# docker volumes:-
+- docker run -d -v host_dir_path/:/container_dir_path -p 8080:8080 image_name:latest --> to connect a folder from host to a folder in container to persist 
+ the data i.e. if we delete the container the connected folder data will still be present in the host machine.
+- docker create volume --> to create docker volume (universal docker storage)
+- docker volume ls --> to list volumes
+- cd var/lib/docker --> root directory of docker
+- /var/run/docker.sock --> docker socket file
 
 # Q.what is socket file?
 # A.socket file is a file that allows two processes to communicate with each other.
@@ -131,11 +165,32 @@ Each stage is a separate docker image, and you can use the output of one stage a
 
 ## Docker Network
  (By default we use bridge network)
- Bridge network:- it is the default network in docker. It is used to connect containers to the host machine.
- Host network:- it is used to connect a container to the host machine's network.
- None network:- it is used to isolate a container from the host machine's network.
- macvlan network:- it is used to assign a mac address to a container.
- overlay network:- it is used to connect multiple docker hosts together.
+ Bridge network:
+ - it is the default network in docker.
+ - It is used to connect containers to the host machine.
+ - In this we use '-p' to connect the container to the host machine by specifying the port number.
+ - It is not necessary that the container and host machine will have the same port number.
+
+ Host network:
+ - it is used to connect a container to the host machine's network.
+ - In this the container and the host machine will have the same ports.
+
+ None network:
+ - it is used to isolate a container from the host machine's network.
+ -No one can connetct to the container in none network.
+
+ user defined bridge:
+ - It is used to create our own network.
+ command: docker network create my-net --> will create a bridge network with name "my-net".
+
+ IPVLAN network:
+ - Used to connect containers that are on different systems having different IP's.
+
+ macvlan network:
+ - it is used to assign a mac address to a container.(mac address --> It is the unique address of a network)
+ 
+ overlay network:
+ - it is used to connect multiple docker hosts together.
 
 ## Docker Compose
  Docker compose is a tool for defining and running multi-container docker applications. It allows you to define the services, networks, and volumes for your application in a single file called docker-compose.yml.
