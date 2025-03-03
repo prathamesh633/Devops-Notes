@@ -143,14 +143,14 @@ sudo -v for volume dev for volume name :path to mount volume --name --> for addi
 
 
 ## MultiStage docker file
-
-multi-stage docker file is a feature of docker that allows you to build a docker image in multiple stages.
-Each stage is a separate docker image, and you can use the output of one stage as the input for the next.
+- multi-stage docker file is a feature of docker that allows you to build a docker image in multiple stages.
+- Each stage is a separate docker image, and you can use the output of one stage as the input for the next.
+- After completing the first stage and going on the second stage 'docker will remove' the previous stages image.
 
 ##task1 using multistage dockerfile
  tomcat alpine --> lightest tomcat image
 
- Here we donot need to EXPOSE as tomcat we are using tomcat directly.
+ Here we do not need to EXPOSE as tomcat we are using tomcat directly.
 
  FROM 3.9.9-amazoncorretto-8-debian-bookworm AS mvnbuilder # we gave the maven repo mvnbuilder name using AS
  COPY student-ui /. # copied the studnet-ui from local to maven container
@@ -181,7 +181,12 @@ Each stage is a separate docker image, and you can use the output of one stage a
 
  user defined bridge:
  - It is used to create our own network.
- command: docker network create my-net --> will create a bridge network with name "my-net".
+ - commands:
+    docker network create my-net --> will create a bridge network with name "my-net".
+    docker run -d --network my-net -p 80:80 nginx:latest --> will run the image in the created network.
+ - We can add multiple containers to this network and these containers will be able to communicate with each other.
+ - If we go inside a container and hit 'curl http://container_name:container_port' we will be alble to access the
+   mentioned containers site.
 
  IPVLAN network:
  - Used to connect containers that are on different systems having different IP's.
@@ -193,22 +198,27 @@ Each stage is a separate docker image, and you can use the output of one stage a
  - it is used to connect multiple docker hosts together.
 
 ## Docker Compose
- Docker compose is a tool for defining and running multi-container docker applications. It allows you to define the services, networks, and volumes for your application in a single file called docker-compose.yml.
+- Docker compose is a tool for defining and running multi-container docker applications. 
+- It allows you to define the services, networks, and volumes for your application in a single file called docker-compose.yml.
 
  # steps to install docker compose
  sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
  sudo chmod +x /usr/local/bin/docker-compose
 
  sudo docker file name --> docker-compose.yml
- sudo docker-compose up --> to start the containers
- sudo docker-compose up -d --> to start the containers in detached mode i.e. in background
- sudo docker-compose down --> to stop the containers
+ sudo docker compose up --> to start the containers
+ sudo docker compose up -d --> to start the containers in detached mode i.e. in background
+ sudo docker compose down --> to stop the containers
  
  # demo docker compose file
  docker compose filename --> docker-compose.yaml
- version: '3'
  services:
   tomcat:
     image: prathameshbhujade/tomcat_student-ui
     ports:
       - "8080:8080"
+
+   nginx_app:
+    image: nginx:latest
+    ports:
+    - "80:80"
