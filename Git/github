@@ -1,0 +1,12 @@
+# Github
+- 
+
+# Github Webhooks
+- We can use webhooks to trigger jenkins pipeline i.e. when we make any commit in the git repo automatically the pipeline will be trigered.
+- we cando this by :
+  1) go to git repo we want to automate.
+  2) go to settings.
+  3) go to webhooks.
+  4) add new webhook.
+    in webhook add the site of our jenkins server. eg. http://server_ip:8080/github-webhook/
+  5) check if the webhook is sending data or not by checking 'Recent deliveries' in webhook.

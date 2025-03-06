@@ -35,13 +35,56 @@ adding variables in ecr tag time stamp - plugin name - build timestamp
  install jenkins on master and only java-17 on slave as we will require java to run jenkins on slave.
  in master go in jenkins then go to manage jenkins and go to nodes and click new node and fill info.
  launch method - launch agent vai ssh
+ label - slave # imp as we will use this name while specifying agent
  host - slave IP
+ credentials - add new credentials and fill info.
+  ID - slave key # whatever we want to give
+  Username - ec2-user # the OS we are using will have a username that we have to specify eg. in ubuntu - 'ubuntu',in amazonlinux - 'ec2-user', etc.
+  Password - ec2-user private key # the key we have created for ec2-user
  verification strategy - non veryfing V. S.
+
+ # Accessing slave from master
+ we can also use "ssh-keygen" to generate key and then use that key to connect to slave from master.
+ for that we have to paste the new-key.pub in the 'authorized_keys' file pressent in .ssh folder of slave instance. And then when we will try to login in slave from master we will be able to do it.
 
 we can also create a slave directly from jenkins using cloud -> EC2 instance plugin.
 
 #Q. How can we upgrade jenkins version?
 Ans. we can use blue-green deploymnet.
+
+# Github Webhooks
+- We can use webhooks to trigger jenkins pipeline i.e. when we make any commit in the git repo automatically the pipeline will be trigered.
+- we cando this by :
+  1) go to git repo we want to automate.
+  2) go to settings.
+  3) go to webhooks.
+  4) add new webhook.
+    in webhook add the site of our jenkins server. eg. http://server_ip:8080/github-webhook/
+  5) check if the webhook is sending data or not by checking 'Recent deliveries' in webhook.  
+
+
+# Jenkins Shared Libraries
+- 
+- we can create a shared library in jenkins which can be used by all the pipelines.
+- We create a repo in git and define functions according to our need and these functions then can be used in any pipeline created in jenkins.
+- The file in the repo should be name "file_name.groovy" to make it useful in jenkins.
+- Procedure to create a shared library in jenkins is as follows :
+  1) go to jenkins -> manage jenkins -> In configure system click 'System'
+  2) In system go to 'Global Trusted Pipeline Libraries' and click 'add'
+  3) name -> any name
+     default Version -> give our branch name
+     retrival method -> modern SCM
+      In SCM -> Git
+      Repository URL -> our repo url
+      credential -> if repo is private add git cred. otherwise leave it blank
+
+- To add the shared library in pipeline we write "@Library("Shared") _" at the start of the pipeline.
+
+# Pipeline Script from SCM
+- We can also use our jenkins pipeline directly from the git using 'Pipeline Script from SCM'.
+- We can do this by :
+  1) first add the pipeline code to the git repo.
+  2) the go to configure of pipeline then go to 'Pipeline' and select 'Pipeline Script from SCM' and specify all details.
 
 # Sonar Qube (not used often)
 command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e SONARQUBE_WEB_JVM_OPTS="-Dsonar.property=value" sonarqube OR sudo docker run -d -P sonarqube
@@ -88,8 +131,3 @@ Nexus and
  while making the pipeline of online bookstore edit its docker file so that it saves the artficat created in mvn clean package
  in a S3 bucket.
  --> refer dockerfile
-
-
-write about
-how to set master slave connection
-how to save the ec2 credentials
