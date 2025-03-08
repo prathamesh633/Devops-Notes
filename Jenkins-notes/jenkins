@@ -79,6 +79,8 @@ Ans. we can use blue-green deploymnet.
       Repository URL -> our repo url
       credential -> if repo is private add git cred. otherwise leave it blank
 
+# IMP
+** when we creat a new repo from where we are going to use .groovy files we have to first create a "vars/" folder and inside it we must make our .groovy files otherwise we will get errors.
 ** To add the shared library in pipeline we write "@Library("Shared") _" at the start of the pipeline.
 ** the shared library .groovy file should not be named "file-name.groovy" It shoud be "file_name.groovy"
 
