@@ -54,6 +54,7 @@ Ans. we can use blue-green deploymnet.
 
 # Github Webhooks
 - We can use webhooks to trigger jenkins pipeline i.e. when we make any commit in the git repo automatically the pipeline will be trigered.
+- IMP --> install git in the master to use webhooks.
 - we cando this by :
   1) go to git repo we want to automate.
   2) go to settings.
@@ -78,7 +79,9 @@ Ans. we can use blue-green deploymnet.
       Repository URL -> our repo url
       credential -> if repo is private add git cred. otherwise leave it blank
 
-- To add the shared library in pipeline we write "@Library("Shared") _" at the start of the pipeline.
+** To add the shared library in pipeline we write "@Library("Shared") _" at the start of the pipeline.
+** the shared library .groovy file should not be named "file-name.groovy" It shoud be "file_name.groovy"
+
 
 # Pipeline Script from SCM
 - We can also use our jenkins pipeline directly from the git using 'Pipeline Script from SCM'.
