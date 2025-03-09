@@ -1,0 +1,17 @@
+# Q. What is the Difference between TCP and UDP?
+A. TCP (Transmission Control Protocol)
+- Connection-oriented: A connection is established before data is sent.
+- Reliable: Data is guaranteed to be delivered in the correct order.
+- Error-checked: TCP checks for errors and retransmits packets if errors are detected.
+- Ordered delivery: TCP ensures that packets are delivered in the order they were sent.
+- TCP is slower than UDP.
+- examples: Email, File Transfer Protocol (FTP), web browsing, online banking, etc.
+
+ UDP (User Datagram Protocol)
+- Connectionless: No connection is established before data is sent.
+- Connectionless: No connection is established before data is sent.
+- Error-tolerant: UDP does not check for errors or retransmit packets if errors are detected.
+- It is faster than TCP
+- examples: Online gaming, video streaming, voice over IP (VoIP), etc
+
+# Q. 

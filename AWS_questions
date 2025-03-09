@@ -1,3 +1,16 @@
+#Q. What is Cloud?
+
+#Q. What is AMI in AWS?
+A. An AMI is a template that contains the software configuration (operating system, application server, and applications)
+ required to launch an instance (a virtual server) in the cloud.
+ It is like a pre-configured image of a virtual machine that you can use to quickly launch EC2 instances.
+
+#Q. what is userdata in AWS?
+A. In AWS, user data is a feature that allows you to pass custom scripts or configuration instructions to an EC2 
+ instance during its launch. These scripts are executed automatically when the instance starts for the first time. 
+
+
+
 #Q. what is tenancy in AWS?
 A. In AWS, tenancy refers to the arrangement and isolation of resources, particularly virtual machines
  (EC2 instances), within the AWS infrastructure. It determines whether the infrastructure hosting your 
@@ -17,8 +30,22 @@ A. In AWS, tenancy refers to the arrangement and isolation of resources, particu
   - Spot and reserved instances can be launched with default or dedicated tenancy, depending on your needs.
   - Ideal for workloads that are flexible and can handle interruptions.
 
+#Q. What is EBS in AWS?
+A. EBS stands for Elastic Block Store. It is a block storage service provided by AWS that allows you to create
+ persistent block storage volumes and attach them to EC2 instances. EBS volumes are independent of the EC2 instances
+ they are attached to and can be detached and reattached to other instances.
+ They are used for storing data that requires frequent and fast access, such as databases, file systems, and application data.
+
+#Q. What is NFS in AWS?
+A. In AWS, NFS (Network File System) refers to a file system that allows multiple EC2 instances or other AWS services to share
+ files over a network.
+ Port number of NFS: 2049
+ We use this service with EFS (Elastic File System) which is a scalable, fully managed NFS file system service provided by AWS.
+ A big drawback of NFS is if our main server is down then no one can access the data and even we can lose our data.
+
+#Q. What is a VPC in and explain all components of a VPC? 
+
+
 #Q. When do we use lamda function and when do we use EC2 instance?
 
 #Q. How does the loadbalancer check if the service is healthy?
-
-#Q. What is Cloud?
