@@ -1,17 +1,30 @@
-#Q. What is Cloud?
+# Q. What is Cloud?
+A. The term "Cloud" in computing refers to a model of delivering computing services over the internet, where resources such 
+ as servers, storage, databases, software, and applications are provided as a service to users on-demand. Instead of having to 
+ manage and maintain their own hardware and software, users can access these resources on a pay-as-you-go basis, allowing for
+ greater flexibility, scalability, and cost savings.
 
-#Q. What is AMI in AWS?
+ Cloud computing has a wide range of applications, including:
+ Infrastructure as a Service (IaaS): Provides virtualized computing resources, such as servers, storage, and networking.
+
+ Platform as a Service (PaaS): Provides a complete development and deployment environment for applications, including tools, libraries, 
+ and infrastructure.
+
+ Software as a Service (SaaS): Provides software applications over the internet, eliminating the need for local installation 
+ and maintenance.
+
+# Q. What is AMI in AWS?
 A. An AMI is a template that contains the software configuration (operating system, application server, and applications)
  required to launch an instance (a virtual server) in the cloud.
  It is like a pre-configured image of a virtual machine that you can use to quickly launch EC2 instances.
 
-#Q. what is userdata in AWS?
+# Q. what is userdata in AWS?
 A. In AWS, user data is a feature that allows you to pass custom scripts or configuration instructions to an EC2 
  instance during its launch. These scripts are executed automatically when the instance starts for the first time. 
 
 
 
-#Q. what is tenancy in AWS?
+# Q. what is tenancy in AWS?
 A. In AWS, tenancy refers to the arrangement and isolation of resources, particularly virtual machines
  (EC2 instances), within the AWS infrastructure. It determines whether the infrastructure hosting your 
  instances is shared with other AWS customers or dedicated exclusively to your use. This impacts factors
@@ -30,20 +43,21 @@ A. In AWS, tenancy refers to the arrangement and isolation of resources, particu
   - Spot and reserved instances can be launched with default or dedicated tenancy, depending on your needs.
   - Ideal for workloads that are flexible and can handle interruptions.
 
-#Q. What is EBS in AWS?
+# Q. What is EBS in AWS?
 A. EBS stands for Elastic Block Store. It is a block storage service provided by AWS that allows you to create
  persistent block storage volumes and attach them to EC2 instances. EBS volumes are independent of the EC2 instances
  they are attached to and can be detached and reattached to other instances.
  They are used for storing data that requires frequent and fast access, such as databases, file systems, and application data.
+ Our instance and EBS should be in the same availability zone to establish a conneection. 
 
-#Q. What is NFS in AWS?
+# Q. What is NFS in AWS?
 A. In AWS, NFS (Network File System) refers to a file system that allows multiple EC2 instances or other AWS services to share
  files over a network.
  Port number of NFS: 2049
  We use this service with EFS (Elastic File System) which is a scalable, fully managed NFS file system service provided by AWS.
  A big drawback of NFS is if our main server is down then no one can access the data and even we can lose our data.
 
-#Q. What is a VPC in and explain all components of a VPC? 
+# Q. What is a VPC in and explain all components of a VPC? 
 A. A Virtual Private Cloud (VPC) is like your own private space/network in the cloud where you can set up and manage your resources 
  (like servers, databases, etc.). It’s isolated from others, so you have full control over how things are connected and secured.
  Components of a VPC:
@@ -67,7 +81,7 @@ A. A Virtual Private Cloud (VPC) is like your own private space/network in the c
   (for example, to download updates or access external services), but it blocks anything from the internet from coming in.
   This keeps your private resources safe and secure while still allowing them to do what they need to do online.
 
-#Q. Difference between NACLs(Network Access Control Lists) and security groups?
+# Q. Difference between NACLs(Network Access Control Lists) and security groups?
 A.
  NACLs --> NACLs are like security guards at the entrance of a subnet. They check all the traffic going in and out of the subnet
  and decide whether to allow or block it based on rules you set. 
@@ -87,6 +101,23 @@ A.
                                                      |
  4. Less granular (applies to entire subnet).        |   More granular (applies to specific instances or resources).   
 
-#Q. When do we use lamda function and when do we use EC2 instance?
+# Q. What are Placement groups in AWS?
+A. Placement Groups in AWS are logical groupings of EC2 instances within a single Availability Zone.
+ They help control the placement of instances to optimize for low latency, high network throughput, or redundancy.
+ There are three types:
+  1. Cluster – Places instances close together for low latency.
 
-#Q. How does the loadbalancer check if the service is healthy?
+  2. Spread – Distributes instances across hardware to reduce the risk of failure.
+
+  3. Partition – Divides instances into partitions for large-scale, fault-tolerant applications.
+
+# Q. What is a NIC (Network Interface Card) in AWS?
+A. A Network Interface Card (NIC) in AWS is a virtual network card that you can attach to an EC2 instance.
+ It gives the instance a private IP address, and optionally, a public IP address or Elastic IP address. 
+ They are essential for enabling network communication for your instances in a VPC.
+ You can attach multiple NICs to an instance to enable it to connect to different subnets or networks.
+ Our instance and NIC should be in the same subnet to establish a conneection.
+
+# Q. When do we use lamda function and when do we use EC2 instance?
+
+# Q. How does the loadbalancer check if the service is healthy?
