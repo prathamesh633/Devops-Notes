@@ -44,7 +44,48 @@ A. In AWS, NFS (Network File System) refers to a file system that allows multipl
  A big drawback of NFS is if our main server is down then no one can access the data and even we can lose our data.
 
 #Q. What is a VPC in and explain all components of a VPC? 
+A. A Virtual Private Cloud (VPC) is like your own private space/network in the cloud where you can set up and manage your resources 
+ (like servers, databases, etc.). It’s isolated from others, so you have full control over how things are connected and secured.
+ Components of a VPC:
+ 1. Subnets
+  Think of subnets as smaller sections within your VPC, like rooms in a house. Each subnet has its own range of IP addresses.
+  Some subnets can be public (like a living room where guests can visit) and others can be private (like a bedroom where 
+  only you have access). Subnets help organize your resources and control who can talk to what.
 
+ 2. Internet Gateway (IGW)
+  An internet gateway is like the front door of your VPC that connects it to the internet. If you want your resources 
+  (like a website) to be accessible online, you attach an internet gateway to your VPC. It lets traffic flow in and out 
+  of your VPC securely. 
+
+ 3. Route Tables
+  Route tables are like road signs that tell traffic where to go. They contain rules (routes) that decide how data moves between 
+  subnets, the internet, or other networks. For example, if you want traffic from a subnet to go to the internet, you add a 
+  route pointing to the internet gateway. 
+ 
+ 4. NAT Gateway
+  A NAT Gateway is like a one-way door for your private resources (like EC2 instances) in a VPC. It lets them go out to the internet 
+  (for example, to download updates or access external services), but it blocks anything from the internet from coming in.
+  This keeps your private resources safe and secure while still allowing them to do what they need to do online.
+
+#Q. Difference between NACLs(Network Access Control Lists) and security groups?
+A.
+ NACLs --> NACLs are like security guards at the entrance of a subnet. They check all the traffic going in and out of the subnet
+ and decide whether to allow or block it based on rules you set. 
+
+ Security Groups --> Security groups are like personal bodyguards for your resources (like servers). They control who can talk
+ to the resource and what kind of traffic is allowed.
+
+                NACL                                 |           Security Group
+ 1. Operates at the subnet level                     |   Operates at the instance level 
+   (applies to all resources in a subnet).           |  (applies to individual resources like EC2 instances).  
+                                                     |
+ 2. Stateless: You must explicitly allow inbound     |   Stateful: If you allow inbound traffic, outbound 
+    and outbound traffic.                            |   traffic is automatically allowed, and vice versa.
+                                                     |
+ 3. Rules are evaluated in order (top to bottom)     |   Rules are evaluated as a whole (no order); all rules 
+    based on rule numbers.                           |   are considered equally.
+                                                     |
+ 4. Less granular (applies to entire subnet).        |   More granular (applies to specific instances or resources).   
 
 #Q. When do we use lamda function and when do we use EC2 instance?
 
