@@ -1,5 +1,13 @@
 # Github
-- 
+- Git is a distributed version control system used to track changes in source code during software development.
+
+# Git Commands
+1. git clone <repository-url> -->	Creates a local copy of a remote repository on your machine.
+2. git add <file>	--> Stages changes in a file, preparing it to be committed.
+3. git commit -m "message" -->	Saves the staged changes to the local repository with a descriptive message.
+ (we have to write a message to  commit changes)
+4. git push origin <branch> -->	Uploads local commits to the remote repository (e.g., GitHub).
+5. 
 
 # Github Webhooks
 - We can use webhooks to trigger jenkins pipeline i.e. when we make any commit in the git repo automatically the pipeline will be trigered.
