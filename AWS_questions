@@ -118,6 +118,26 @@ A. A Network Interface Card (NIC) in AWS is a virtual network card that you can 
  You can attach multiple NICs to an instance to enable it to connect to different subnets or networks.
  Our instance and NIC should be in the same subnet to establish a conneection.
 
-# Q. When do we use lamda function and when do we use EC2 instance?
+# Q. What is a LoadBalancer and its types?
+A. A Load Balancer in AWS is like a traffic cop for your applications. It distributes incoming traffic across multiple 
+ servers (like EC2 instances) to ensure no single server gets overwhelmed. This improves the availability, scalability,
+ and fault tolerance of your application.
+ Components of a Load Balancer:
+ 1. Listeners:
+ A listener checks for incoming traffic on a specific port (e.g., HTTP on port 80 or HTTPS on port 443) and forwards it
+  to the target groups.
+
+ 2. Target Groups:
+ A target group is a set of servers (like EC2 instances) that receive traffic from the load balancer. The load balancer 
+ routes traffic to healthy targets.
+
+ 3. Health Checks:
+ The load balancer regularly checks the health of the servers. If a server fails the health check, the load balancer stops 
+ sending traffic to it.
+ 
 
 # Q. How does the loadbalancer check if the service is healthy?
+
+# Q. When do we use lamda function and when do we use EC2 instance?
+
+
