@@ -1,0 +1,19 @@
+# Error Handling in shell script
+- In shell script error handling is done using 'if ; then' statements.
+- error handling syntax:
+  if condition; then
+    ...
+    ...
+  fi 
+- eg.
+  #!/bin/bash
+  create_dir() {
+    mkdir dir
+  } 
+  if ! create_dir; then
+   echo "the directory already exist"
+   exit 1 # matlab bahar ajao
+  fi
+  echo "directory created" 
+  -> In above code when we run the code first time it will create a directory 'dir' and print "directory created"
+  -> But when we run the code second time it will exit the code and print "the directory already exist".

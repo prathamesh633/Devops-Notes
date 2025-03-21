@@ -1,0 +1,6 @@
+# Arguments
+- We can pass arguments to the script while running the script.
+ eg. ./myscript.sh arg1 arg2 arg3
+- This helps us in things like when we want to run the same script with different inputs.
+- Like while creating multiple users we can pass the username as argument.
+- we mention the arguments in the script using $1, $2, $3 etc. where $1 is the first argument and so on.

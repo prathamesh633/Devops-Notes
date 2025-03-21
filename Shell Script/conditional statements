@@ -1,0 +1,29 @@
+# Conditional Statements
+- We can also use 'if' and 'elif' statements in shell script to give conditions.
+- 'if' condition syntax
+ if [[ condition ]];
+ then
+  ...
+  ...
+ elif [[ condition ]];
+ then
+  ...
+  ... 
+ else
+  ...
+  ...
+ fi
+
+- eg.
+ #!/bin/bash
+ echo -p "what is your name: " correctname
+ echo -p "are you a creator: " creator
+ if [[ $correctname = "master" ]];
+ then
+  echo "You are the correct master"
+ elif [[ $creator = "yes" ]];
+ then
+  echo "You are also the master" 
+ else
+  echo "You are a slave"
+ fi

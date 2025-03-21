@@ -1,0 +1,19 @@
+# Functions
+- when we want to use a block of code multiple times we use functions.
+- # Function syntax:
+  function_name(){
+   ...
+   ...
+  }
+- eg.
+  #!/bin/bash
+  function hello(){
+   echo "Hello"
+  }
+  hello --> This will print Hello
+- example of function with arguments:
+  #!/bin/bash
+  function hello(){
+   echo "Hello $1"
+  }
+  hello "John" --> This will print Hello John

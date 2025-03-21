@@ -1,0 +1,46 @@
+To undertand shell scripting we must know linux architecture.
+
+# linux architecture
+ to keep the linux architecture in mind we must ASK as:
+
+ A --> applications
+
+ S --> shell
+
+ K --> kernal
+ 
+ Hardware --> the hardware components
+
+ The kernal is written in C language. It is through kernal we can talk to the hardware,
+ Through shell we can talk to the kernal. It makes easier for us to talk to the hardware.
+
+# Little History
+ Linux was invinted by Linus Torvalds in 1991.  
+
+ Linus Torvals and Steve Bourne are the creaters of the sh shell.
+  /bin/sh --> this is the place where the sh shell is located in linux.
+
+  After improving sh shell more and more it became bash shell.
+  bash --> Bourne Again Shell
+  /bin/bash --> this is the place where the bash shell is located in linux.
+
+# Requirments for writing shell script:
+ Linux system
+ bash shell or which ever shell we are using
+ text editor
+
+- Shell script file ends with '.sh'. (eg. myscript.sh)
+- when we write a shell script we mention which shell we are writing our script in.
+  It is called 'shebang'.
+  eg. #!/bin/bash --> we are specifying bashshell.
+      hear "#" means that the this line should not be used in the script.
+- The shell script file that we wrote should have 'executable' permission.(we can do that using chmod command)
+- The file after giving the executable permission will appear green in colour.
+- We can run the file using './(file_name)' command and also use 'bash file_name' command to run the file.
+- '#' can be used to comment words or sentences in the script. Those words or sentences will not be executed.
+- We can use << any_word      any_word to write multi line comments.
+  eg. << comment 
+       Anything written
+       hear will not
+       be executed
+       comment

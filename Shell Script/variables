@@ -1,0 +1,25 @@
+#  Variables
+- We can assign values to variables using '=' operator inside a script.
+ (variable_name) = 'string/number/etc.'
+  eg. name="John" --> name is assigned a string called 'Jhon'
+- If we want to use the defined variable we use '$' operator before the variable name.
+  eg. echo "My name is $name"
+    output --> My name is John
+- We can also use commands as variable using '$(command)'.
+  eg. echo "My name is $name and the day and date is $(date)"
+- We can also take input variables from user using 'read' command.
+  read variable_name
+  eg. echo "Enter username:"
+     read username
+     echo "Hello $username"
+     This will stop after first line and take the input first and then prit the second line.
+- We can also give prompt along while talking the input using 'read -p' command.
+ eg. read -p "Enter username: " username
+     echo "Hello $username"
+
+The things we learned above can help us to create a new user while talking input from user.
+    #!/bin/bash
+    read -p "Enter the new user name: " username
+    sudo adduser -m $username
+    echo "added new user $username"
+we can check if the new user is created or not by looking at the bottom of /etc/passwd file.

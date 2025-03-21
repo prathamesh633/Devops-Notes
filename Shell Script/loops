@@ -1,0 +1,38 @@
+# Loops
+- If we want to repeat a task multiple times we use loops.
+- We can use 'for' and 'while' loops in shell script.
+- # For loop syntax:
+  for (( variable ; condition ; increment ))
+  do # matlab for loop karo
+   ...
+   ...
+  done 
+- eg. 
+  #!/bin/bash
+  for (( i=1 ; i<=5 ; i++ ))
+  do 
+   mkdir "demo$i" # This will create 5 directories named demo1, demo2, demo3, demo4, demo5
+  done 
+- For loop example using arguments:
+  file name --> example.sh
+  #!/bin/bash
+  for (( i=$2 ; i<=$3 ; i++ ))
+  do
+    mkdir "$1$i"
+  done
+  input --> ./example.sh dir 1 4
+  Above we gave the directory name and the starting and ending range of the no. of directories as arguments.
+- # While loop syntax:
+  while [[ condition ]]
+  do 
+   ...
+   ...
+  done
+- eg.
+  #!/bin/bash
+  i = 0
+  while [[ $i -le 5 ]]
+  do 
+   echo "$i"
+   i = $(( i + 1 ))
+  done
