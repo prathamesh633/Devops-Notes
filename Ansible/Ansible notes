@@ -1,0 +1,79 @@
+# ANSIBLE
+- Ansible Is a Automation Tool.
+- It is maintained by RedHat.
+- It is a Python based tool.
+- If we have multiple servers and we want to do same task in all the servers, we use ansible to do it.
+- We just have to configure a single system and the changes will be reflected in all the servers at the same time.
+- In Ansible we write the code in YAML.
+
+# Advantages:
+ 1. Simple and Easy to use.
+ 2. Fast and efficient.
+ 3. Scalable.
+ 4. Agentless Architecture.
+ 5. OpenSource (Free).
+
+# Components of Ansible
+ 1. Module:
+ - Smallest piece of code/configuration that is used to perform a task(installing, upgrading, creating a file, starting someting, etc).
+ - It can contain only a single task.
+
+ 2. Inventory: 
+ - Information about the servers that we want to make changes in are stored in inventory.
+ 
+ 3. Playbook: 
+ - It is a YAML file that contains the configuration for the servers to perform tasks.
+ - We can have multiple modules in a single playbook.
+
+# Ansible Installation
+ https://docs.ansible.com/ansible/latest/installation_guide/index.html --> Link to install Ansible
+ If it showa error.
+ Ansible may not be present on the Linux OS we are working on so do --> sudo dnf install epel-release -y
+ Then try using the ansible installation command again it should work.
+ After the installation of ansible run 'ansible localhost m ping' to check if it is working or not.
+
+ Ansible Configurations files 
+ - /etc/ansible/hosts - When we want to add other ips to the ansible we add them to '/etc/ansible/hosts'
+ - /etc/ansible/ansible.cfg
+
+# Ansible file example:
+file name --> example.yaml (file to test connectivity)
+- name: example
+  hosts: localhost
+  
+  tasks: 
+  - name: Test Connectivity
+    ping:
+  - name: Print word (This will pront Hello world)
+    debug: msg="Hello world"
+  - name: Install nginx
+    yum: 
+     name: nginx
+     state: present (gives us the status of the task)
+  - name: Start nginx
+    service: 
+     name: nginx 
+     state: started
+     enabeled: true (This ensures that it remains started event after restarting) 
+  - name: Copy files
+    copy: 
+      src: (location of the file)
+      dest: (destination of the file)  
+      owner: (the user we wnat to give the file to)
+      group: (the grp we want the file to be in)
+      mode: (permissions of the file)
+
+
+# ansible modules for performing tasks
+ ping: To check connectivity
+ debug: To print a message
+ yum: To install packages
+ service: To start/stop services
+ copy: To copy files
+ We can find more useful modules at --> https://docs.ansible.com/ansible/2.9/modules/list_of_all_modules.html
+
+
+# Ansible Commands
+ Command to run the playbook --> ansible-playbook File_path_of_the_playbook
+ To check the syntax of the playbook --> ansible-playbook --syntax-check File_path_of_the_playbook
+ To check if all the hosts are reachable --> ansible all -m ping
