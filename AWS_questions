@@ -13,6 +13,19 @@ A. The term "Cloud" in computing refers to a model of delivering computing servi
  Software as a Service (SaaS): Provides software applications over the internet, eliminating the need for local installation 
  and maintenance.
 
+# Q. What is virtulization?
+A. It is like a layer abover our OS that helps us to use other OS oer other computing resources on our system.
+- Like we can use Linux OS on our windows system using virtulization.
+- These OS that we run above the virtulization layer that work independently but share same hardware are called virtual machines (MV's).
+- In virtualization the hypervisor is the one that enables virtulization process.
+
+# Q. What is Hypervisor? mention its types.
+A. This is the software layer that works above the host OS and enables virtualization by managing VMs and allocating hardware resources.
+- The virtual machines that works on hypervisor shares resources from the host machine.
+- There are two types of hypervisors:
+  1. Type 1 (Bare-Metal): Runs directly on hardware (e.g., VMware ESXi, Microsoft Hyper-V).
+  2. Type 2 (Hosted): Runs on top of an OS (e.g., Oracle VirtualBox, VMware Workstation).
+
 # Q. What is AMI in AWS?
 A. An AMI is a template that contains the software configuration (operating system, application server, and applications)
  required to launch an instance (a virtual server) in the cloud.
