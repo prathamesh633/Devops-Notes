@@ -77,3 +77,4 @@ file name --> example.yaml (file to test connectivity)
  Command to run the playbook --> ansible-playbook File_path_of_the_playbook
  To check the syntax of the playbook --> ansible-playbook --syntax-check File_path_of_the_playbook
  To check if all the hosts are reachable --> ansible all -m ping
+

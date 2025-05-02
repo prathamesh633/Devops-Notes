@@ -65,8 +65,9 @@ Ans. we can use blue-green deploymnet.
 
 
 # Jenkins Shared Libraries
-- 
-- we can create a shared library in jenkins which can be used by all the pipelines.
+- In jenkins we have a concept call 'DRY' -- 'Donot Repeat Yourself', so when we have to repeat the same code multiple time we are doing 
+  something wrong. To avoid this we use shared libraries.
+- we create a shared library in jenkins which can be used by all the pipelines.
 - We create a repo in git and define functions according to our need and these functions then can be used in any pipeline created in jenkins.
 - The file in the repo should be name "file_name.groovy" to make it useful in jenkins.
 - Procedure to create a shared library in jenkins is as follows :
@@ -78,6 +79,32 @@ Ans. we can use blue-green deploymnet.
       In SCM -> Git
       Repository URL -> our repo url
       credential -> if repo is private add git cred. otherwise leave it blank
+
+# Prarllel
+- There is a concept called 'paralle' which helps us to perform 2 stages prallely.
+eg: stage('Exporting environment variables') {
+            parallel{
+                stage("Backend env setup"){
+                    steps {
+                        script{
+                            dir("Automations"){
+                                sh "bash updatebackendnew.sh"
+                            }
+                        }
+                    }
+                }
+                
+                stage("Frontend env setup"){
+                    steps {
+                        script{
+                            dir("Automations"){
+                                sh "bash updatefrontendnew.sh"
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 # IMP
 ** when we creat a new repo from where we are going to use .groovy files we have to first create a "vars/" folder and inside it we must make our .groovy files otherwise we will get errors.
