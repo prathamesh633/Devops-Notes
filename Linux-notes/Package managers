@@ -1,0 +1,35 @@
+- rpm -qa --> lists all the installed Red hat based packages.
+
+- dpkg -l --> lists all the installed debian based packages. 
+
+- wget --> Designed for downloading files (simple, recursive, and resumable).
+   eg: wget https://example.com/file.zip
+   - Supports protocols - HTTP, HTTPS, FTP.
+   - Saves directly to a file.
+   - Slower (single-threaded).
+
+- curl --> Designed for transferring data (supports multiple protocols, more flexible).
+   eg: curl -O https://example.com/file.zip
+   - Supports 20+ protocols (HTTP, HTTPS, FTP, SCP, SFTP, SMTP, etc.).
+   - Prints to stdout by default (use -O to save).
+   - Faster (supports parallel transfers).
+
+- apt --> The default package manager for Debian-based systems (Ubuntu, Linux Mint, etc.).
+          apt - Advanced Package Tool
+          eg: apt-get install package_name
+
+- yum --> The older package manager for RHEL-based systems (RHEL 7, CentOS 7).
+          yum - Yellowdog Updater, Modified
+          slower than 'dnf'.
+          eg: yum install package_name
+
+- dnf --> The newer, faster replacement for YUM (used in RHEL 8+, Fedora, CentOS Stream).
+          dnf -  Dandified YUM (Next-gen YUM)
+          faster than 'yum'.
+          eg: dnf install package_name
+
+
+
+
+
+

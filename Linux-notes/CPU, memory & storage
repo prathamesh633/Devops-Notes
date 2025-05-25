@@ -1,0 +1,20 @@
+1) lsblk --> used to list all the connected volumes to the server.
+
+2) free -h --> The free -h command in Linux is used to display the system's memory usage (RAM and swap) in a human-readable format.
+               Swap in Linux is a reserve space on your disk that acts as "overflow RAM" when your physical memory (RAM) is full.
+               When RAM runs out, inactive processes are moved to swap to free up RAM.
+               Prevents crashes but is much slower than RAM (since disks are slower than memory). 
+               Useful for systems with low RAM, but excessive swapping ("thrashing") can slow down your system.
+
+3) df -h --> The df command in Linux is used to check disk space usage on mounted filesystems.
+             Shows total, used, and available space on all disks/partitions.
+
+4) top --> The top command in Linux is used to display real-time system information.
+           It gives us list of all the process based on their CPU usage, memory usage, and other parameters.
+
+5) ps aux --> It is similar to top command but instead of showing the processed dynamically,
+              it just prints them on the command line.
+
+6) ps -ef --> also used to display information about a running process.
+              It does not show the processes CPu usage or memory usage.
+              It shows the process id, user id, PID, PPID and the command used to start the process.

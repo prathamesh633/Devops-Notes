@@ -1,0 +1,30 @@
+# Crontab
+- Crontab in Linux is a scheduler that lets you run commands or scripts automatically at set times.
+
+- The tasks that we schedule on crontab are called 'cronjobs'.
+
+- Crontab is timezone specific, so to run a cronjob in india we have to change the time to Asia/Kolkata
+  because the default timezone is UTC.
+  (After changing restart the crond.service to apply the changes)
+
+- To see if crontab is running we have to check the status of the 'crond.service'.
+   "systemctl status crond.service"
+
+- commands:
+  crontab -e : edit the crontab file to schedule new job.
+  crontab -l : we can see the crontab file in which we wrote the jobs using this command.
+  crontab -e -u username : set a cronjob for a user.
+
+- Inside the crontab file we schedule a job using the following format:
+  syntax of a cronjob in crontab:
+  * * * * *  command_to_be_executed
+  eg: 0 9 * * *  python /home/user/backup.py --> this will run the python script at 9:00 am every day.
+  their are 5 fields in the crontab file:
+  *        *        *        *        *        
+  |        |        |        |        |
+  |        |        |        |        |
+  |        |        |        |        |
+Minutes   Hour    Day of   Month    day of 
+(0-59)   (0-23)   Month    (1-12)    week
+                  (1-31)            (0-6)
+

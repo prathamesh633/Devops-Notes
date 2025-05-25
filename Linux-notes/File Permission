@@ -1,0 +1,50 @@
+# Types of files in Linux:
+1) Regular Files (-) --> Normal files like documents, images, scripts, etc.
+   eg: report.txt (text file), cat.jpg (image file), script.sh (executable script)
+
+2) Directories (d) --> Folders that organize other files/directories.
+   eg:/home/username (user’s home directory), /etc (system configuration files)
+
+3) Symbolic files (l)--> hortcuts pointing to another file/directory.
+   Types:
+   1. Softlink 
+   2. Hardlink
+
+4) Block files (b) --> Represent hardware devices (e.g., hard disks, USB drives).
+
+5) Character files (c) --> Represent hardware devices (e.g., keyboards, mice).
+
+6) Socket files (s) --> Enable network/process communication (like a phone line).
+   eg: /var/run/mysqld/mysqld.sock (MySQL server socket)
+
+7) Pipe/Named files (p) --> Allow communication between processes (temporary data flow).
+   eg: Process A writes to my_pipe, Process B reads from it.
+
+
+# A File have 3 permissions : Read, Write, Execute.
+  Read    - r - 4
+  write   - w - 2
+  execute - x - 1
+
+# A file have 3 types of owners : User, Group, Other
+  user  - u 
+  group - g
+  other - o
+
+- When we give a file full permission it means we are giving all 3 permissions to all 3 owners. So the permission value will be 777 (4+2+1).
+- We can also limit the permissions.
+  eg: we want 'owner' to have full perm., 'group' to have read only prem. and 'other' to have no perm.
+  so the permission value will be 740 (4+2+1(owner),4+0+0(group),0+0+0(other))
+
+# COMMANDS:
+- chmod --> change the permission of a file.
+   chmod 740 file_name
+
+- chown --> To change the ownership of a file/directory.
+    chown new_owner_name file_name 
+    chown new_owner:new_group file/dir --> changes owner and group at the same time.
+    '-R' flag can be used to change ownership of all the files in a directory.
+
+# MAXIMIM PERMISSIONS:
+A file can have a maximum permission of 666 but after applying umask it will be 644.
+A directory can have a maximum permission of 777 but after applying umask it will be 755.

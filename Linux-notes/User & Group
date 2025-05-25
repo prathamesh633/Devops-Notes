@@ -1,0 +1,43 @@
+# USERS and GROUPS
+
+- Users and Groups are used to control access to files and resources.
+- Every File in a system is owned by a user and associated with a group.
+- Every user in the system is assigned a unique user ID (UID).
+- USers name and UID are stored in the /etc/passwd file.
+- Groups are assigned a unique group ID (GID).
+- Groups name and GID are stored in the /etc/group file.
+
+Types of Users in Linux:
+
+  Type      Example       UID range      GID range       Home Dir        Shell
+
+  Root       Root            0              0              /             /bin/bash
+  user
+  
+  Regular    jay,sham    1000-60000     1000-60000        /home/         /bin/bash   
+  user       ,etc.                      
+
+  System    sshd,apache    1-999          1-999           /var/          /sbin/nologin
+  user      ,nginx,etc.
+
+
+Commands: 
+- adduser --> command is used to create a new user.  
+              we can use 'useradd' but it is a low level command and does not create
+              a home directory for the user. So, it is not recommended to use.
+
+- userdel -->command used to delete a user.
+
+- groupadd --> command used to create new group.
+
+- groupdel -->command used to delete a group.
+
+- usermod --> command used to modify a user.
+   usermod -aG group_name user_name --> added the user to a secondary group without removing existing group.
+   usermod -g group_name user_name --> Changes the primary group of the user. Unlike -aG, -g overrides the user's primary group.
+   usermod -L user_name --> To lock the user from login.
+   usermod -U user_name --> To unlock the user from login.
+
+- gpasswd --> used to add or remove users from a group.
+   gpasswd -d user_name group_name --> to remove a user from a group.(only removes secondary groups)
+
