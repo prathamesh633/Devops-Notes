@@ -1,0 +1,14 @@
+# Q. How to solve git merge conflicts?
+A. When we are merging two branches, we might encounter conflicts. It can happen when both branches have made changes to the same file. To resolve the conflict, we can use the following steps:
+- Run git status to see which files have conflicts.
+- Open the file that we can see are having conflicts.
+- Look for the conflict markers 
+<<<<
+(This part will have the changes we made)
+=====
+(This part will have the changes the other branch made and is causing conflict)
+>>>>
+- After resolving the changes we add the files to the staging area using 'git add file_name'.
+- Check the status of the repository using 'git status' to see if the conflicts are resolved or are there any other conflicts.
+- Finally, we commit the changes using 'git commit -m "resolved conflicts"'.
+

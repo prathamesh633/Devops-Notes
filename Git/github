@@ -3,10 +3,14 @@
 
 # Git Commands
 1. git clone <repository-url> -->	Creates a local copy of a remote repository on your machine.
+
 2. git add <file>	--> Stages changes in a file, preparing it to be committed.
+
 3. git commit -m "message" -->	Saves the staged changes to the local repository with a descriptive message.
  (we have to write a message to  commit changes)
+
 4. git push origin <branch> -->	Uploads local commits to the remote repository (e.g., GitHub).
+
 5. 
 
 # Github Webhooks

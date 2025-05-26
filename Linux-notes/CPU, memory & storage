@@ -1,4 +1,5 @@
 1) lsblk --> used to list all the connected volumes to the server.
+   lsblk -fs --> used to list all the connected volumes to the server with their file system details.
 
 2) free -h --> The free -h command in Linux is used to display the system's memory usage (RAM and swap) in a human-readable format.
                Swap in Linux is a reserve space on your disk that acts as "overflow RAM" when your physical memory (RAM) is full.

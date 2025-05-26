@@ -1,0 +1,48 @@
+# Types of Instances
+1. General Purpose Instances
+   Best for: Balanced compute, memory, and networking.
+   Use Cases: Web servers, small databases, development environments.
+   Examples:
+    t4g, t3 (Burstable Performance) – Low-cost, burstable CPU (good for variable workloads).
+    m6i, m7g (Standard General Purpose) – Balanced resources for most applications.
+
+2. Compute Optimized Instances
+   Best for: High-performance computing (HPC), batch processing, gaming servers.
+   Use Cases: CPU-intensive tasks like machine learning, video encoding.
+   Examples:
+    c7g (Graviton3), c6i (Intel) – High CPU power with cost efficiency.
+
+3. Memory Optimized Instances
+   Best for: Memory-intensive workloads (databases, caching).
+   Use Cases: In-memory databases (Redis, SAP HANA), real-time analytics.
+   Examples:
+    r7g (Graviton3), r6i (Intel) – High RAM-to-CPU ratio.
+    x2gd (Graviton2) – Extra-large memory for big data.
+
+4. Storage Optimized Instances
+   Best for: High-speed, low-latency storage.
+   Use Cases: NoSQL databases (Cassandra), data warehousing, log processing.
+   Examples:
+    i4i (Intel) – Fast NVMe SSD storage.
+    d3en (Dense HDD Storage) – High-capacity HDDs for large datasets.
+
+5. Accelerated Computing (GPU/FPGA Instances)
+   Best for: Parallel processing, AI/ML, graphics rendering.
+   Use Cases: Deep learning (TensorFlow), 3D rendering, scientific simulations.
+   Examples:
+    p5 (NVIDIA H100) – High-performance GPU for AI.
+    g5 (NVIDIA A10G) – Cost-effective GPU for ML inference.
+    f1 (FPGA) – Custom hardware acceleration.
+
+6. HPC Optimized Instances
+   Best for: High-performance computing clusters.
+   Use Cases: Weather modeling, financial simulations.
+   Examples:
+    hpc7g (Graviton3) – High throughput, low latency.
+
+7. Bare Metal Instances
+   Best for: Non-virtualized workloads (licensing-sensitive apps).
+   Use Cases: Legacy apps requiring direct hardware access.
+   Examples:
+    m6i.metal, r6i.metal – Full server control.
+

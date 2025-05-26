@@ -1,0 +1,48 @@
+# OSI Model (Open Systems Interconnection)
+- The OSI  Model is a set of rules that explains how different computer systems communicate over a network.
+- OSI Model was developed by the International Organization for Standardization (ISO).
+- The OSI Model consists of 7 layers and each layer has specific functions and responsibilitie.
+- The 7 layers are read form 7 to 1.
+
+# Layers:
+7) Application Layer:
+- The Application Layer is the top layer of the OSI Model (Layer 7) and is the one closest to the end user.
+- It allows applications (like web browsers, email clients, or messaging apps) to communicate over a network.
+- Provides protocols that apps use to send and receive data (e.g., HTTP for web browsing, SMTP for emails, FTP for file transfers).
+- Ensures data is in a format that applications and users can understand.
+
+6) Presentation Layer:
+- This layer Encrypts, encodes and compresses the usable data.
+- The presentation layer is also called the Translation layer.
+- Protocols used in the Presentation Layer are TLS/SSL (Transport Layer Security / Secure Sockets Layer).
+- JPEG, MPEG, GIF, are standards or formats used for encoding data, which is part of the presentation layer’s role.
+
+5) Session Layer:
+- Session Layer in the OSI Model is responsible for the establishment of connections, management of connections,
+  terminations of sessions between two devices.
+- It provides authentication and security to the connection.
+- Protocols used in the Session Layer are NetBIOS, PPTP.
+
+4) Transport Layer:
+- It is responsible for the end-to-end delivery of the complete message.
+- The transport layer provides services to the application layer and takes services from the network layer.
+- The data in the transport layer is referred to as Segments.
+- The transport layer also provides the acknowledgment of the successful data transmission and re-transmits the data if an error is found.
+- Protocols used in Transport Layer are TCP, UDP NetBIOS, PPTP. 
+
+3) Network Layer:
+- The network layer works for the transmission of data from one host to the other located in different networks.
+- It also takes care of packet routing i.e. selection of the shortest path to transmit the packet, from the number of routes available.
+-  The network layer protocols determine which route is suitable from source to destination.
+
+2) DataLink Layer:
+- The data link layer is responsible for the node-to-node delivery of the message.
+- The main function of this layer is to make sure data transfer is error-free from one node to another, over the physical layer. 
+
+1) Physical Layer:
+- The lowest layer of the OSI reference model is the Physical Layer.
+- It is responsible for the actual physical connection between the devices.
+- The physical layer contains information in the form of bits.
+- Physical Layer is responsible for transmitting individual bits from one node to the next.
+
+

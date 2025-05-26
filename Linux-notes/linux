@@ -49,26 +49,6 @@ compression commands
  rsync --> It is used to sync the changes between the directories that we copied using 'scp'.
  syntax: rsync -avz -e ssh source destination
 
-- Networking Commands
- 1) ping --> used to check if the server is up or not.It sends a packet to the server and waits for the response. eg. ping prathameshdevops.tech
- 2) ifconfig --> Shows all the network interfaces of the server.
- 3) traceroute --> used to see the path of the packet from source to destination.
- If we want to know how may places our ip hopped from the start to the destination to get data we use teaceroute.
- 4) mtr (my trace route)--> give the ip and also the path of the server we ping.
- 5) nslookup --> used to find if the mentioned domain is active or not.
-
- 6) telnet --> used to check the connection of our domain with the mentioned port. eg. telnet prathameshdevops.tech 80
- 7) ip addr show --> shows all the ip address that are present in the server.
- 8) iwconfig --> shows all the wireless network interfaces of the server. 
- 9) ss --> works similar to netstat.
- 10) dig (Domain Information Groper) -->  It retrieves information about DNS name servers. Network administrators use it to verify and troubleshoot DNS problems and perform DNS lookups.
- 11) whois -->The data received by Whois consists of the name and contact information of the domain or IP address owner, the registration and expiration date, the domain registrar, and the server information. 
- 12) arp (address resolution protocol) --> used to see the mac address of the server.
- 13) ifplugstatus --> used to check the status of the network interface. It tells us if they are working or not.
- 14) curl and wget --> used to download the files from browser using links.
- 15) watch --> used to watch the output of any command in real time. eg: watch mtr prathameshdevops.tech - will watch routes of the domain every 2sec.
- 16) nmap --> used to scan the newtwork of the mentioned server or domain. eg: nmap -v prathameshdevops.tech
-
 awk and sed --> These commands are used to get the desired data from a large pool of data.
  we can get desired columns, lines and words from the data using these commands.
  'awk' commands works mainly on getting the desired data from the file.
@@ -93,6 +73,8 @@ awk and sed --> These commands are used to get the desired data from a large poo
 - rpm -qa --> lists all the installed Red hat based packages.
 - dpkg -l --> lists all the installed debian based packages.              
 - timedatectl set-timezone Asia/Kolkata --> used to set the timezone of the server to Asia/Kolkata.
+- watch --> used to watch the output of any command in real time.
+  eg: watch mtr prathameshdevops.tech - will watch routes of the domain every 2sec.
 - which command_name --> used to find the path of the command.
 
 imp point
