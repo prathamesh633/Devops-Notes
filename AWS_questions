@@ -35,8 +35,6 @@ A. An AMI is a template that contains the software configuration (operating syst
 A. In AWS, user data is a feature that allows you to pass custom scripts or configuration instructions to an EC2 
  instance during its launch. These scripts are executed automatically when the instance starts for the first time. 
 
-
-
 # Q. what is tenancy in AWS?
 A. In AWS, tenancy refers to the arrangement and isolation of resources, particularly virtual machines
  (EC2 instances), within the AWS infrastructure. It determines whether the infrastructure hosting your 
@@ -69,6 +67,19 @@ A. In AWS, NFS (Network File System) refers to a file system that allows multipl
  Port number of NFS: 2049
  We use this service with EFS (Elastic File System) which is a scalable, fully managed NFS file system service provided by AWS.
  A big drawback of NFS is if our main server is down then no one can access the data and even we can lose our data.
+
+# Q. Difference between EBS and EFS
+A.       EBS(Elastic Block Storage)                  |           NFS(Network File Storage)
+ 1. Attached to a single EC2 instance                |   Shared across multiple instances 
+   (not natively shared across multiple instances).  |  (via Amazon EFS or self-managed NFS servers).  
+                                                     |
+ 2. Low latency (directly attached to EC2)           |    Higher latency (network-based access). 
+                                                     |
+ 3. Fixed size(manually scaled, requires resizing).  |   Elastic scaling (automatically grows with data).
+                                                     |
+ 4. Available in single Availability-Zone.           |   Available in Multiple Availability-Zones by default.  
+                                                     |  
+ 5. Use Case - Databases, Boot Volumes               |   Use Case - Shared Apps, Web Servers
 
 # Q. What is a VPC in and explain all components of a VPC? 
 A. A Virtual Private Cloud (VPC) is like your own private space/network in the cloud where you can set up and manage your resources 
