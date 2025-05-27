@@ -1,4 +1,4 @@
-# EBS
+# Elastic Block Storage (EBS) ----->
 
 
 
@@ -22,3 +22,17 @@ Above method will mount the partition temperorly . If you want to mount the part
          UUID=fe7b763d-58b4-4450-872f-e70c91f94e82 /mnt/xvdbc1 ext4 defaults 0 0 
 - After editing the file, we use 'sudo mount -a' command to mount all the mentioned partition permanently.
 - To unmount all the mentioned partition, we use 'sudo umount -a' command.
+
+
+# Network File System (NFS) ----->
+
+
+- Create EFS and ensure that the security group has the necessary inbound rules to allow NFS traffic(port 2049).\
+- Also add the port 2049 in the instance security group.
+- Then go to the EFS we created and inside it click attach and add the EFS to the instance using the provided command.
+  We can mount vai DNS OR IP address.
+- The above command will temperoryaly mount the EFS to the mentioned directory.
+- To mount the EFS permanently, we need to edit the /etc/fstab file.
+- Go in the /etc/fstab file and add the following line to the end of the file:
+  if mounted vai DNS -- fs-098c5dd**********.efs.ap-south-1.amazonaws.com: /mnt/demo_dir nfs defaults 0 0
+  if mounted vai IP address -- 192.168.1.1 /mnt/demo_dir nfs defaults 0 0
