@@ -55,7 +55,7 @@ How It Works ---->
 2) SYN-ACK (Synchronize-Acknowledge) → "Sure, let’s talk!"
    The server responds with SYN-ACK, saying, "I got your request, and I’m ready."
 3) ACK (Acknowledge) → "Great, let’s begin!"
-  The client sends a final ACK to confirm, and the connection is established.
+   The client sends a final ACK to confirm, and the connection is established.
 
 # TCP (Transmission Control Protocol)
 - connection-oriented protocol that ensures reliable, ordered, and error-checked data delivery.
@@ -71,13 +71,9 @@ How It Works ---->
 - Use Cases	-- Gaming, streaming, live broadcasts
 
 
-Feature	     |                TCP	                |              UDP
-Connection	 |    Connection-oriented (handshake)	|   Connectionless (no handshake)
-             |                                      | 
-Reliability	 |    Guaranteed delivery	            |   Best-effort (no retransmission)
-             |                                      |
-Ordering	 |    In-order delivery	                |   No sequencing
-             |                                      |
-Speed	     |    Slower (overhead)	                |   Faster (minimal overhead)
-             |                                      |
-Use Cases	 |    Web, databases, file transfers	|   Gaming, streaming, live broadcasts
+  Feature     |                TCP	                |              UDP
+Connection    |    Connection-oriented (handshake)	|   Connectionless (no handshake)          |                                      | 
+Reliability   |    Guaranteed delivery	            |   Best-effort (no retransmission)
+Ordering      |    In-order delivery	            |   No sequencing
+Speed         |    Slower (overhead)	            |   Faster (minimal overhead)
+Use Cases     |    Web, databases, file transfers	|   Gaming, streaming, live broadcasts
