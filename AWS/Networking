@@ -46,3 +46,38 @@
 - Physical Layer is responsible for transmitting individual bits from one node to the next.
 
 
+
+# Three-Way Handshake
+The three-way handshake is how two computers (like your laptop and a web server) establish a stable and reliable connection before sending data. It’s like a polite conversation before starting an important discussion.
+How It Works ---->
+1) SYN (Synchronize) → "Hey, can we talk?"
+   The client (your computer) sends a SYN packet to the server to start the connection.
+2) SYN-ACK (Synchronize-Acknowledge) → "Sure, let’s talk!"
+   The server responds with SYN-ACK, saying, "I got your request, and I’m ready."
+3) ACK (Acknowledge) → "Great, let’s begin!"
+  The client sends a final ACK to confirm, and the connection is established.
+
+# TCP (Transmission Control Protocol)
+- connection-oriented protocol that ensures reliable, ordered, and error-checked data delivery.
+- Retransmits lost packets.
+- Data arrives in the correct sequence.
+- Uses a three-way handshake (SYN, SYN-ACK, ACK).
+- Use Cases	-- Web, databases, file transfers
+
+# UDP (User Datagram Protocol)
+- A connectionless protocol that prioritizes speed over reliability (no retransmissions).
+- No handshake, no retransmissions.
+- Unreliable: Packets may be lost or arrive out of order.
+- Use Cases	-- Gaming, streaming, live broadcasts
+
+
+Feature	     |                TCP	                |              UDP
+Connection	 |    Connection-oriented (handshake)	|   Connectionless (no handshake)
+             |                                      | 
+Reliability	 |    Guaranteed delivery	            |   Best-effort (no retransmission)
+             |                                      |
+Ordering	 |    In-order delivery	                |   No sequencing
+             |                                      |
+Speed	     |    Slower (overhead)	                |   Faster (minimal overhead)
+             |                                      |
+Use Cases	 |    Web, databases, file transfers	|   Gaming, streaming, live broadcasts

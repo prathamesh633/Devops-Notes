@@ -1,7 +1,13 @@
 # Elastic Block Storage (EBS) ----->
+-  A high-performance block storage service for EC2 instances (like a virtual hard disk).
+- Use Cases:
+  Boot volumes for EC2 instances.
+  Databases (e.g., MySQL, PostgreSQL) needing low-latency storage.
+  Applications requiring frequent read/write operations.
+- Attached to a single EC2 instance (not natively shared).
+- We have to manually resize volumes.
 
-
-
+Step to connect the EBS ------->
 - We use 'fdisk /dev/disk_name' to create a new partition on the EBS volume.
 - we can see the created partation using 'lsblk' command.
 - After creating the partition, we use 'mkfs.ext4 /dev/disk_name1' to asign a file system to the partition.
@@ -25,8 +31,12 @@ Above method will mount the partition temperorly . If you want to mount the part
 
 
 # Network File System (NFS) ----->
+- A file-sharing protocol (not a direct AWS service) used by services like Amazon EFS and FSx.
+- Use Case: Shared storage for multiple EC2 instances (e.g., web servers, CI/CD workloads).
+- Multi-instance access (many servers can read/write simultaneously).
+- It is fully managed by AWS. 
 
-
+Steps to connect the NFS ------>
 - Create EFS and ensure that the security group has the necessary inbound rules to allow NFS traffic(port 2049).\
 - Also add the port 2049 in the instance security group.
 - Then go to the EFS we created and inside it click attach and add the EFS to the instance using the provided command.
