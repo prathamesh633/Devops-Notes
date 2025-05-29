@@ -73,7 +73,7 @@ How It Works ---->
 
 Feature      |                TCP	                |              UDP
 Connection   |    Connection-oriented (handshake)	|   Connectionless (no handshake)
-Reliability  |    Guaranteed delivery	            |   Best-effort (no retransmission)
+Reliability  |    Guaranteed delivery               |   Best-effort (no retransmission)
 Ordering     |    In-order delivery	                |   No sequencing
 Speed        |    Slower (overhead)	                |   Faster (minimal overhead)
 Use Cases    |    Web, databases, file transfers	|   Gaming, streaming, live broadcasts
