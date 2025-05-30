@@ -30,3 +30,19 @@
 - Deployed in a public subnet (since it needs an IGW to reach the internet).
 - Uses Elastic IPs for a static public IP.
 - Example: A database in a private subnet uses a NAT Gateway to download security patches.
+
+# VPC Peering
+- VPC Peering is like building a private, direct tunnel between two VPCs (Virtual Private Clouds) in AWS,
+  allowing them to communicate securely without using the public internet.
+- A network connection between two VPCs (even across different AWS accounts or regions).
+- Uses AWS’s internal network (faster & more secure than internet-based connections).
+ 1) Key Requirements ---------->
+    - Non-Overlapping CIDR Blocks – The two VPCs must not have the same IP range 
+    eg: 10.0.0.0/16 and 10.1.0.0/16 are fine, but not two 10.0.0.0/16.
+    - No Transitive Peering – If VPC-A is peered with VPC-B, and VPC-B is peered with VPC-C, VPC-A cannot talk to VPC-C
+    (must create a direct peering).
+    - Route Table Updates – Both VPCs must add routes to each other’s CIDR block.
+ 2) Step-by-Step Flow --------->
+    - Request Peering Connection (One VPC sends a request, the other accepts).
+    - Update Route Tables (Both VPCs add a route pointing to the peering connection).
+    - Optional: Update Security Groups/NACLs (Allow traffic between the peered VPCs).

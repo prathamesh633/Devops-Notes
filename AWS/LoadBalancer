@@ -1,0 +1,52 @@
+# Load Balancer
+- A Load Balancer (LB) is service that distributes incoming requests across multiple servers
+  (e.g., EC2 instances) to ensure no single server gets overwhelmed.
+- Advantages ----->
+  Fault Tolerance – If one server fails, traffic shifts to healthy ones.
+  Scalability – Handles increased traffic by adding more backend servers.
+  Performance – Reduces latency by routing requests to the nearest/closest server.
+  Security – Can integrate with WAF (Web Application Firewall) and SSL termination.
+
+# Types of Load Balancers ------------------>
+1) Application Load Balancer (ALB) 
+- Works On Application Layer (Layer 7) (HTTP/HTTPS)
+- Best for: Web applications (microservices, containers, serverless).
+- Routes traffic based on URL path (/api, /images) or hostname (blog.example.com).
+- Use Case:
+  A blog site routing /posts to one server group and /images to another.
+
+2) Network Load Balancer (NLB) 
+- Works On Transport Layer (Layer 4) (TCP/UDP)
+- Best for: High-performance, low-latency apps (gaming, real-time streaming).
+- Key Features:
+  Handles millions of requests per second with ultra-low latency.
+  Supports static IP & Elastic IP.
+  Used for non-HTTP traffic (e.g., databases, gaming servers).
+- Use Case:
+  A multiplayer game server needing fast, reliable connections.
+
+3) Gateway Load Balancer (GWLB) 
+- Works On Network Layer (Layer 3) (IP)
+- Best for: Deploying third-party virtual appliances (firewalls, intrusion detection).
+- Use Case:
+  A company inspecting all traffic via a firewall VM before sending it to servers.
+
+4) Classic Load Balancer (CLB) 
+- the Classic Load Balancer (CLB) operates primarily at Layer 4 (Transport Layer) of the OSI model.
+  It uses protocols like TCP and SSL to route traffic. 
+  However, it also has some functionality at Layer 7 (Application Layer), as it can handle HTTP and HTTPS traffic,
+  allowing for basic routing decisions based on application-level data.
+- It is Old Generation and is Not recommended for new use cases.
+
+# Target Group
+- A Target Group is the list of servers (targets) that will receive traffic from the Load Balancer.
+- A logical grouping of EC2 instances, IP addresses, Lambda functions, or containers that receive traffic from a Load Balancer.
+- Health checks are performed at the Target Group level to determine which targets are available.
+  Health Check --->
+  -  A periodic test that verifies whether backend targets (like EC2 instances) can properly receive and respond to requests.
+  How Health Checks Work (Step-by-Step)
+  - LB: "Are you alive?" (Sends request)
+  - Target: "200 OK" (Healthy) or timeout/crash (Unhealthy)
+  Automatic Response
+  If healthy → stays in rotation
+  If unhealthy → stops receiving traffic until it recovers
