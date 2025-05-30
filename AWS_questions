@@ -115,7 +115,7 @@ A.
 
                 NACL                                 |           Security Group
  1. Operates at the subnet level                     |   Operates at the instance level 
-   (applies to all resources in a subnet).           |  (applies to individual resources like EC2 instances).  
+   (applies to all resources in a subnet).           |   (applies to individual resources like EC2 instances).  
                                                      |
  2. Stateless: You must explicitly allow inbound     |   Stateful: If you allow inbound traffic, outbound 
     and outbound traffic.                            |   traffic is automatically allowed, and vice versa.
@@ -123,7 +123,7 @@ A.
  3. Rules are evaluated in order (top to bottom)     |   Rules are evaluated as a whole (no order); all rules 
     based on rule numbers.                           |   are considered equally.
                                                      |
- 4. Less granular (applies to entire subnet).        |   More granular (applies to specific instances or resources).   
+ 4. It both 'allows'and 'deny' permission.           |   It only 'allows' permission.
 
 # Q. What are Placement groups in AWS?
 A. Placement Groups in AWS are logical groupings of EC2 instances within a single Availability Zone.
