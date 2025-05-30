@@ -1,0 +1,32 @@
+# Virtual Private Network (VPC)
+- VPC is a fundamental networking service that allows you to create an isolated section of the AWS Cloud
+  where you can launch resources in a logically defined virtual network.
+- We define its IP address range (CIDR block) (e.g., 10.0.0.0/16).
+- It spans an AWS Region but can be divided into multiple Availability Zones (AZs) for high availability.
+
+# Internet GateWay (IGW)
+- A scalable, highly available AWS-managed service attached to a VPC.
+- Allows two-way internet communication:
+  Outbound: EC2 instances in a public subnet can reach the internet.
+  Inbound: Internet users can access a public EC2 instance (e.g., a website).
+- Only works with public subnets (private subnets use NAT Gateway instead).
+
+# Subnets
+- A subnet is a smaller division of a VPC’s IP range (CIDR block).
+- Each subnet must belong to one Availability Zone (AZ) for fault tolerance.
+- Types of Subnets:
+ 1) Public Subnet: Has a route to the internet (via an Internet Gateway).
+    Example: Web servers, Load Balancers.
+ 2) Private Subnet: No direct internet access; used for backend services (e.g., databases).
+    Example: Databases, Internal APIs.
+
+# Route Table
+- A set of rules (routes) that determine where network traffic is directed.
+- Each subnet must be associated with a route table (default or custom).
+- Key Routes - Internet-bound traffic (0.0.0.0/0 → goes to IGW or NAT Gateway).
+
+# Nat Gateway (NGW)
+- Allows private subnets to access the internet (for updates, patches, etc.) without exposing them to inbound traffic.
+- Deployed in a public subnet (since it needs an IGW to reach the internet).
+- Uses Elastic IPs for a static public IP.
+- Example: A database in a private subnet uses a NAT Gateway to download security patches.

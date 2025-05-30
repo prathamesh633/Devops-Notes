@@ -76,6 +76,8 @@ awk and sed --> These commands are used to get the desired data from a large poo
 - watch --> used to watch the output of any command in real time.
   eg: watch mtr prathameshdevops.tech - will watch routes of the domain every 2sec.
 - which command_name --> used to find the path of the command.
+- scp -i key_name file_name username@ip_address:path_of_where_to_copy --> used to copy files from local to server.
+  eg: scp -i "demo-key.pem" file.txt ec2-user@15.0.0.2:/home/ec2-user
 
 imp point
 difference between windows and linux
