@@ -1,0 +1,57 @@
+# CloudWatch
+- A monitoring and observability service that collects:
+  Metrics (numbers like CPU usage)
+  Logs (text data from apps)
+  Events (system changes)
+  Alarms (notifications when things go wrong)
+
+# Components of CloudWatch
+1) CloudWatch Metrics
+- Numeric data about AWS services (updated every minute)
+- Examples:
+ EC2 CPU utilization
+ Lambda invocation counts
+ RDS database connections
+
+2) CloudWatch Logs
+- Stores and analyzes log files
+- Key Capabilities:
+ Log Groups (containers for logs)
+ Log Streams (individual log sources)
+ Log Insights (SQL-like querying)
+- Example Use: Debugging Lambda function errors
+
+3) CloudWatch Alarms
+- Automated notifications based on metrics
+- Alert Types:
+ Threshold-based (CPU > 90%)
+ Anomaly detection (AI-powered)
+- Actions:
+ SNS notifications
+ Auto Scaling triggers
+ EC2 stop/start
+
+4) CloudWatch Events (EventBridge)
+- CloudWatch events help you to create a set of rules that match with any event(i.e. stopping of EC2 instance).
+- CloudWatch Events observes the operational events continuously and whenever there is any change in the state
+  of the event, it performs the action by sending notifications, activating lambda, etc.
+- An event indicates a change in the AWS environment. Whenever there is a change in the state of AWS 
+  resources, events are generated.
+
+5) CloudWatch Agent 
+- It is required to be installed.
+- It is used to collect metrics and logs from EC2 instances and on-premises servers.
+- Steps to install the agent for ubuntu:
+  1. wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+  2. sudo dpkg -i -E ./amazon-cloudwatch-agent.deb
+  OR
+  1. wget https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip
+  2. unzip AmazonCloudWatchAgent.zip
+  3. sudo ./install.sh
+  Then Enable and Start the agent using 'sudo systemctl enable --now amazon-cloudwatch-agent'  
+  
+
+6) CloudWatch dashboard
+- A user-friendly CloudWatch console is available which is used for monitoring resources in a single view.
+- There is no limit on the number of CloudWatch dashboards you can create.
+- These dashboards are global and not region-specific.
