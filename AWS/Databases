@@ -1,0 +1,22 @@
+# Database
+- a database is a fully managed or self-managed data storage service that allows you to store, retrieve,
+  and manage structured or unstructured data in the cloud.
+-  AWS offers a variety of database services optimized for different use cases, including relational,
+   NoSQL, in-memory, graph, and time-series databases.
+
+1) Relational Databases (RDS, Aurora)
+- 
+
+
+
+
+# RDS Backup
+- Manuel method
+  1. Go to the RDS dashboard
+  2. Select the instance
+  3. Click on the "Actions" dropdown menu
+  4. Select "Create snapshot"
+- Automated method
+  We can do this while creating the RDS in 'Advanced Configuration' section.
+  OR
+  We can do it in the AWS backup
