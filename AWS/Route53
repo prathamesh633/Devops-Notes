@@ -1,0 +1,15 @@
+# Route53
+- Amazon Route53 is a scalable and highly available Domain Name System (DNS) web service.
+- It helps route end users to internet applications by translating domain names (like example.com) into IP addresses.
+- Health Checks → Monitors endpoints (HTTP, TCP, HTTPS) & reroutes if unhealthy.
+- Private DNS → Resolves internal AWS resources (e.g., EC2, RDS) within a VPC.
+- Traffic Routing Policies (Decides how requests are directed) ------------------------>
+  1. Simple Routing → Basic round-robin (no health checks).
+  
+  2. Weighted Routing → Distributes traffic based on assigned weights (e.g., 70% to US, 30% to EU).
+  
+  3. Latency-Based Routing → Sends users to the fastest region.
+  
+  4. Failover Routing → Active-Passive setup (if primary fails, backup takes over).
+  
+  5. Geolocation Routing → Routes based on user’s country.

@@ -4,10 +4,25 @@
 -  AWS offers a variety of database services optimized for different use cases, including relational,
    NoSQL, in-memory, graph, and time-series databases.
 
-1) Relational Databases (RDS, Aurora)
-- 
+1) Relational Databases (MySQL)
+- A relational database organizes data into tables with rows and columns, where relationships between tables
+  are defined using foreign keys.
+- It follows ACID properties (Atomicity, Consistency, Isolation, Durability) and uses SQL (Structured Query Language) for querying.
+- Relational database is a STRUCTURED database.
+- AWS services - RDS (Relational Database Service), Aurora.
+- Real world example -- A pizza shop database, When a customer calls to order, their details are stored in the customers table,
+   their order is saved in the orders table and the ingridents of the pizza are stored in the ingredients table.
 
-
+2. NoSQL Databases (Not Only SQL)
+- NoSQL (Not Only SQL) databases store data in flexible, schema-less formats (JSON, key-value, documents, graphs).
+- NoSQL is a UNSTRUCTURED database.
+- They prioritize scalability and performance over strict consistency.
+- AWS services - DynamoDB, DocumentDB.
+- Real world example - Imagine a Twitter-like app where: Users post tweets (with hashtags, likes, comments),
+  Each user has a profile (with changing data like bio, followers), Data grows rapidly (millions of posts per day).
+  When a user posts a tweet, it’s added to their document (no fixed schema).
+ The app can quickly fetch: A user’s profile + all their tweets in one query. Trending hashtags by scanning tweets.
+ Scales easily—no need to split data across tables.
 
 
 # RDS Backup
@@ -19,4 +34,4 @@
 - Automated method
   We can do this while creating the RDS in 'Advanced Configuration' section.
   OR
-  We can do it in the AWS backup
+  We can do it in the AWS backup and create 'Ptotected resources' of RDS and to automate it we can use 'Backup plans'.
