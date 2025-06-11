@@ -1,0 +1,16 @@
+# OBSERVABILITY.
+Under it  comes different fileds.
+1. Monitoring :
+   What is happening in application.
+   to see the applications CPU, memory , disk usage etc.
+   To see different metrics.
+2. Logging :
+   To check the logs of the application.
+   Like of we are facing errors we can store the logs of those errors.
+3. Tracing :
+   After encountering errors in logs, how we get to the errors is done in tracing.
+   How to resolve the errors is done in tracing.
+4. Alerting :
+   When we encounter spike in the CPU or memory usage which is more than we thought we can set alerts for that.
+5. Visualization :
+   We create dashboards to see all the fileds we want in one place.
