@@ -1,2 +1,3 @@
 # Helm
 - It is a kubernetes package manager that allows you to easily install and manage applications on a kubernetes cluster.
+- for Kubernetes specific application installation and management.

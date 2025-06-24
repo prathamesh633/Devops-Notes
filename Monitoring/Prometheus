@@ -1,5 +1,13 @@
 # Prometheus
 - For The monotring, logging and tracing in our application we use Prometheus.
 - Prometheus is a Time Series Database that collects metrics from applications and services at configured intervals.
+   eg: it tells us what will be the data afte 5min, 10min, 15min,etc.
 - To create prometheus we require to create few manifest files in kubernetes. 
 - By Storing all the manifest files in the same folder it gets easier for use to manages them.
+
+- There is a tool in Prometheus 'Node Exporter'. Its function is to export info. like CPU, memory, disk 
+  usage, etc. of the node to the Prometheus server.
+
+
+  Port forwarding command -
+   kubectl port-forward svc/kind-prometheus-kube-prome-prometheus -n monitoring 9090:9090 --address=0.0.0.0 &
