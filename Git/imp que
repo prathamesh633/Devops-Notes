@@ -11,4 +11,3 @@ A. When we are merging two branches, we might encounter conflicts. It can happen
 - After resolving the changes we add the files to the staging area using 'git add file_name'.
 - Check the status of the repository using 'git status' to see if the conflicts are resolved or are there any other conflicts.
 - Finally, we commit the changes using 'git commit -m "resolved conflicts"'.
-
