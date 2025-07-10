@@ -1,0 +1,97 @@
+# GITLAB
+- GitLab is mainly used for CI CD operation.(Specifically CI)
+- We can use 'SSH key' or 'authorized key token' to access Gitlab.
+- Like in Github there is User and repositories, In Gitlab we have User, Groups and Projects.
+- 'User' in Github are called 'Groups' in GitLab.
+- 'Repositories' are called 'Projects' in GitLab.
+- 'Agents' are called 'Runners' in GitLab. Runners pick the jobs from the queue and execute them.
+
+
+# Groups
+- Segration or Devision of people according to task or role is done in groups. 
+- Groups are formed to achieve a common goal.
+- eg. DevOps grp - for K8s and Manifist files, Scripts grp - for writing scripts, etc.
+
+*** TO APPLY CI CD IN PROJECT THE PIPELINE NAME SHOULD BE ".gitlab-ci.yml" ***
+
+# GitLab CI CD
+- The GitLab pipeline mainly works in two parts:
+   1. Stages   
+   2. Jobs
+- In pipeline comes stages and in stages comes jobs.
+  Pipeline --> Stages --> jobs
+ (In Jenkins in 'pipelines' comes 'stages' and in that comes 'steps')
+- example of a simple pipeline:
+  file_name - .gitlab-ci.yml
+  stages:
+     - build
+     - test
+     - push
+     - deploy
+  build_job:  # Name not important whatever we want we can give but stage should be the one we want job for
+    stage: build
+    script:
+       - echo"This is build stage"
+  test_job:
+    stage: test
+    script:
+       - echo "This is test stage"
+  push_job:
+    stage: push
+    script:
+       - echo "This is push stage"
+  deploy_job:
+    stage: deploy
+    script:
+       - echo "This is deploy stage"
+
+For more pipelines - https://cheatography.com/violaken/cheat-sheets/gitlab-ci-cd-pipeline-configuration/
+
+- We can also run multiple jobs prallely in a stage.
+eg:
+  stages:
+     - build
+     - test
+     - push
+     - deploy
+  build_job:  # Name not important whatever we want we can give but stage should be the one we want job for
+    stage: build
+    script:
+       - echo"This is build stage"
+  test_job:
+    stage: test
+    script:
+       - echo "This is test stage"
+  push_job:
+    stage: push
+    script:
+       - echo "This is push stage"
+  deploy_job:
+    stage: deploy
+    script:
+       - echo "This is deploy stage"
+dev_test_job:
+    stage: test
+    script:
+       - echo "This is test stage in Dev environment"
+test_test_job:
+    stage: test
+    script:
+       - echo "This is test stage in Test environment"
+
+   
+# Variables
+- Instead of hardcoding values we can use variables in .gitlab-ci.yml file.
+- There are many predefined variables in gitlab which we can use.
+   list of those variables - https://docs.gitlab.com/ci/variables/predefined_variables/
+- We can also define our own variables in .gitlab-ci.yml file.
+  variables:
+     DEPLOY_ENV: "production"
+     SERVER_KEY: "my-secrete-key"
+- To pass variables secreatly without anyone seeing.
+  Go to settings --> CICD --> variables --> add variables 
+  keep the visibility 'masked'
+  In Flags keep protected variable
+  In description give the description of variable
+  In Key - Give the variable name you are going to use in code
+  In value - write the value of the variable
