@@ -13,7 +13,7 @@ https://www.jenkins.io/doc/book/installing/linux/#fedora --> aws installation
 - we use declarative because it is simple.
 - there can be multi stage pipeline.
 - no 2 stage can have same name.
-- jenkins works on master and node/slave/worker
+- jenkins works on master and node/slave/worker.
 
 
 sudo wget -O /etc/yum.repos.d/jenkins.repo \
@@ -118,14 +118,6 @@ eg: stage('Exporting environment variables') {
   1) first add the pipeline code to the git repo.
   2) the go to configure of pipeline then go to 'Pipeline' and select 'Pipeline Script from SCM' and specify all details.
 
-# Sonar Qube (not used often)
-command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e SONARQUBE_WEB_JVM_OPTS="-Dsonar.property=value" sonarqube OR sudo docker run -d -P sonarqube
-- it is a code coverage tool. it is not a test tool.
-- it is used to measure the quality of the code.
-- works on port 9000.
-- basic requirment --> CPU - 2 , memory - 4GB
-- 
- plugin - 
 
 # Command to run Jenkins as a docker container
 - install docker and enable it first
@@ -138,6 +130,17 @@ command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e S
 - If we are using MASTER SLAVE and running the pipeline on slave instead of giving IAM user credential 
   we just have to give appropriate permissions to the slave user to run the pipeline.
 
+# How to retrive Jenkins Password Once forgotten 
+- Unfortunately, you cannot retrieve the Jenkins username and password once you’re logged out because Jenkins stores passwords securely
+ (hashed/encrypted) and doesn’t provide a way to view them.
+- But we can reset jenkins admin password
+   Disable Security Temporarily
+   Stop Jenkins service.
+   Edit the Jenkins config file (config.xml in the Jenkins home directory).
+   Find <useSecurity>true</useSecurity> and change it to <useSecurity>false</useSecurity>.
+   Restart Jenkins.
+   Access Jenkins without login, create a new admin user.
+   Re-enable security by changing back to <useSecurity>true</useSecurity> and restart again.
 
 # To integrate sonar and jenkins
 first install aws credentails plugin.
