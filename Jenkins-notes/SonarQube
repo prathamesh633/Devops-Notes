@@ -1,0 +1,47 @@
+# Sonar Qube (not used often)
+command to run sonarqube as a container --> sudo docker run -d -p 9000:9000 -e SONARQUBE_WEB_JVM_OPTS="-Dsonar.property=value" sonarqube OR sudo docker run -d -P sonarqube
+- it is a code coverage tool. it is not a test tool.
+- it is used to measure the quality of the code.
+- works on port 9000.
+- basic requirment --> CPU - 2 , memory - 4GB
+- 
+ plugin - 
+
+Fields of SonarQube
+1. Project Overview Fields
+- These are shown on the main dashboard for each project:
+     Field / Metric	            Description
+  1. Project Key	        Unique identifier for the project in SonarQube
+  2. Project Name	        Human-readable name of the project
+  3. Lines of Code (LOC)    Total number of code lines (excluding comments, blanks)
+  4. Quality Gate Status    Pass/Fail result based on defined thresholds for key metrics
+
+2. Code Quality Metrics
+- These measure the technical quality of your code:
+     Metric	                          Description
+  1. Bugs	                 Code errors that may lead to unexpected behavior or crashes
+  2. Vulnerabilities	     Security issues in the code (e.g., SQL Injection risks)
+  3. Code Smells	         Maintainability issues or bad practices (e.g., overly complex methods)
+  4. Technical Debt	         Estimated time to fix code smells
+  5. Debt Ratio	             % of time to fix issues vs time to write the code
+  6. Duplications	         Percentage of duplicated lines of code
+  7. Reliability Rating	     Letter grade (A-E) based on bug count
+  8. Maintainability Rating	 Letter grade based on code smells
+  9. Security Rating	     Letter grade based on vulnerabilities
+ 10. Coverage	             % of code covered by unit tests
+ 11. Unit Tests	             Number of unit tests run
+ 12. Test Success %	         Pass/fail ratio of unit tests
+
+3. Security-Specific Fields (if Security is enabled)
+     Field / Metric	                      Description
+  1. Security Hotspots	            Areas that should be reviewed for security but are not confirmed vulnerabilities
+  2. Reviewed Security Hotspots	    % of hotspots reviewed
+  3. OWASP Top 10 / CWE Issues	    Security issues mapped to industry standards (if activated)
+
+4. Administrative/Technical Fields (in config or backend)
+     Field	               Description
+   1. Project Key	   Internal unique project ID
+   2. Branch Name	   If using branch analysis
+   3. Analysis Date	   When the last analysis ran
+   4. Scanner Used	   E.g., SonarScanner, Maven plugin, Gradle plugin
+   5. Language	       Programming language (Java, Python, etc.)
