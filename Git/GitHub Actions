@@ -1,2 +1,37 @@
 
 - We cannot run github actions on our own server.
+
+- we need to create .github/workflow folder to run github actions on our own server.
+- then we create .yml files there to define our workflow.
+- we can have multiple .yml files in the .github/workflow folder.
+- the .yml files are like the configuration files for our pipelines(workflow).
+- in github actions plugins are already installed we just have to mention them in our pipeline.
+
+use for github actions plugins - https://docs.github.com/en/actions/get-started/quickstart
+
+# code
+
+ on: [push] --> means this workflow will run on whenever any commit is done in our repo.
+                'on' defines action. so if we write 'pull' or 'push' it will take that action as a start to perform this workflow.
+
+jobs: --> this is the main part of our workflow. In this we define the no. of jobs we want to run.
+  
+    runs-on: ubuntu-latest --> this is the environment on which our workflow will run. here we are using ubuntu-laatest. we can use any.
+
+
+    strategy :
+    matrix:
+         python-version: [3.9, 3.10] --> here we are defining the versions of python we want to test our code in. 
+                                         (It is not necessary but github gives us this flexibility)
+
+    steps: --> this is where we define the steps of our workflow. we can have multiple steps in our workflow.(this is similar to stage in jenkins)
+
+    - uses: action/checkout@v3  --> this is plugin name not a syntax wew have to learn. this plugin clones code from git repo.
+    
+    - name: dSet up python --> use any name we want. this is the name for a stage.
+    
+    - uses: actions/setup-python@v2 --> this is python plugin for our pipeline. It will congigure python environment in our ubuntu runner.
+         with:
+            python-version: ${{ matrix.python-version }} --> this will help to set python environment for the versions mentioned in matrix.
+
+    
