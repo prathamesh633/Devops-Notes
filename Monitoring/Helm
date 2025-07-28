@@ -1,6 +1,19 @@
 # Helm
 - It is a kubernetes package manager that allows you to easily install and manage applications on a kubernetes cluster.
 - for Kubernetes specific application installation and management.
+- Helm Kubernetes ka ek package manager hai. Jaise hum apt ya yum se Linux me software install karte hain, 
+  waise hi Helm se hum Kubernetes me applications install, configure, aur manage karte hain.
+ - Helm se aap easily complex Kubernetes applications deploy kar sakte ho, bina baar-baar multiple YAML files likhne ke.
+
+# Helm Charts
+- Helm Chart ek package hota hai jo Kubernetes resources ka collection hota hai (like deployments, services, configmaps, etc.).
+- Ek chart me hota hai:
+  1. Templates (YAML files with placeholders)
+  2. Default values (values.yaml)
+  3. Metadata (Chart.yaml)
+
+- Chart = App ka blueprint + config
+- Helm = Us blueprint ko Kubernetes me apply karne wala tool
 
 
 # Helm Commands -
@@ -15,10 +28,9 @@
 
 - helm status <release-name> -> displays the status of the release.
 
-- helm upgrade <release-name> <path-to-chart> -> Upgrades the mentioned chart that is running to the changes we made in its value.yml file.
+- helm upgrade <release-name> <path-to-chart> -f <path-to-values.yml> -> Upgrades the mentioned chart that is running to the changes we 
+  made in its value.yml file.
 
 - helm history <release-name> -> fetch release history of the mentioned release.
 
-- helm rollback <release> <revision> ->	Roll back to a previous version
-
-- 
+- helm rollback <release> <revision> ->	Roll back to a previous version.
