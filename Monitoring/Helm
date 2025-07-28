@@ -1,3 +1,24 @@
 # Helm
 - It is a kubernetes package manager that allows you to easily install and manage applications on a kubernetes cluster.
 - for Kubernetes specific application installation and management.
+
+
+# Helm Commands -
+- helm install <release-name> <path-to-chart> -> Installs the mentioned chart that is already present, into a release.
+  eg. helm install my-release(can be any name) /path/to/chart
+
+- helm uninstall <release-name> -> Uninstalls the mentioned release.
+
+- helm create <chart-name> -> creates a new chart with the given name.
+
+- helm lint <chart-name> -> examine a chart for possible issues
+
+- helm status <release-name> -> displays the status of the release.
+
+- helm upgrade <release-name> <path-to-chart> -> Upgrades the mentioned chart that is running to the changes we made in its value.yml file.
+
+- helm history <release-name> -> fetch release history of the mentioned release.
+
+- helm rollback <release> <revision> ->	Roll back to a previous version
+
+- 
