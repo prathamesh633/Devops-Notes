@@ -9,12 +9,11 @@ host / node / VM / EC2 instance all are called as 'Node' in kubernetes.
 in AWS kubernetes service is called EKS(Elastic Kubernetes Service).
 
 #Q. what is Kuberentes?
-
-- an open-source container orchestration system for automating the deployment, scaling, and management of container
-- it was originally designed by google, and is now maintained by the cloud native computing foundation
-- it allows for the deployment of applications and services in a scalable and highly available manner
-- it provides a lot of features such as self-healing, load balancing, and resource management
-- it is a hybrid cloud platform that can run on-premises and in the cloud
+- an open-source container orchestration system for automating the deployment, scaling, and management of container.
+- it was originally designed by google, and is now maintained by the cloud native computing foundation.
+- it allows for the deployment of applications and services in a scalable and highly available manner.
+- it provides a lot of features such as self-healing, load balancing, and resource management.
+- it is a hybrid cloud platform that can run on-premises and in the cloud.
 
 ## Kubernetes Architrcture
  # components:-

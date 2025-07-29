@@ -1,0 +1,31 @@
+# kubectl get
+- List Kubernetes resources.
+   kubectl get pods
+   kubectl get svc -n kube-system
+   kubectl get all -A
+
+# kubectl describe 
+- Detailed information about a resource.
+   kubectl describe pod mypod
+   kubectl describe deployment myapp
+
+# kubectl logs
+- View logs of a pod.
+   kubectl logs my_pod
+   kubectl logs my_pod -c mycontainer
+
+# kubectl exec 
+- kubectl exec -it mypod -- bash
+
+# kubectl apply
+- Apply configuration from YAML files.
+   kubectl apply -f deployment.yaml
+
+# kubectl delete 
+- Delete resources.
+   kubectl delete pod mypod
+   kubectl delete -f deployment.yaml  
+
+# kubectl rollout
+- Manage rollout status of deployments.
+   
