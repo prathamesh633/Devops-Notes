@@ -28,4 +28,27 @@
 
 # kubectl rollout
 - Manage rollout status of deployments.
-   
+
+# To run a 'cluster' from CLI
+- Give a IAM role of admin to the ec2 instance to create a cluster from CLI.
+   eksctl create cluster --name <our_name> --node-type <node/instance_type> --nodes <no._of_nodes> --region=<region>
+   eg. eksctl create cluster --name irondome --node-type t2.medium --nodes 2 --region=ap-south-1
+
+# We can make changes to our go back to previous changes in deployment.
+- command --> kubectl rollout undo deployment/(deployment_name)
+
+# command for ROLLing UPDATE 
+- kubectl set image deployment/(deployment_name) (container_name)=(image_name)
+  eg:- kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
+
+# to get wide output
+- kubectl get pods -o wide
+
+# Config Maps declarative command
+- kubectl create configmap/cm (configmap_name) --from-literal=KEY=VALUE .. 
+   eg:- kubectl create configmap/cm exampleconfigmap --from-literal=1_database_name=data1 --from-literal=2_database_name=data2
+
+# Dry Run
+- To test the command without applying it.
+   kubectl apply -f deployment.yaml --dry-run=client
+   kubectl create configmap/cm exampleconfigmap --from-literal=1_database_name=data1 --dry-run=client -o yaml
