@@ -1,9 +1,9 @@
 # Grafana
 - For the visualization of the data metrics of our application we use Grafana.
-- Grafana works on port 3100 by default.
+- Grafana works on port 3000 by default.
 
-Interview
-We add datasources and create dashboards
+# How do we create a Grafana dashboard?
+- We add datasources and create dashboards
 
 username - admin
 password - prom-operator

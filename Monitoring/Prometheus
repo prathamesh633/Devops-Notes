@@ -4,6 +4,7 @@
    eg: it tells us what will be the data afte 5min, 10min, 15min,etc.
 - To create prometheus we require to create few manifest files in kubernetes. 
 - By Storing all the manifest files in the same folder it gets easier for use to manages them.
+- Port number of prometheus is 9090.
 
 - There is a tool in Prometheus 'Node Exporter'. Its function is to export info. like CPU, memory, disk 
   usage, etc. of the node to the Prometheus server.

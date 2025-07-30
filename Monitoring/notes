@@ -14,3 +14,22 @@ Under it  comes different fileds.
    When we encounter spike in the CPU or memory usage which is more than we thought we can set alerts for that.
 5. Visualization :
    We create dashboards to see all the fileds we want in one place.
+
+
+
+# Installation Prometheus and Grafana using Helm
+To Integrate Prometheus and Grafana with Kubernetes, we can use Helm. Here is how to do it(do it after creating the application):
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+kubectl create namespace monitoring
+helm install prometheus-stack prometheus-community/kube-prometheus-stack --namespace monitoring
+
+kubectl get pods -n monitoring
+
+kubectl port-forward svc/prometheus-stack-grafana 3000:80 -n monitoring
+kubectl port-forward svc/prometheus-stack-kube-p-prometheus 9090:9090 -n monitoring
+
+then login in to grafana and just import dashboards according to your application from the internet(https://grafana.com/grafana/dashboards/).
+
+

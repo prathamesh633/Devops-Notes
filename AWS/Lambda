@@ -1,0 +1,54 @@
+# Serverless Service
+- A serverless service allows you to run code without managing the underlying infrastructure (servers).
+
+# Advantages of AWS Lambda Function
+- No Server Management: You don’t need to provision or manage servers.
+- Auto-Scaling: Lambda automatically scales based on the number of events.
+- Pay-as-You-Go: You only pay for the compute time your code consumes.
+- Quick Deployment: Easy to deploy small, event-driven functions.
+- Highly Available: Built-in fault tolerance across multiple availability zones.
+- Integrated with AWS Services: Easily trigger via S3, DynamoDB, API Gateway, etc.
+
+
+# What is the maximum execution timeout for a Lambda function?
+- The maximum timeout for an AWS Lambda function is 15 minutes (900 seconds) per invocation.
+- You can set the timeout in the configuration settings when you create or update the function.
+- If the function exceeds the timeout, it is automatically terminated by AWS, and an error is returned.
+- Example:
+    If your function is doing a long-running task, like file processing or waiting on a slow API, and it runs for more than 15 minutes, Lambda will stop it, and the invocation will fail.
+
+# How is pricing calculated for AWS Lambda?
+- AWS Lambda pricing is calculated based on the following:
+1. Number of Requests:
+- First 1 million requests/month are free
+- After that: $0.20 per 1 million requests
+
+2. Duration (Execution Time):
+- Billed in milliseconds
+- Based on the time your code runs, from start to finish, rounded up to the nearest 1 ms
+- Includes the time it takes to initialize the function (cold start)
+
+3. Memory Allocated:
+- You choose memory from 128 MB to 10,240 MB (10 GB)
+- More memory = more CPU power
+- Pricing increases with more memory and longer execution time
+💡 Formula:
+  Duration (ms) × Memory (MB) × Price per GB-second
+
+💵 Example Calculation:
+Let's say:
+Your function runs for 1 second
+You allocated 512 MB memory
+You invoked it 2 million times in a month
+Request cost:
+First 1M = free
+Next 1M = 1 × $0.20 = $0.20 
+
+Duration cost:
+(1 sec × 2M) = 2M seconds = 2,000,000 sec × 512 MB
+Convert to GB-seconds = (512/1024) × 2,000,000 = 1,000,000 GB-seconds
+Pricing is approx $0.0000166667 per GB-sec
+Cost = 1,000,000 × $0.0000166667 = $16.67
+Total cost = $0.20 (requests) + $16.67 (duration) = $16.87
+
+# 
