@@ -1,0 +1,84 @@
+# Blue Green Deployment
+
+- You have two environments:
+ Blue = current version (live)
+ Green = new version (not live yet)
+- You deploy the new version to Green.
+- After testing, you switch all traffic from Blue to Green at once.
+
+✅ Pros:
+- Easy to rollback: just switch back to Blue.
+- Staging environment exactly like production.
+
+❌ Cons:
+- Needs double the resources (2 full environments).
+- All users get the new version at once → higher risk if bug exists.
+
+# u create two Deployments:
+- my-app-blue with image v1
+- my-app-green with image v2
+
+🗂 Example YAML:
+
+# Blue deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: my-app
+        version: blue
+    spec:
+      containers:
+      - name: my-app
+        image: my-app:v1
+
+# Green deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app-green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+      version: green
+  template:
+    metadata:
+      labels:
+        app: my-app
+        version: green
+    spec:
+      containers:
+      - name: my-app
+        image: my-app:v2
+🌐 Now Create a Single Service:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+spec:
+  selector:
+    app: my-app
+    version: blue   # Start with Blue
+  ports:
+  - port: 80
+    targetPort: 80
+🔁 Switch Traffic:
+
+- When ready to switch to Green, just update the Service selector:
+
+spec:
+  selector:
+    app: my-app
+    version: green
