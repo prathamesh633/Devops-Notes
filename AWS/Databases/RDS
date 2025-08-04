@@ -1,0 +1,11 @@
+# Relational DataBase (RDS)
+- Amazon RDS (Relational Database Service) is a managed service provided by AWS that makes it easy to set up, operate, and scale a relational database in the cloud.
+
+- It automates tasks like:
+ 1. Database provisioning
+ 2. Patch management
+ 3. Backup and recovery
+ 4. High availability with Multi-AZ
+ 5. Monitoring and alerting
+
+ -  MySQL port 3306, PostgreSQL 5432

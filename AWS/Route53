@@ -13,3 +13,8 @@
   4. Failover Routing → Active-Passive setup (if primary fails, backup takes over).
   
   5. Geolocation Routing → Routes based on user’s country.
+
+
+Q. Difference between A Record and CNAME?
+A. A record maps a domain to an IP. 
+   CNAME maps a domain to another domain (e.g., www → root domain).

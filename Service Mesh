@@ -1,0 +1,42 @@
+# Service Mesh
+- A Service Mesh is a dedicated infrastructure layer that helps manage how services (or microservices) in your application talk to each other.
+- Think of it as a “traffic controller” between your services.
+
+# How Does It Work?
+- Core idea:
+  Each service gets a tiny "sidecar proxy" (usually Envoy) injected into its pod.
+  These proxies intercept and manage all incoming and outgoing traffic.
+
+- So instead of:
+
+Service A → Service 
+
+- It becomes:
+
+Service A → Envoy A → Envoy B → Service B
+
+- Now the proxies can:
+ 1. Monitor traffic
+ 2. Retry on failure
+ 3. Encrypt communication
+ 4. Split traffic for canary or blue-green deployment
+ 5. Enforce security policies
+
+# Popular Service Meshes
+Service Mesh	                 Notes
+Istio	              Most widely used, powerful, integrates with Kubernetes
+Linkerd	              Lightweight and simpler
+Consul                Connect HashiCorp’s mesh, integrates with Vault and Nomad
+Kuma	              By Kong, supports multi-mesh setups
+
+
+
+# VirtualService
+- In Istio, a VirtualService is a custom Kubernetes resource that lets you control how requests are routed to your services.
+- A VirtualService defines rules for routing traffic to different versions of your app, based on things like weight, headers, paths, etc.
+- Think of it like this:
+   Instead of letting Kubernetes blindly send traffic to a service, VirtualService tells Istio:
+    Send 80% traffic to version v1
+    Send 20% to version v2
+    Or: If path is /beta, send to v2                                                                                                                                                      
+    Or: If user-agent is iPhone, send to a different backend
