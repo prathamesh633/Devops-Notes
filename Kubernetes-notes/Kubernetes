@@ -223,46 +223,45 @@ IMP:
 when we make a mysql stateful set we mention the volume within the stateful yaml
 The service created for the stateful set should be a headless service to be used internally and not execceble from outside the cluster.
 # Demo mysql stateful set yamal file:-                          
-apiVersion: v1                                                   
-kind: StatefulSet                                               
-metadata:    
- name: mysql-data                                                 
- labels:                                                      
-  app: mysql                                                      
-spec:
-serviceName: mysql-service                                     
- replicas: 1                                                       
- selector:                                                           
-  app: nysql                                                     
- template:                                                        
-  metadata:                                                         
-   name: mysql-data                                                 
-   labels:
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-data
+  labels:
     app: mysql
-  spec:
-   containers:
-   - name: mysql-data
-     image: mysql:8.0 
-     ports:
-     - port: 3306
-       targetPort: 3306
-     env:
-     - name: MYSQL_ROOT_PASSWORD # sets the root password to "root"
-       value: root
-     - name: MYSQL_DATABASE # creates a database named "devops"
-       value: devops
-     volumeMounts:
-     - name: mysql-data
-       mountPath: /var/lib/mysql
-
-VolumeClaimTemplates:
-- metadata:
-      name: mysql-data
+spec:
+  serviceName: mysql-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
     spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 1Gi
+      containers:
+        - name: mysql-data
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+            - name: MYSQL_DATABASE
+              value: devops
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql   
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+
 # demo headless service yaml file:-
 kind: Service
 apiVersion: v1
@@ -274,7 +273,7 @@ spec:
   selector:
     app: mysql
   ports:
-    protocol: TCP
+  - protocol: TCP
     port: 3306
     targetPort: 3306
 
@@ -355,14 +354,28 @@ spec:
 
 
 ## SERVICES
- 
- LB -> Loadbalancer -> this service is available only on cloud and not on onprem.
-  by default it supports classic loadbalancer. #Q. can we use other type of LB?
+LB -> Loadbalancer -> this service is available only on cloud and not on onprem.
+- By default it supports classic loadbalancer. 
+- Provisions a cloud provider's external Load Balancer (e.g., AWS ELB, GCP LB).
+- Accessible from Internet (external clients).
+- Automatically forwards traffic to the correct node and Pod.
+#Q. can we use other type of LB?
+#A. When you deploy a Service of type LoadBalancer, the Kubernetes control plane asks the cloud provider to provision a Layer 4 (TCP) external load balancer.
 
- NP -> Network Port -> this is used to define the service on the port of the node.
-  it works when our node have a public ip to it.
 
- CIP -> ClusterIP - default service of a cluster. 
+NP -> Network Port -> this is used to define the service on the port of the node.
+- It works when our node have a public ip to it.
+- Exposes the service on a static port on each Node's IP.
+- Accessible from:
+  Inside the cluster.
+  Outside the cluster via <NodeIP>:<NodePort>
+- Port range: 30000–32767 (by default)
+
+CIP -> ClusterIP - default service of a cluster. 
+- Exposes the service internally to the cluster using a virtual IP.
+- Accessible from Other pods inside the cluster.
+- Not accessible from the internet or outside world.
+- Use case: Internal communication between microservices (e.g., frontend → backend, backend → database)
 
 # demo service manifest file:-
 filename --> service.yaml
