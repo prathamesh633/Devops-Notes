@@ -21,6 +21,19 @@ A.          Image                                container
  5. Built using a Dockerfile with a          5. Created from an image using the docker run command.gi
     set of instructions.
 
+#Q.What is the difference between docker and virtual machine?
+
+| Feature            | **Docker (Containers)**                 | **Virtual Machines (VMs)**       |
+| ------------------ | --------------------------------------- | -------------------------------- |
+| **OS Sharing**     | Shares **host OS kernel**               | Has its **own guest OS**         |
+| **Boot Time**      | **Seconds**                             | **Minutes**                      |
+| **Size**           | **MBs**                                 | **GBs**                          |
+| **Isolation**      | Process-level (via namespaces, cgroups) | Hardware-level (via hypervisor)  |
+| **Resource Usage** | **Lightweight**                         | **Heavy**                        |
+| **Portability**    | Very high                               | Moderate                         |
+| **Use Case**       | Microservices, CI/CD pipelines          | Monolithic apps, full OS testing |
+
+
 #Q. What are the different types of docker containers?
 A. 1. Stateless Containers
  Stateless containers are containers that do not store any data or state. They are typically used for web 
@@ -97,14 +110,33 @@ sudo docker tag <image_id> <account_id>.dkr.ecr.<region>.amazonaws
 sudo docker push <account_id>.dkr.ecr.<region>.amazonaws/<image_name>
 sudo docker pull <account_id>.dkr.ecr.<region>.amazonaws/<image_name>
 
+# What is the difference between docker stop and docker kill?
+
+| Command         | `docker stop`                                       | `docker kill`                                |
+| --------------- | --------------------------------------------------- | -------------------------------------------- |
+| **Signal Sent** | Sends `SIGTERM` first, then `SIGKILL` after timeout | Sends `SIGKILL` immediately                  |
+| **Graceful?**   | Yes – allows the container to shut down cleanly     | No – forcefully terminates the container     |
+| **Use Case**    | When you want to give the app time to clean up      | When a container is **hung or unresponsive** |
+| **Timeout**     | Waits 10 seconds (default) before force-killing     | No wait – kills instantly                    |
+
+
 etc/docker
 # docker volumes:-
-- docker run -d -v host_dir_path/:/container_dir_path -p 8080:8080 image_name:latest --> to connect a folder from host to a folder in container to persist 
- the data i.e. if we delete the container the connected folder data will still be present in the host machine.
-- docker create volume --> to create docker volume (universal docker storage)
-- docker volume ls --> to list volumes
-- cd var/lib/docker --> root directory of docker
-- /var/run/docker.sock --> docker socket file
+  This is bind Mount:
+- docker run -d -v host_dir_path/:/container_dir_path -p 8080:8080 image_name:latest --> to connect a folder from host server to a folder in container to persist 
+ the data i.e. if we delete the container the connected folder data will still be present in the host machine.(does not work in a local set-up)
+ 
+ This is named volume:
+- docker run -d -v volume_name:/container_dir_path -p 8080:8080 image_name:latest --> to connect a named volume to a folder in container to persist the data i.e. 
+  if we delete the container the connected volume data will still be present in the host machine.
+
+- docker volume create volume_name  --> to create docker volume (universal docker storage)
+- docker volume ls                  --> to list volumes
+- docker volume inspect demo-volume --> to inspect the volume
+- docker volume rm volume_name      --> to remove the volume
+- /var/lib/docker/volumes           --> root directory of docker volumes
+- cd var/lib/docker                 --> root directory of docker
+- /var/run/docker.sock              --> docker socket file
 
 # Q.what is socket file?
 # A.socket file is a file that allows two processes to communicate with each other.
@@ -159,43 +191,65 @@ sudo -v for volume dev for volume name :path to mount volume --name --> for addi
  FROM tomcat:jre8-alpine
  COPY --from=mvnbuilder /target/*.war webapps/student.war # copied the war file from maven container to tomcat container using "from=(container_name)"
 
+# How do you reduce image size?
+✅ 1. Use a Minimal Base Image
+Prefer lightweight images like:
+alpine (~5MB)
+scratch (empty image, advanced use)
+
+✅ 2. Use Multi-Stage Builds
+Split the build and runtime steps into multiple stages.
+Only copy the final binaries/files to the last (small) image.
+
+✅ 3. Combine RUN Instructions
+Combine commands into a single RUN layer to avoid creating multiple image layers.
+Example:
+
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+✅ 4. Clean Up Temporary Files
+Delete unnecessary files after install (e.g., apt cache, build tools).
+Example:
+RUN apt-get update && \
+    apt-get install -y build-essential && \
+    make build && \
+    apt-get purge -y build-essential && \
+    rm -rf /var/lib/apt/lists/*
+
+✅ 5. Avoid Installing Unused Packages
+Only install the exact dependencies needed.
+Avoid apt-get install -y build-essential unless really required.
+
+✅ 6. Use .dockerignore File
+Prevent copying unnecessary files like .git, node_modules, test files.
+Sample .dockerignore:
+nginx
+node_modules
+*.log
+.git
+Dockerfile
+
+✅ 7. Use Language-Specific Slim Tools
+Use slimmed base images:
+python:3.11-slim
+node:18-alpine
+Or use tools like:
+docker-slim – Automatically minifies images.
+
+✅ 8. Avoid Installing via curl | bash (if avoidable)
+These scripts may add unnecessary tools or files. Use package managers or manual install when possible.
+
+✅ 9. Use Specific Copying Instead of Whole Folders
+Instead of COPY . ., copy only what’s needed:
+COPY package.json .
+COPY src/ ./src/
+
+✅ 10. Use Static Binaries (if possible)
+Build and copy static binaries only (e.g., in Go, Rust), then use scratch or alpine as final image.
+
  #Q. Why docker use 172.16.0.0/16 ip range?
  A. Docker uses 172.16.0.0/16 ip range because it is a private ip range that is not routable on the internet.
  It is used to prevent conflicts with the host machine's ip address and to provide a unique ip address for each container.
-
-## Docker Network
- (By default we use bridge network)
- Bridge network:
- - it is the default network in docker.
- - It is used to connect containers to the host machine.
- - In this we use '-p' to connect the container to the host machine by specifying the port number.
- - It is not necessary that the container and host machine will have the same port number.
-
- Host network:
- - it is used to connect a container to the host machine's network.
- - In this the container and the host machine will have the same ports.
-
- None network:
- - it is used to isolate a container from the host machine's network.
- -No one can connetct to the container in none network.
-
- user defined bridge:
- - It is used to create our own network.
- - commands:
-    docker network create my-net --> will create a bridge network with name "my-net".
-    docker run -d --network my-net -p 80:80 nginx:latest --> will run the image in the created network.
- - We can add multiple containers to this network and these containers will be able to communicate with each other.
- - If we go inside a container and hit 'curl http://container_name:container_port' we will be alble to access the
-   mentioned containers site.
-
- IPVLAN network:
- - Used to connect containers that are on different systems having different IP's.
-
- macvlan network:
- - it is used to assign a mac address to a container.(mac address --> It is the unique address of a network)
- 
- overlay network:
- - it is used to connect multiple docker hosts together.
 
 ## Docker Compose
 - Docker compose is a tool for defining and running multi-container docker applications. 
@@ -222,3 +276,11 @@ sudo -v for volume dev for volume name :path to mount volume --name --> for addi
     image: nginx:latest
     ports:
     - "80:80"
+
+# How do you scale services using Docker Compose?
+- To scale services using Docker Compose, you use the --scale flag with docker-compose up.
+- docker-compose up --scale <service_name>=<number_of_instances>
+- Example:
+  docker-compose up --scale web=3
+  This runs 3 instances of the web service.
+- Useful for load balancing, testing, or simulating a multi-instance setup.

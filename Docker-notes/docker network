@@ -1,0 +1,55 @@
+# Docker Network
+
+ Bridge network: (By default we use bridge network)
+ - it is the default network in docker.
+ - It is used to connect containers to the host machine.
+ - In this we use '-p' to connect the container to the host machine by specifying the port number.
+ - It is not necessary that the container and host machine will have the same port number.
+
+ Host network:
+ - it is used to connect a container to the host machine's network.
+ - In this the container and the host machine will have the same ports.
+
+ None network:
+ - it is used to isolate a container from the host machine's network.
+ - No one can connetct to the container in none network.
+
+ user defined bridge:
+ - It is used to create our own network.
+ - commands:
+    docker network create my-net --> will create a bridge network with name "my-net".
+    docker run -d --network my-net -p 80:80 nginx:latest --> will run the image in the created network.
+ - We can add multiple containers to this network and these containers will be able to communicate with each other.
+ - If we go inside a container and hit 'curl http://container_name:container_port' we will be alble to access the
+   mentioned containers site.
+
+ IPVLAN network:
+ - Used to connect containers that are on different systems having different IP's.
+
+ macvlan network:
+ - it is used to assign a mac address to a container.(mac address --> It is the unique address of a network)
+ 
+ overlay network:
+ - it is used to connect multiple docker hosts together.
+
+# How can two containers communicate with each other?
+1. Using the Same Docker Network (Bridge or Custom)
+- By default, containers on the same user-defined network can talk to each other using container names as hostnames.
+- Example:
+  # Create a custom network
+  docker network create mynetwork
+  # Run container A
+  docker run -d --name app1 --network mynetwork myimage
+  # Run container B
+  docker run -d --name app2 --network mynetwork myimage
+  Now, app1 can connect to app2 using hostname app2.
+
+2. Using Docker Compose
+- Services defined in docker-compose.yml share the same network automatically and can refer to each other by service name.
+- Example:
+  services:
+    web:
+      image: nginx
+    app:
+      image: myapp
+The 'app' container can connect to 'web' via hostname 'web'.

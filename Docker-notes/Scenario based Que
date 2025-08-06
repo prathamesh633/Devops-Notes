@@ -1,0 +1,13 @@
+# A container crashes every time you start it. How would you debug?
+
+
+# You updated a Dockerfile but changes are not reflecting. What could be wrong?
+
+
+# How do you clean up unused containers, images, and volumes?
+
+
+# You want to run a container in the background and also see its logs. How do you do that?
+
+
+# You have multiple applications that need to communicate with each other. How do you set that up using Docker Compose?
