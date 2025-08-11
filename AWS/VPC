@@ -46,3 +46,76 @@
     - Request Peering Connection (One VPC sends a request, the other accepts).
     - Update Route Tables (Both VPCs add a route pointing to the peering connection).
     - Optional: Update Security Groups/NACLs (Allow traffic between the peered VPCs).
+
+# AWS Transit Gateway (TGW)
+- AWS Transit Gateway is a centralized router that connects multiple:
+   VPCs
+   On-premises networks (via VPN or Direct Connect)
+   Other AWS services (via Transit Gateway attachments)
+- Think of it like a hub in a hub-and-spoke network model.
+- Connects multiple VPCs across different regions/accounts.
+- Connects on-prem networks to multiple VPCs via a single VPN or Direct Connect.
+- Enables shared services (DNS, Logging, Auth) across VPCs.
+Example:
+ Scenario: You are working at a large company with:
+   1 VPC for Production App
+   1 VPC for Staging
+   1 VPC for Logging/Monitoring
+   1 VPC for Authentication/SSO
+   1 VPN connection to on-prem data center
+ You want:
+   All VPCs to talk to Logging and Auth VPCs
+   On-prem to access all VPCs
+   Simple routing and scalability
+ Without TGW (using VPC Peering):
+   You’d need 6+ VPC Peering connections
+   Plus route tables updated in each VPC manually
+   Gets hard to scale and manage
+ With Transit Gateway:
+   Attach each VPC and the VPN to Transit Gateway
+   Control traffic in one place (TGW route tables)
+   Much simpler and scalable
+
+# Egress-only Internet Gateways
+- A specialized internet gateway for IPv6.
+- Allows outbound internet access from EC2 instances with IPv6 addresses in a private subnet.
+- Does not allow inbound traffic unless it's a response to a request.
+- Similar to a NAT Gateway, but only for IPv6 traffic.
+
+# DHCP option sets
+- Full form: Dynamic Host Configuration Protocol
+- When a computer (like an EC2 instance) starts up in a network, it needs things like:
+   An IP address
+   A DNS server to resolve domain names (These are used to convert domain names into IP addresses)
+   A default domain name
+   A time server (NTP) (A time server is a computer on the internet or in your network that tells other computers what time it is.It keeps all your computers, servers, and devices synchronized to the correct time.)
+ Instead of configuring all this manually, the DHCP system automatically assigns this info to the machine when it boots.
+- Let’s say you have a VPC where:
+   You want all EC2s to use your on-prem DNS server instead of Amazon’s DNS.
+   Your DNS server IP is 10.0.10.10.
+   You'd create a custom DHCP Option Set with:
+   domain-name-servers = 10.0.10.10
+   domain-name = mycompany.local
+   Then, associate it with your VPC. Now all EC2s in that VPC will:
+   Use your DNS server for domain lookups.
+   Automatically get mycompany.local as their search domain.
+
+
+
+# Endpoints
+
+# Instance Connect Endpoints
+
+# Endpoint Services
+
+# Network ACLs
+- Controls inbound/outbound traffic to and from the subnet.
+-Rules are applied to all resources in the subnet.
+- Must specify both directions explicitly.
+- Use case:
+  You need an additional layer of security at subnet level.
+  You want to block specific IPs or ports before they reach security groups.
+
+# Customer Gateways
+
+# Virtual Private Gateways

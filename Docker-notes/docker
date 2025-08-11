@@ -284,3 +284,15 @@ Build and copy static binaries only (e.g., in Go, Rust), then use scratch or alp
   docker-compose up --scale web=3
   This runs 3 instances of the web service.
 - Useful for load balancing, testing, or simulating a multi-instance setup.
+
+# .dockerignore file -->
+- The .dockerignore file tells Docker which files and directories to exclude from the build context when running docker build.
+- Why It’s Important to Add It:
+ 1. Faster Builds
+   Excluding unnecessary files (e.g., node_modules, .git, logs) reduces the size of the build context sent to the Docker daemon.
+ 2. Smaller Images
+   Prevents accidentally copying unwanted files into the image, keeping it lean.
+ 3. Better Security
+   Helps avoid leaking secrets or environment files (e.g., .env, id_rsa, etc.).
+ 4. Prevents Cache Busting
+   Unnecessary file changes (like log files) won’t trigger Docker cache invalidation when excluded.

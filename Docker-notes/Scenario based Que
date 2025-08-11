@@ -1,4 +1,23 @@
 # A container crashes every time you start it. How would you debug?
+ 1. Check Container Logs
+ Use `docker logs <container_name>`
+ This might show an error like "Missing config file" or "Port already in use".
+
+2. Instead of letting the container crash, run it interactively to explore inside.
+`docker run -it --entrypoint /bin/sh myimage`
+This bypasses the default entrypoint, letting me inspect the container filesystem, environment variables, and configs manually.
+
+3. Check the Dockerfile & ENTRYPOINT/CMD
+Look for errors in the CMD or ENTRYPOINT in the Dockerfile.
+For example, if it starts a script that doesn’t exist, the container will exit immediately.
+
+4. Check Exit Code
+Run docker ps -a to get the exit code of the container.
+`docker inspect <container_name> --format='{{.State.ExitCode}}'`
+Exit code 0 = success
+Exit code 1 = general failure
+Exit code 137 = killed (maybe out-of-memory)
+Exit code 139 = segmentation fault
 
 
 # You updated a Dockerfile but changes are not reflecting. What could be wrong?

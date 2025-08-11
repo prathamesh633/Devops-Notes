@@ -683,40 +683,6 @@ spec:
  2) nginx ingress controller(open source)
 
 
-## node affinity, node antiaffinity, pod affinity , pod antiaffinity, pod selector.
-
-
-##  Taint and Tolerance
-Taints:
-- Taints are used to restrict which pods can run on a node.
-- A taint is a property applied to a node that repels pods unless the pod has a matching toleration.
-- For example, you might taint a node to reserve it for specific workloads, 
-  such as GPU-intensive tasks or nodes with specialized hardware.
-- Taints are applied to NODES.  
-command --> kubectl taint nodes <node-name> key=value:(effect) 
-(effect can be NoSchedule/PreferNoSchedule/NoExecute)
-example --> kubectl taint nodes worker-node-1 prod=true:NoSchedule     
-
-Toleration:
-- A toleration is a property applied to a pod that allows it to be scheduled on a node with a matching taint.
-- Tolerations do not guarantee that a pod will be scheduled on a tainted node; they simply allow the pod 
-  to be considered for scheduling on such nodes.
-- Toleration are applied to PODS.
-example according to the above taint:-
-apiVersion: v1
-kind: Pod
-metadata:
-  name: nginx
-spec:
-  containers:
-  - name: nginx
-    image: nginx:latest
-  tolerations:
-  - key: "prod"
-    operator: "Equal"
-    value: "true"
-    effect: "NoSchedule"
-
 ## Probe
 Probes: https://medium.com/@ravipatel.it/introduction-k8s-probes-liveliness-readiness-startup-probes-with-example-5cb825cdca72
  Kubernetes probes play an essential role in monitoring the health and readiness of your applications.

@@ -1,0 +1,130 @@
+## pod selector.
+# Node Affinity & Node Anti-Affinity
+Controls which nodes a Pod can run on based on node labels.
+
+Example: Node Affinity
+- Run a Pod only on nodes in zone us-east-1a.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-affinity-example
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: topology.kubernetes.io/zone
+            operator: In
+            values:
+            - us-east-1a
+  containers:
+  - name: nginx
+    image: nginx
+    
+    requiredDuringSchedulingIgnoredDuringExecution = Hard rule (must follow).
+Other option: preferredDuringSchedulingIgnoredDuringExecution = Soft rule (best effort).
+
+Example: Node Anti-Affinity
+- Avoid nodes with label disktype=ssd.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-anti-affinity-example
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: NotIn
+            values:
+            - ssd
+  containers:
+  - name: nginx
+    image: nginx
+
+# Pod Affinity & Pod Anti-Affinity
+Controls Pod placement based on other Pod's labels.
+
+Example: Pod Affinity
+Place this Pod on the same node as any Pod with app=frontend.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-affinity-example
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - frontend
+        topologyKey: kubernetes.io/hostname
+  containers:
+  - name: nginx
+    image: nginx
+💡 topologyKey defines the scope: 
+  kubernetes.io/hostname → same node
+  topology.kubernetes.io/zone → same zone
+  topology.kubernetes.io/region → same region
+
+Example: Pod Anti-Affinity
+Ensure Pods with app=backend run on different nodes.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-anti-affinity-example
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - backend
+        topologyKey: kubernetes.io/hostname
+  containers:
+  - name: nginx
+    image: nginx
+
+##  Taint and Tolerance
+Taints:
+- Taints are used to restrict which pods can run on a node.
+- A taint is a property applied to a node that repels pods unless the pod has a matching toleration.
+- For example, you might taint a node to reserve it for specific workloads, 
+  such as GPU-intensive tasks or nodes with specialized hardware.
+- Taints are applied to NODES.  
+command --> kubectl taint nodes <node-name> key=value:(effect) 
+(effect can be NoSchedule/PreferNoSchedule/NoExecute)
+example --> kubectl taint nodes worker-node-1 prod=true:NoSchedule     
+
+Toleration:
+- A toleration is a property applied to a pod that allows it to be scheduled on a node with a matching taint.
+- Tolerations do not guarantee that a pod will be scheduled on a tainted node; they simply allow the pod 
+  to be considered for scheduling on such nodes.
+- Toleration are applied to PODS.
+example according to the above taint:-
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+  tolerations:
+  - key: "prod"
+    operator: "Equal"
+    value: "true"
+    effect: "NoSchedule"

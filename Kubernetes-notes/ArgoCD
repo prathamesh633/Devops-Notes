@@ -1,0 +1,73 @@
+# ARGOCD
+- Argo CD (Argo Continuous Delivery) is a GitOps tool for Kubernetes.
+- We store the our Kubernetes workloads (YAML manifests, Helm charts, Kustomize configs) in a Git repository, 
+  and Argo CD continuously ensures the actual state in the cluster matches the Git state.
+- Argo CD is a pull-based GitOps tool for Kubernetes.
+- Needs CLI + API server connection to manage clusters.
+
+
+# Instalation
+- Installation (Quick Start)
+  `kubectl create namespace argocd`
+  `kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml`
+
+# Errors You Faced and Their Solutions
+- Error 1 — "bash:argocd: command not found"
+  Cause: The argocd CLI binary was not installed on your machine.
+  Fix:
+  ```curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+  chmod +x argocd
+  sudo mv argocd /usr/local/bin/```
+
+- Error 2 — {"level":"fatal","msg":"Argo CD server address unspecified"}
+  Cause: The argocd CLI did not know which API server to connect to.
+  Fix: You must login and specify the server:
+
+  `argocd login localhost:8080 --username admin --password <PASSWORD> --insecure`
+  
+  `localhost:8080` → your port-forward address.
+  `--insecure` bypasses TLS verification for local testing.
+
+- Error 3 — Cluster status shows Unknown
+  Cause: The cluster was connected, but Argo CD hadn’t deployed or monitored any applications there yet. 
+   Or, insufficient permissions for the argocd-application-controller service account.
+
+  Fix 1 – Give proper permissions:
+  ```kubectl create clusterrolebinding argocd-cluster-admin \
+    --clusterrole=cluster-admin \
+    --serviceaccount=argocd:argocd-application-controller```
+
+  Fix 2 – Deploy something: 
+  ```kubectl apply -n argocd -f - <<EOF
+  apiVersion: argoproj.io/v1alpha1
+  kind: Application
+  metadata:
+    name: nginx-demo
+  spec:
+    project: default
+    source:
+      repoURL: https://github.com/kubernetes/website
+      path: content/en/examples/application/deployment
+      targetRevision: master
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: nginx-demo
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+  EOF```
+  After syncing, argocd cluster list will show Healthy.
+
+
+#  How to Check if Argo CD is Connected to a Cluster
+- List clusters
+  `argocd cluster list`
+  Columns:
+    SERVER = The Kubernetes API endpoint.
+    NAME = Friendly name of the cluster.
+    STATUS = Healthy, Unknown, etc.
+    MESSAGE = Extra details.
+
+    If STATUS = Unknown but the cluster is actually reachable, it’s often just idle (no apps managed there).
+
