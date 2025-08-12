@@ -15,42 +15,42 @@
 
 # Instalation
 - Installation (Quick Start)
-  `kubectl create namespace argocd`
-  `kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml`
+  kubectl create namespace argocd
+  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
   # Argo CD Username & Password
-- Username:`admin`
-- Password:`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
+- Username: admin
+- Password: kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 # Accessing the Argo CD API Server
 # Errors You Faced and Their Solutions
 - Error 1 — "bash:argocd: command not found"
   Cause: The argocd CLI binary was not installed on your machine.
   Fix:
-  ```curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+  curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
   chmod +x argocd
-  sudo mv argocd /usr/local/bin/```
+  sudo mv argocd /usr/local/bin/
 
 - Error 2 — {"level":"fatal","msg":"Argo CD server address unspecified"}
   Cause: The argocd CLI did not know which API server to connect to.
   Fix: You must login and specify the server:
 
-  `argocd login localhost:8080 --username admin --password <PASSWORD> --insecure`
+  argocd login localhost:8080 --username admin --password <PASSWORD> --insecure
   
-  `localhost:8080` → your port-forward address.
-  `--insecure` bypasses TLS verification for local testing.
+  localhost:8080 → your port-forward address.
+  --insecure bypasses TLS verification for local testing.
 
 - Error 3 — Cluster status shows Unknown
   Cause: The cluster was connected, but Argo CD hadn’t deployed or monitored any applications there yet. 
    Or, insufficient permissions for the argocd-application-controller service account.
 
   Fix 1 – Give proper permissions:
-  ```kubectl create clusterrolebinding argocd-cluster-admin \
+  kubectl create clusterrolebinding argocd-cluster-admin \
     --clusterrole=cluster-admin \
-    --serviceaccount=argocd:argocd-application-controller```
+    --serviceaccount=argocd:argocd-application-controller
 
   Fix 2 – Deploy something: 
-  ```kubectl apply -n argocd -f - <<EOF
+  kubectl apply -n argocd -f - <<EOF
   apiVersion: argoproj.io/v1alpha1
   kind: Application
   metadata:
@@ -68,13 +68,13 @@
       automated:
         prune: true
         selfHeal: true
-  EOF```
+  EOF
   After syncing, argocd cluster list will show Healthy.
 
 
 #  How to Check if Argo CD is Connected to a Cluster
 - List clusters
-  `argocd cluster list`
+  argocd cluster list
   Columns:
     SERVER = The Kubernetes API endpoint.
     NAME = Friendly name of the cluster.
@@ -87,18 +87,11 @@
 
 - Get initial admin password:
 
-```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-```
 
-```bash
-docker build -t python-flask-web .
-docker run -p 5000:5000 python-flask-web
-```
 
 - Login with argocd CLI (if you have it):
-
-`argocd login localhost:8080 --username admin --password <the-password> --insecure`
+  argocd login localhost:8080 --username admin --password <the-password> --insecure
 
 - Put the application YAML that we want to deploy in out cluster through Argo CD in a folder and commit it to a Git repository.
 
@@ -108,9 +101,9 @@ docker run -p 5000:5000 python-flask-web
   OR
 
 - argocd CLI:
-  ```argocd app create node-app \
+  argocd app create node-app \
   --repo https://github.com/your/repo.git \
   --path k8s/node-app \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace default
-  argocd app sync node-app```
+  argocd app sync node-app
