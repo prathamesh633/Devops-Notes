@@ -87,7 +87,8 @@
 
 - Get initial admin password:
 
-`kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
+```bash
+   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d```
 
 - Login with argocd CLI (if you have it):
 
