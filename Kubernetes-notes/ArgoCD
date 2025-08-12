@@ -91,6 +91,11 @@
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
+```bash
+docker build -t python-flask-web .
+docker run -p 5000:5000 python-flask-web
+```
+
 - Login with argocd CLI (if you have it):
 
 `argocd login localhost:8080 --username admin --password <the-password> --insecure`
