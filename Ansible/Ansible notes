@@ -26,8 +26,14 @@
  - We can have multiple modules in a single playbook.
 
 # Ansible Installation
- https://docs.ansible.com/ansible/latest/installation_guide/index.html --> Link to install Ansible
- If it showa error.
+- For Ubuntu:
+  sudo apt update
+  sudo apt install software-properties-common -y
+  sudo add-apt-repository --yes --update ppa:ansible/ansible
+  sudo apt install ansible -y
+
+ https://docs.ansible.com/ansible/latest/installation_guide/index.html --> Link to install Ansible for every OS.
+ If it shows a error.
  Ansible may not be present on the Linux OS we are working on so do --> sudo dnf install epel-release -y
  Then try using the ansible installation command again it should work.
  After the installation of ansible run 'ansible localhost m ping' to check if it is working or not.
@@ -78,3 +84,28 @@ file name --> example.yaml (file to test connectivity)
  To check the syntax of the playbook --> ansible-playbook --syntax-check File_path_of_the_playbook
  To check if all the hosts are reachable --> ansible all -m ping
 
+
+1. Create or update the inventory file
+Let’s store it in /etc/ansible/hosts (system-wide) or ~/hosts (user-specific).
+Example with multiple IPs-
+
+[webservers]
+192.168.1.10 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+192.168.1.11 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+192.168.1.12 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+
+Notes:-
+ansible_user=ubuntu → Replace ubuntu with your SSH username for those servers.
+ansible_ssh_private_key_file=~/.ssh/id_rsa → Path to your SSH key.
+Make sure you can SSH into these servers without a password before running Ansible.
+To edit
+sudo nano /etc/ansible/hosts
+
+2. Test connectivity
+- ansible all -m ping -i /etc/ansible/hosts
+If all servers respond with "pong", you’re good to go.
+
+3. Run a single task on all servers
+- Example: create a file /tmp/hello.txt on every server.
+- command: ansible all -m shell -a "echo 'Hello from Ansible' > /tmp/hello.txt" -i /etc/ansible/hosts
