@@ -82,3 +82,44 @@ spec:
   selector:
     app: my-app
     version: green
+
+# Most common errors to be expexted in Blue-Green Deployment:
+1. Database & State Mismatch
+  The Problem: If green uses a schema change or different DB version, and both blue and green are writing to the same DB, you can corrupt data.
+  Why It Hurts: Rolling back to blue may fail because old code doesn’t understand new DB schema.
+  Example: Green adds a new_column that blue doesn’t know about → rollback breaks.
+  Prevention: Use backward-compatible DB migrations; run migrations separately before switching.
+
+2. Incomplete Traffic Switch
+  The Problem: Even after updating the Service selector, some traffic still hits blue pods for minutes.
+  Why It Hurts: Causes “split brain” scenarios — users get responses from both versions.
+  Reason:
+  kube-proxy caching
+  DNS TTL delays
+  Long-lived connections (WebSockets, gRPC) that don’t reconnect instantly.
+  Prevention: Drain blue pods (graceful termination) before deleting.
+
+3. Memory / CPU Surge on Switch
+  The Problem: All traffic suddenly hitting green causes CPU/memory spike → pods crashloop.
+  Why It Hurts: Green might have passed testing but not been load-tested at scale.
+  Prevention: Use load testing (k6, Locust) before cutover; set HPA (Horizontal Pod Autoscaler).
+
+4. Config Drift Between Blue & Green
+  The Problem: Environment variables, secrets, or config maps differ between deployments.
+  Why It Hurts: The new app may fail for reasons unrelated to code changes.
+  Prevention: Use shared ConfigMaps/Secrets, keep YAMLs templatized (Helm/Kustomize).
+
+5. Canary Testing Is Skipped
+  The Problem: Switching all traffic at once reveals major issues instantly to all users.
+  Why It Hurts: You have no gradual fallback path — rollback takes time.
+  Prevention: Use Istio/NGINX Ingress to route 1–5% of traffic to green before full switch.
+
+6. Health Checks Not Ready
+  The Problem: Green pods are technically “running” but fail readiness checks under load.
+  Why It Hurts: Service starts sending requests to half-initialized pods → user errors.
+  Prevention: Configure readinessProbe and livenessProbe properly.
+
+7. Rollback Is Slower Than You Think
+  The Problem: “Rollback” = Service selector change, but old pods might already be scaled down or deleted.
+  Why It Hurts: You have to redeploy blue, which might take minutes.
+  Prevention: Keep blue running for a fixed “cool-off” window after cutover.
