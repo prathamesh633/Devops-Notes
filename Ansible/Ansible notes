@@ -24,6 +24,7 @@
  3. Playbook: 
  - It is a YAML file that contains the configuration for the servers to perform tasks.
  - We can have multiple modules in a single playbook.
+ - command: "ansible-playbook yamlfile_name_with_path -i /etc/ansible/hosts"
 
 # Ansible Installation
 - For Ubuntu:
@@ -82,8 +83,10 @@ file name --> example.yaml (file to test connectivity)
 # Ansible Commands
  Command to run the playbook --> ansible-playbook File_path_of_the_playbook
  To check the syntax of the playbook --> ansible-playbook --syntax-check File_path_of_the_playbook
- To check if all the hosts are reachable --> ansible all -m ping
+ To check if all the hosts are reachable --> ansible all -m ping (after typing it might ask 'yes' so write 'yes' for all ip's.)
 
+# Ad hoc Commands
+- Ad-hoc commands are one-time, quick commands you run directly from the terminal to perform simple tasks without writing a playbook.
 
 1. Create or update the inventory file
 Let’s store it in /etc/ansible/hosts (system-wide) or ~/hosts (user-specific).
@@ -109,3 +112,4 @@ If all servers respond with "pong", you’re good to go.
 3. Run a single task on all servers
 - Example: create a file /tmp/hello.txt on every server.
 - command: ansible all -m shell -a "echo 'Hello from Ansible' > /tmp/hello.txt" -i /etc/ansible/hosts
+           ansible all -m shell -a "sudo apt update && sudo apt install -y nginx" -i /etc/ansible/hosta

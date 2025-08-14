@@ -1,0 +1,33 @@
+# To host index.html file that we edited in the nginx server of all servers in inventory
+
+- name: Deploy a test web page
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Copy HTML file
+      copy:
+        src: index.html # This file is being copied from the present directory in current server to all the servers in the inventory
+        dest: /var/www/html/index.html
+
+# To create multipe users in all servers in inventory
+
+- name: Create DevOps users
+  hosts: all
+  become: yes
+  tasks:
+    - name: Add user devops1
+      user:
+        name: devops1
+        state: present
+        shell: /bin/bash
+    - name: Add user devops2
+      user:
+        name: devops2
+        state: present
+        shell: /bin/bash

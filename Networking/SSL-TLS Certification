@@ -1,0 +1,47 @@
+# SSL (Secure Sockets Layer) and TLS (Transport Layer Security)
+- These are security protocols that encrypt data between a client (like a browser) and a server (like a website).
+- An SSL/TLS certificate is a digital file installed on a server that proves the server’s identity and enables encrypted communication.
+- It’s like an official ID card for your website.
+
+# How it Works
+ 1. When you visit a site with https://, your browser checks the server’s certificate to make sure it’s issued by a trusted Certificate Authority (CA)
+ 2. The certificate helps in:
+    Verifying the website’s identity (to prevent impersonation).
+    Encrypting the connection so data (passwords, API keys, etc.) can’t be intercepted.
+ 3. We configure certificates in your web server (Apache, Nginx, Tomcat, etc.) or load balancer (AWS ALB, CloudFront, etc.).
+
+# Why we use SSL/TLS certification
+- Security – Prevents hackers from reading sensitive information sent over the internet.
+- Trust – Browsers show a padlock icon for secure sites; without it, users see "Not Secure."
+- Compliance – Many regulations (like PCI-DSS for payment data) require SSL/TLS.
+- SEO Benefit – Google ranks HTTPS sites higher than HTTP ones.
+
+# How SSL/TLS Certificates Work (Handshake Process)
+- Let’s imagine a browser visiting https://example.com.
+ 1. — Client Hello
+ Your browser (client) says:
+ "Hi, I want to talk securely. Here are the encryption methods I support."
+ It also sends a random number for use in key generation later.
+
+ 2. — Server Hello
+ The server responds:
+ "Cool, let’s use this specific encryption method from your list."
+ It also sends:
+ Its own random number.
+ Its SSL/TLS certificate (containing the public key + domain + CA signature).
+
+ 3. — Certificate Verification
+ Your browser:
+ Checks the certificate’s validity (expiry date, domain match, CA trust).
+ Verifies the digital signature from the Certificate Authority using the CA’s public key.
+ Ensures it’s not revoked.
+ (If any check fails → browser shows “Not Secure / Certificate Error.”)
+
+ 4. — Key Exchange
+ The browser generates a session key (used for symmetric encryption — faster than public key encryption).
+ It encrypts this session key with the server’s public key (from the certificate) and sends it to the server.
+ Only the server can decrypt it using its private key.
+
+ 5. — Secure Session Established
+ Both sides now have the same session key.
+ All further communication (HTML, CSS, API responses, passwords) is encrypted with this key.
