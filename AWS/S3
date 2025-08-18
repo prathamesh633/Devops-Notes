@@ -1,0 +1,41 @@
+# Amazon S3 (Simple Storage Service)
+- Object storage service for storing and retrieving any amount of data at anytime from anywhere on the web.
+- An Amazon S3 bucket is basically a container for storing objects (files + metadata) in AWS.
+- Think of it as a folder at the top level where you keep all your files in S3.
+- But unlike a local folder, a bucket has global unique names and lives in a specific AWS region.
+
+# Storage Classes:
+1.	S3 Standard
+2.	S3 Intelligent-Tiering
+3.	S3 Standard-IA (Infrequent Access)
+4.	S3 One Zone-IA (Infrequent Access)
+5.	S3 Glacier Instant Retrieval
+6.	S3 Glacier Flexible Retrieval
+7.	S3 Glacier Deep Archive
+8.	S3 Express One Zone
+
+# S3 bucket lifecycle rule
+- An S3 bucket lifecycle rule is a set of rules you apply to an Amazon S3 bucket (or objects in it) to automatically manage the 
+  storage lifecycle of your data.
+  (When we say “storage lifecycle” in the context of S3, we mean the different stages an object goes through from the time it is created until it is eventually deleted.)
+
+# What Lifecycle Rule Does
+- Transition actions → Move objects to a cheaper storage class (e.g., S3 Standard → S3 Glacier).
+- Expiration actions → Delete objects or their previous versions after a set time.
+
+# Fields You Need to Fill When Creating a Lifecycle Rule
+
+- Status
+  Options: Enabled / Disabled
+  Why we fill it: You might want to create the rule but not activate it immediately.
+
+- Lifecycle rule actions
+  You must choose what happens to your objects:
+  a. Move objects to a cheaper storage class after X days.
+  b. Permanently delete objects after X days.
+  c. Delete the newest (current) version after X days.
+  d. Delete the previous/older versions after X days.
+  e. Deletes unfinished multipart uploads after X days.
+
+- Review transition and expiration actions
+  After setting all actions, AWS shows you a summary before saving.

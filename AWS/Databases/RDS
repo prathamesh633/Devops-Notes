@@ -1,6 +1,8 @@
 # Relational DataBase (RDS)
-- Amazon RDS (Relational Database Service) is a managed service provided by AWS that makes it easy to set up, operate, and scale a relational database in the cloud.
-
+- Amazon RDS (Relational Database Service) is a managed service provided by AWS that makes it easy to set up, operate,
+  and scale a relational database in the cloud.
+- It allows you to run popular relational databases (MySQL, PostgreSQL, MariaDB, Oracle, SQL Server, Aurora) without managing servers,
+  backups, or updates manually.
 - It automates tasks like:
  1. Database provisioning
  2. Patch management
@@ -9,3 +11,38 @@
  5. Monitoring and alerting
 
  -  MySQL port 3306, PostgreSQL 5432
+
+Q. if I am creating a RDS of postgres wont I have to install postgress in my server also?
+A. No, you don’t need to install PostgreSQL on your server if you’re using AWS RDS (Postgres).
+   Here’s why:
+   1. RDS is a fully managed service → AWS installs, configures, and manages the PostgreSQL database software for you on the backend.
+   2. You only get a database endpoint (hostname + port) to connect.
+   3. Your application (running on EC2, Lambda, or even your laptop) connects to RDS using the PostgreSQL client libraries (like psycopg2 for Python, or pg for Node.js).
+   4. The only thing you might install locally (on your server or laptop) is a Postgres client tool (like psql, DBeaver, or pgAdmin) if you want to connect and run queries manually.
+
+Q. So what is the point of connecting RDS to EC2 without downloading it on EC2, if we can't run quries. the application running on the EC2 will require database, tables, etc. to store data right?
+A. Think of it like this:
+   - RDS = Database Server (fully managed by AWS).
+   - EC2 = Application Server (where your app code runs).
+    Your application on EC2 needs to connect to a database to store/retrieve data.
+    You don’t install PostgreSQL/MySQL on EC2 because RDS is already running it for you.
+    Instead, your app connects to RDS through the endpoint.
+
+   Example Flow
+    You launch a Flask app (Python) on EC2.
+    The app has code like:
+
+    import psycopg2
+
+    conn = psycopg2.connect(
+        host="mydb-instance.c9akciq32.rds.amazonaws.com",
+        dbname="mydb",
+        user="myuser",
+        password="mypassword"
+    )
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM customers;")
+
+
+    The app connects to RDS and runs queries automatically.
+    Users don’t need to log into EC2 and run queries manually – the app does it.`
