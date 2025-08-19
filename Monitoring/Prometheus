@@ -12,3 +12,35 @@
 
   Port forwarding command -
    kubectl port-forward svc/kind-prometheus-kube-prome-prometheus -n monitoring 9090:9090 --address=0.0.0.0 &
+
+
+# Downloading Prometheus on server
+1. go to https://prometheus.io/download/
+2. download the latest version of prometheus using curl or wget.
+- if downloaded .tar file:
+  cd prometheus-*.tar.gz
+  ./prometheus --config.file=prometheus.yml
+- if downloaded .zip file:
+  cd prometheus-*.zip
+  ./prometheus.exe --config.file=prometheus.yml
+
+# sample queries to run on Prometheus for testing:
+- Check if Prometheus itself is up
+    up
+  Returns 1 if the target is alive, 0 if not.
+
+- Show Prometheus build version
+    prometheus_build_info
+  Gives labels with version, branch, and revision.
+
+- CPU usage of Prometheus
+    process_cpu_seconds_total
+
+- Memory usage of Prometheus
+    process_resident_memory_bytes
+
+- Number of scraped samples per second
+    rate(scrape_samples_scraped[1m])
+
+- Number of active time series
+    prometheus_tsdb_head_series

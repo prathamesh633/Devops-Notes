@@ -1,0 +1,26 @@
+# PostgreSQL
+- PostgreSQL (often called Postgres) is a powerful, open-source relational database system.
+- “Relational” means it organizes data in tables (rows and columns) and allows relationships between tables.
+- It’s ACID-compliant, meaning it ensures data is reliable, consistent, and safe even during failures.
+- Open-source and free, with a strong community and lots of extensions.
+- default port 5432.
+
+# Why people use PostgreSQL
+- Advanced queries: You can do complex searches, aggregate data, and even use JSON.
+- Extensibility: Add custom functions, types, or extensions (like PostGIS for maps).
+- Reliability: Strong transactions, rollback support, foreign keys.
+- Scalable & concurrent: Can handle lots of users at the same time.
+- Free & open source: No licensing cost, lots of community support.
+
+# Examples of PostgreSQL
+- Financial applications → Apps like banking, accounting, or stock trading need every number to be exact and reliable.
+  PostgreSQL makes sure nothing is lost or wrong even if the system crashes.
+
+- Web apps with complex data → If your app needs to connect lots of things together, like users, posts, comments,
+  and likes (like Facebook), PostgreSQL can handle these relationships and complex searches easily.
+
+- Apps with geospatial data → Apps like Uber, Google Maps, or delivery apps need to know locations, distances,
+  and routes. PostgreSQL with PostGIS can store and calculate all this location data efficiently.
+
+- Analytics dashboards or JSON data → Some apps need reports, charts, or semi-structured data (like user preferences in JSON).
+  PostgreSQL can handle both regular tables and JSON data at the same time, making analytics easier.
