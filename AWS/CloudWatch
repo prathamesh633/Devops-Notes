@@ -1,5 +1,6 @@
 # CloudWatch
-- A monitoring and observability service that collects:
+- CloudWatch is like a “health monitor” for your AWS environment.
+- It is a monitoring and observability service that collects:
   Metrics (numbers like CPU usage)
   Logs (text data from apps)
   Events (system changes)

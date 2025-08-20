@@ -47,6 +47,35 @@
 - Reduced Load on Origin
 - Security Features
 
+# How to host website on Cloudfront through S3
+- Host the static website on S3.
+- Add appropriate policy to the S3 bucket policy.
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::bucket_name/*",
+            "Condition": {
+                "StringEquals": {
+                    "AWS:SourceArn": "arn:aws:cloudfront::aws_account_id:distribution/cloudfront_distribution_id"
+                }
+            }
+        }
+    ]
+}
+- Go to cloudFront and create a distribution using S3.
+- Select the S3 we hosted the website using the browse S3 option.
+- Select things that you want and create the cloudfront distribution.
+- If the website is still not visible on the DDN of CloudFront then:
+  1. Disable the distribution.
+  2. Click on distrbution --> go in general --> edit settings --> in "Default root object - optional" section add "index.html"
+  3. Enable the distribution.
+
 # Cache TTL (Time To Live)
 - TTL (Time to Live) is the duration that CloudFront keeps an object (file/content) cached in an edge location before checking the origin for a new copy.
 - Once the TTL expires, the next user request will trigger CloudFront to revalidate or fetch a fresh copy from the origin.
@@ -64,4 +93,6 @@
 # How to Remove Outdated Cache in CloudFront (After Updating Application)
  1. CloudFront Invalidation
  create an invalidation request → tells CloudFront to remove outdated objects from all edge locations.
+
+
  
