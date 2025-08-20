@@ -11,7 +11,7 @@
  5. Monitoring and alerting
 
 - MySQL port 3306, PostgreSQL 5432
-- command to connect mysql to server --> mysql -h <RDS-ENDPOINT> -P 3306 -u <username> -p (press enter and type password).
+- command to connect mysql to server --> mysql -h <RDS-ENDPOINT> -u <username> -p (press enter and type password).
 
 Q. if I am creating a RDS of postgres wont I have to install postgress in my server also?
 A. No, you don’t need to install PostgreSQL on your server if you’re using AWS RDS (Postgres).

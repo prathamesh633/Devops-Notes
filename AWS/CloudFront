@@ -1,0 +1,67 @@
+# AWS CloudFront
+- Amazon CloudFront is a Content Delivery Network (CDN) service from AWS.
+
+- A Content Delivery Network (CDN) is a system of servers distributed around the world that deliver web content
+  (like images, videos, files, or whole websites) to users from the server nearest to them.
+  Amazon CloudFront is AWS’s CDN service.
+
+- CloudFront helps to reduce the latency of our application by storing the website content in 'cache'.
+
+- Cache -> A cache is a temporary storage area that keeps copies of frequently accessed data so it can be served faster next time,
+  without going back to the original source.
+- Latency -> Latency is the delay (time gap) between a user’s action (sending a request) and the system’s response (receiving the first byte of data).
+
+- CLoudFront keeps the cached data in edge locations present nearest to the user.
+
+- Edge locations are data centers spread across the world where CloudFront stores cached copies of your content.
+  They are the nearest access points for users to get data quickly instead of always going to the main origin server (like S3 or EC2 in a region).
+
+- Amazon S3, EC2 and Route 53 can be integrated with CloudFront for application.
+- For security we can integrate CloudFront with AWS WAF (Web Application Firewall), AWS Shield, CloudWatch & CloudTrail(For monitoring).
+
+# CloudFront Request Flow
+- User Request
+   A user opens a website / requests a file (e.g., image, video, API).
+   The request goes to the nearest edge location (based on latency).
+
+- Check Cache in Edge Location
+   CloudFront checks if the requested content is already cached:
+   ✅ Cache Hit → Content served immediately from the edge.
+   ❌ Cache Miss → CloudFront forwards the request to the origin server.
+
+- Fetch from Origin (if cache miss)
+   Origin can be S3 bucket, EC2, ELB, or API Gateway
+   CloudFront fetches the content from the origin.
+
+- Cache at Edge Location
+   CloudFront stores a temporary cached copy at the edge location (based on TTL).
+   This helps serve future users nearby faster.
+
+- Deliver Content to User
+   Content is returned to the user with low latency.
+   If HTTPS is enabled, delivery is secured with an SSL/TLS certificate
+
+# Advantages of CloudFront
+- Low Latency & High Speed
+- Global Content Delivery
+- Reduced Load on Origin
+- Security Features
+
+# Cache TTL (Time To Live)
+- TTL (Time to Live) is the duration that CloudFront keeps an object (file/content) cached in an edge location before checking the origin for a new copy.
+- Once the TTL expires, the next user request will trigger CloudFront to revalidate or fetch a fresh copy from the origin.
+- Example
+    Suppose you set Cache TTL = 3600 seconds (1 hour).
+    CloudFront caches your image at the edge for 1 hour.
+    During that hour → all users get the cached copy (fast response, no origin load).
+    After 1 hour → CloudFront goes back to the origin to check for a new version.
+- Types of TTLs in CloudFront
+  1. Minimum TTL → Smallest caching time allowed.
+  2. Maximum TTL → Longest time CloudFront can cache content.
+  3. Default TTL → If the object doesn’t have its own cache-control headers, CloudFront uses this.
+     (By default, AWS sets it to 24 hours (86,400 seconds))
+
+# How to Remove Outdated Cache in CloudFront (After Updating Application)
+ 1. CloudFront Invalidation
+ create an invalidation request → tells CloudFront to remove outdated objects from all edge locations.
+ 
