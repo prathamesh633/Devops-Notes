@@ -1,3 +1,4 @@
+deploy react application through jenkins pipeline 
 Prerequisites:
 change the sync folder from 'build/' to 'dist/' in the pipeline script.
 on jenkins install the following plugins:
