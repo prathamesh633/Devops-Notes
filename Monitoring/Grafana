@@ -5,5 +5,9 @@
 # How do we create a Grafana dashboard?
 - We add datasources and create dashboards
 
+- Prometheus server URL --> http://my-prometheus-server.monitoring.svc.cluster.local:80
+
+- command for Grafana password --> kubectl get secret (grafana_secret) -n (namespace_of_grafana) -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
 username - admin
 password - prom-operator
