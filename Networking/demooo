@@ -1,0 +1,256 @@
+📌 Networking Fundamentals
+
+What is a network? Importance of networking in IT.
+
+Types of Networks: LAN, WAN, MAN, PAN, WLAN, CAN, SAN, VPN
+
+Client-Server vs Peer-to-Peer architecture
+
+Network Topologies – Star, Bus, Ring, Mesh, Hybrid
+
+📌 Networking Models
+
+OSI Model (7 Layers) – role of each layer with real-world examples
+
+TCP/IP Model (4 Layers) – comparison with OSI
+
+Data Encapsulation & Decapsulation
+
+📌 IP Addressing & Subnetting
+
+IPv4 vs IPv6 basics
+
+Public, Private, APIPA, Loopback addresses
+
+Subnetting concepts (CIDR, Subnet mask, Supernetting)
+
+Default Gateway, Broadcast Address
+
+📌 Network Devices
+
+Hub, Switch, Router, Access Point – differences and use cases
+
+L2 vs L3 Switches
+
+Firewall, IDS/IPS, Load Balancer
+
+Modern devices: NGFW, Proxy, SDN controllers
+
+📌 Switching Concepts
+
+MAC Address table
+
+Switching methods (Store-and-Forward, Cut-through)
+
+VLANs (802.1Q tagging, Trunking)
+
+STP (Spanning Tree Protocol) basics
+
+Port Security
+
+📌 Routing Concepts
+
+Static vs Dynamic Routing
+
+Routing Protocols – RIP, OSPF, EIGRP, BGP (basics only if junior level)
+
+Default Route, Route Metrics
+
+NAT & PAT concepts
+
+📌 TCP/IP Protocols
+
+ARP, ICMP, DNS, DHCP
+
+TCP vs UDP (ports, reliability, use cases)
+
+HTTP/HTTPS, FTP, SMTP, SNMP
+
+📌 Wireless Networking
+
+Wi-Fi Standards (802.11 a/b/g/n/ac/ax)
+
+WPA2/WPA3 Security basics
+
+SSID, Channels, Interference
+
+📌 Network Security Basics
+
+Firewalls & ACLs
+
+VPNs (IPSec, SSL VPN)
+
+Zero Trust basics
+
+Common Attacks: DoS/DDoS, MITM, ARP spoofing
+
+📌 Network Monitoring & Tools
+
+Tools: ping, tracert/traceroute, ipconfig/ifconfig, netstat, nslookup/dig, tcpdump, Wireshark
+
+SNMP, Syslog, NetFlow basics
+
+📌 Cloud & Modern Networking (Intro level)
+
+SD-WAN, SDN (concepts only)
+
+Basics of load balancing & CDN (e.g., CloudFront, Akamai)
+
+Networking in Cloud (AWS VPC basics: Subnets, Route tables, Security Groups, NACLs)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Networking Basics – Teaching Flow for Network Engineer
+Session 1: Introduction to Networking
+
+What is a computer network? Why do we need it?
+
+Real-life examples: Internet, Office LAN, Home Wi-Fi
+
+Types of Networks: LAN, WAN, MAN, PAN, WLAN, VPN
+
+Client-Server vs Peer-to-Peer
+
+Exercise: Ask the candidate to explain how their home Wi-Fi works in terms of a “network.”
+
+Session 2: Network Models
+
+OSI Model (7 layers) – explain with examples (Email, Web browsing)
+
+TCP/IP Model – real-world mapping with OSI
+
+Encapsulation/Decapsulation – packet journey from sender to receiver
+
+Exercise: Give an example like “opening google.com” and let them map the layers involved.
+
+Session 3: IP Addressing & Subnetting
+
+IPv4 Basics: Structure, Classes (A, B, C)
+
+Public vs Private vs APIPA vs Loopback
+
+Subnet mask & CIDR notation
+
+Subnetting basics (very simple exercise, e.g., “How many hosts in /29?”)
+
+IPv6 basics – why needed
+
+Exercise: Ask them to find their own IP (ipconfig/ifconfig).
+
+Session 4: Network Devices
+
+Hub, Switch, Router – differences
+
+L2 vs L3 switch
+
+Firewall, Load balancer, IDS/IPS basics
+
+Real-life analogy: Switch = Post office sorter, Router = Traffic police
+
+Exercise: Ask them to explain how a router in their home connects to ISP.
+
+Session 5: Switching Concepts
+
+MAC addresses
+
+VLANs – why needed, VLAN trunking
+
+STP (loop prevention basics)
+
+Port security (preventing rogue devices)
+
+Exercise: Give them a scenario – “Marketing and HR must be on separate VLANs. Why?”
+
+Session 6: Routing Concepts
+
+Routing basics (How routers forward packets)
+
+Static vs Dynamic Routing
+
+Intro to OSPF, RIP, BGP (just awareness)
+
+NAT & PAT with real-life ISP example
+
+Exercise: Ask them why NAT is needed when browsing from home.
+
+Session 7: TCP/IP Protocols
+
+ARP (mapping IP ↔ MAC)
+
+ICMP (ping, traceroute)
+
+DHCP (auto IP assignment)
+
+DNS (website name → IP address)
+
+TCP vs UDP (use cases: HTTP vs VoIP)
+
+Exercise: Use ping google.com and nslookup google.com.
+
+Session 8: Wireless Networking
+
+Wi-Fi Standards (802.11 a/b/g/n/ac/ax)
+
+SSID, Channels, Interference basics
+
+WPA2 vs WPA3
+
+Exercise: Ask them to find Wi-Fi security type on their laptop/phone.
+
+Session 9: Network Security Basics
+
+ACLs (filtering traffic)
+
+Firewall basics (stateful vs stateless)
+
+VPN (IPSec, SSL VPN – only concepts)
+
+Common attacks: DoS/DDoS, ARP spoofing
+
+Exercise: Ask – “If an attacker floods a server with traffic, what happens?”
+
+Session 10: Network Monitoring & Tools
+
+Tools: ping, traceroute, ipconfig/ifconfig, netstat, nslookup/dig, tcpdump, Wireshark
+
+Logs & monitoring: Syslog, SNMP, NetFlow basics
+
+Exercise: Run traceroute google.com and interpret output.
+
+Session 11: Modern Networking (Cloud/SDN Basics)
+
+SD-WAN & SDN (high-level only)
+
+Load balancing & CDN basics
+
+Cloud Networking (AWS VPC: Subnets, Route Tables, Security Groups)
+
+Exercise: Ask them how AWS VPC is similar to a corporate network.
+
+✅ Final Step
+
+At the end, do a mock Q&A where you ask real-world troubleshooting:
+
+“User cannot access internet but LAN works. What could be the issue?”
+
+“If DNS is down, what happens when you try to open google.com?”
+
+“Two PCs in same VLAN can’t communicate. What will you check?”
