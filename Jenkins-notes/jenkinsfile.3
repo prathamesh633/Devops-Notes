@@ -5,7 +5,7 @@
 # - Give environment variables DOCKER_IMAGE and DOCKER_TAG in Jenkins.
 
 pipeline {
-    agent {label 'slave'}
+    agent any
 
     stages {
         stage('Git Checkout') {
