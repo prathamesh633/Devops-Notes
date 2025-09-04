@@ -1,6 +1,8 @@
 # Prerequisites
 # - Docker should be installed on the Jenkins server.
-# - Run - sudo apt update && sudo apt install docker.io -y && sudo usermod -aG docker $USER && newgrp docker.
+# - Run - sudo apt update && sudo apt install docker.io -y && sudo usermod -aG docker $USER && newgrp docker && sudo usermod -aG docker jenkins.
+# - Give DockerHub credentials in Jenkins with ID 'dockerhub'.
+# - Give environment variables DOCKER_IMAGE and DOCKER_TAG in Jenkins.
 
 pipeline {
     agent {label 'slave'}
