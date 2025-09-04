@@ -47,3 +47,40 @@ pipeline {
         }
     }
 }
+
+
+# Prerequisites
+# - Docker should be installed on the Jenkins server.
+# - Run - sudo apt update && sudo apt install docker.io -y && sudo usermod -aG docker $USER && newgrp docker && sudo usermod -aG docker jenkins
+# - Download aws cli in the ec2 server and configure aws credentials.
+# - Create IAM role for full access and give it to EC2.
+
+pipeline {
+    agent any
+    stages {
+        stage('git checkout') {
+            steps {
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/prathamesh633/student-management-app.git']]) 
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'docker build -t student-app .'
+            }
+        }
+        stage('ecr push') {
+            steps {
+                sh '''
+                aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 397854062963.dkr.ecr.ap-south-1.amazonaws.com
+                docker tag prathameshbhujade/nodejs-simple-wweb:latest 397854062963.dkr.ecr.ap-south-1.amazonaws.com/prathameshbhujade/nodejs-simple-wweb:latest
+                docker push 397854062963.dkr.ecr.ap-south-1.amazonaws.com/prathameshbhujade/nodejs-simple-wweb:latest
+                '''
+            }
+        }
+        stage('docker cleanup') {
+            steps {
+                sh ' docker system prune -a -f'
+            }
+        }
+    }
+}
