@@ -1,3 +1,33 @@
+# What is a Server?
+- A server is simply a computer that provides a service to other computers or users over a network.
+
+- “Service” can mean:
+  serving a website
+  storing files
+  running a database
+  sending emails
+  authenticating users
+  hosting APIs, etc.
+
+- Examples in one line:
+  When you open google.com → a web server gives the webpage.
+  When you watch Netflix → a media/content server streams video.
+  When you login somewhere → an auth server verifies credentials.
+
+- Types of Servers (by Function)
+  Server Type	                         What it does
+  Web Server	                  Serves websites to browsers (e.g., Nginx, Apache)
+  Application Server	          Runs backend code/business logic (e.g., Node.js, Java Spring)
+  Database Server	              Stores and manages structured data (e.g., MySQL, PostgreSQL)
+
+- Types of Servers (by Where They Run)
+  Type	                                   Explanation
+  Physical Server (Bare metal)	       Real hardware machine in a data center
+  Virtual Server (VM)                  A virtual machine running on top of physical hardware (e.g., VMware, EC2 VM)
+  Container Server	                   Runs apps inside containers (e.g., Docker on a node)
+  Cloud Server	                       Hosted by cloud provider (AWS, Azure, GCP)
+  Serverless	                         You don’t manage server — you only run code (e.g., AWS Lambda)
+
 # Linux
 - It is a open source operating system.
 - It was made by Linus Torwald.
