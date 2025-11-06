@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('git checkout') {
+            steps {
+                checkout scmGit(
+                    branches: [[name: '*/master']],
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/prathamesh633/student-management-app.git']]
+                )
+            }
+        }
+
+        stage('docker deploy') {
+            steps {
+                sh '''
+                    docker-compose down -v || true
+                    docker-compose up -d --build
+                '''
+            }
+        }
+
+        stage('docker cleanup') {
+            steps {
+                sh 'docker system prune -a -f'
+            }
+        }
+    }
+}
